@@ -80,14 +80,14 @@
     <Content Include="app\controllers\homeController.js" />
     <Content Include="app\controllers\indexController.js" />
     <Content Include="app\controllers\loginController.js" />
-    <Content Include="app\controllers\ordersController.js" />
+    <Content Include="app\Projects\projectsController.js" />
     <Content Include="app\controllers\signupController.js" />
     <Content Include="app\services\authInterceptorService.js" />
     <Content Include="app\services\authService.js" />
-    <Content Include="app\services\ordersService.js" />
+    <Content Include="app\Projects\projectsService.js" />
     <Content Include="app\views\home.html" />
     <Content Include="app\views\login.html" />
-    <Content Include="app\views\orders.html" />
+    <Content Include="app\Projects\projects.html" />
     <Content Include="app\views\signup.html" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\loading-bar.css" />

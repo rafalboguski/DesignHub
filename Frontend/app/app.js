@@ -17,9 +17,9 @@ app.config(function ($routeProvider) {
         templateUrl: "/app/views/signup.html"
     });
 
-    $routeProvider.when("/orders", {
-        controller: "ordersController",
-        templateUrl: "/app/views/orders.html"
+    $routeProvider.when("/projects", {
+        controller: "projectsController",
+        templateUrl: "/app/Projects/projects.html"
     });
 
     $routeProvider.otherwise({ redirectTo: "/home" });
