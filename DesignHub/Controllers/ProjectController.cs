@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Http;
+using DesignHub.Models;
 using DesignHub.Services.Logger;
 
 
@@ -12,39 +14,38 @@ namespace DesignHub.Controllers
     public class ProjectController : ApiController
     {
 
+        private readonly AuthContext _db;
+
+        public ProjectController()
+        {
+            _db = AuthContext.Create();
+        }
+
         [Authorize]
         [Route("")]
         public IHttpActionResult Get()
         {
             VSlog.Write(Request.Method, Request.RequestUri);
-            var list = Project.CreateProjects();
+            var list = _db.Projects.AsNoTracking().ToList();
             return Json(list);
         }
 
-    }
-
-    public class Project
-    {
-        public int ProjectID { get; set; }
-        public string Name { get; set; }
-        public bool Finished { get; set; }
-
-        public Project(int projectId, string name, bool finished)
+        [HttpPost]
+        [Route("")]
+        public IHttpActionResult Post(Project project)
         {
-            ProjectID = projectId;
-            Name = name;
-            Finished = finished;
+            VSlog.Write(Request.Method, Request.RequestUri);
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            _db.Projects.Add(project);
+            _db.SaveChanges();
+
+            return Ok();
         }
 
-
-        public static List<Project> CreateProjects()
-        {
-            var list = new List<Project>
-            {
-              new Project(10001, "Ziemniak", false),
-              new Project(10002, "Kartofel", true)
-            };
-            return list;
-        }
     }
+
+
 }

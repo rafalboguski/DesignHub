@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿using System.Data.Entity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DesignHub.Models
 {
@@ -10,5 +11,15 @@ namespace DesignHub.Models
 
         }
 
+        public static AuthContext Create()
+        {
+            return new AuthContext();
+        }
+
+        public DbSet<Project> Projects { get; set; }
+   
+
     }
+
+
 }
