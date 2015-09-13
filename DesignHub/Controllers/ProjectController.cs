@@ -21,8 +21,7 @@ namespace DesignHub.Controllers
             _db = AuthContext.Create();
         }
 
-        [Authorize]
-        [Route("")]
+        [HttpGet][Authorize][Route("")]
         public IHttpActionResult Get()
         {
             VSlog.Write(Request.Method, Request.RequestUri);
@@ -30,8 +29,7 @@ namespace DesignHub.Controllers
             return Json(list);
         }
 
-        [HttpPost]
-        [Route("")]
+        [HttpPost][Authorize][Route("")]
         public IHttpActionResult Post(Project project)
         {
             VSlog.Write(Request.Method, Request.RequestUri);

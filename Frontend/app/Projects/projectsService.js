@@ -1,18 +1,50 @@
 ﻿'use strict';
-app.factory('projectsService', ['$http', function ($http) {
+app.service('projectsService', ['$http', function ($http) {
 
-    var serviceBase = 'http://localhost:62937/';
-    var projectsServiceFactory = {};
+    var apiUrl = 'http://localhost:62937/api';
 
-    var _getProjects = function () {
+    this.getProjects = function () {
+        return $http.get(apiUrl + '/projects');
+    };
 
-        return $http.get(serviceBase + 'api/projects').then(function (results) {
-            return results;
+
+    this.createProject = function (user) {
+        return $http({
+            method: 'POST',
+            url: apiUrl + '/projects',
+            data: {
+                'Name': user.name,
+                'Description': user.description
+                
+            },
+            headers: { 'Content-Type': 'application/json' }
         });
     };
 
-    projectsServiceFactory.getProjects = _getProjects;
-
-    return projectsServiceFactory;
-
 }]);
+
+62937
+
+//app.service('projectsService', function ($http) {
+
+//    var apiUrl = 'http://localhost:4567';
+
+//    this.Search = function() {
+//        return $http.get(apiUrl + '/search/' + word);
+//    };
+    
+
+//    this.addFile = function(title, content, folder) {
+//        return $http({
+//            method: 'POST',
+//            url: apiUrl + '/push/',
+//            data: {
+//                'filename': title,
+//                'data': content,
+//                'folder': folder
+//            },
+//            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+//        });
+//    };
+
+//});
