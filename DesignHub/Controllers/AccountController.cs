@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using DesignHub.Models;
+using DesignHub.Services.Logger;
 using Microsoft.AspNet.Identity;
 
 namespace DesignHub.Controllers
@@ -20,12 +21,13 @@ namespace DesignHub.Controllers
             _repo = new AuthRepository();
         }
 
-        // POST api/Account/Register
+        
         [AllowAnonymous]
         [Route("Register")]
         public async Task<IHttpActionResult> Register(UserModel userModel)
         {
-            System.Diagnostics.Debug.WriteLine("{0}\t{1}",DateTime.Now, Request.RequestUri);
+            VSlog.Write(Request.Method,Request.RequestUri,"{username='"+userModel.UserName+"'}");
+            
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
