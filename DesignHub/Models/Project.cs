@@ -13,7 +13,8 @@ namespace DesignHub.Models
         public string Name { get; set; }
 
 
-//        public UserModel Owner { get; set; }
+        // todo: change to user name and id, now everything even password is send in json
+        public virtual MyUser Owner { get; set; }
 
         public string Description { get; set; }
        
