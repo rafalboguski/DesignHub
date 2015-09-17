@@ -29,5 +29,8 @@ namespace DesignHubSite.Models
         {
             return new ApplicationDbContext();
         }
+
+        public DbSet<Project> Projects { get; set; }
+
     }
 }

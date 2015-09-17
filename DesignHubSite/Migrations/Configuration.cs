@@ -1,18 +1,18 @@
-namespace DesignHub.Migrations
+namespace DesignHubSite.Migrations
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<DesignHub.Models.AuthContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<DesignHubSite.Models.ApplicationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(DesignHub.Models.AuthContext context)
+        protected override void Seed(DesignHubSite.Models.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

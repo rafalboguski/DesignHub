@@ -1,9 +1,9 @@
-namespace DesignHub.Migrations
+namespace DesignHubSite.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class init : DbMigration
+    public partial class initial : DbMigration
     {
         public override void Up()
         {
@@ -12,10 +12,7 @@ namespace DesignHub.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false),
-                        Owner_UserName = c.String(nullable: false),
-                        Owner_Password = c.String(nullable: false, maxLength: 100),
-                        Owner_ConfirmPassword = c.String(),
+                        Name = c.String(),
                         Description = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
@@ -59,10 +56,6 @@ namespace DesignHub.Migrations
                         LockoutEnabled = c.Boolean(nullable: false),
                         AccessFailedCount = c.Int(nullable: false),
                         UserName = c.String(nullable: false, maxLength: 256),
-                        Aaaaaa = c.String(),
-                        Aaaaab = c.String(),
-                        Aaaaac = c.String(),
-                        Discriminator = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.UserName, unique: true, name: "UserNameIndex");

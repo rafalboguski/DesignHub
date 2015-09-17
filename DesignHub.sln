@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesignHub", "DesignHub\DesignHub.csproj", "{264C89FB-9629-4C55-8440-A25332B45051}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend", "Frontend\Frontend.csproj", "{43974D5C-2D9D-4CFA-9FF6-CA0A9A307FCB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesignHubSite", "DesignHubSite\DesignHubSite.csproj", "{E0054BD1-1AEE-4F2C-BA0E-7A25EC133FFE}"
@@ -18,10 +16,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{264C89FB-9629-4C55-8440-A25332B45051}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{264C89FB-9629-4C55-8440-A25332B45051}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{264C89FB-9629-4C55-8440-A25332B45051}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{264C89FB-9629-4C55-8440-A25332B45051}.Release|Any CPU.Build.0 = Release|Any CPU
 		{43974D5C-2D9D-4CFA-9FF6-CA0A9A307FCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{43974D5C-2D9D-4CFA-9FF6-CA0A9A307FCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43974D5C-2D9D-4CFA-9FF6-CA0A9A307FCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
