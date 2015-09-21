@@ -1,44 +1,71 @@
 ﻿<!DOCTYPE html>
-<html>
+<html data-ng-app="AngularAuthApp">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - DesignHub</title>
+    <title>DesignHub</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
+    <link href="~/content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/content/site.css" rel="stylesheet" />
+
+
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("DesignHub", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("tmp", "Index", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
+
+    <div ng-controller="indexController">
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("DesignHub", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("tmp", "Index", "Home")</li>
+                        <li><a href="#/projects">My Orders</a></li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
             </div>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
 
-            
-            <p>Footer</p>
-        </footer>
+            <div class="container">
+                <div data-ng-view=""></div>
+            </div>
+
+            <footer>
+
+
+                <p>Footer</p>
+            </footer>
+        </div>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+
+    <!-- 3rd party libraries -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-route.min.js"></script>
+    <!-- Load app main script -->
+    <script src="~/app/app.js"></script>
+    <!-- Load services -->
+    <script src="~/app/Projects/projectsService.js"></script>
+    <!-- Load controllers -->
+    <script src="~/app/controllers/indexController.js"></script>
+    
+    <script src="~/app/Projects/projectsController.js"></script>
+
     @RenderSection("scripts", required: false)
 </body>
 </html>
