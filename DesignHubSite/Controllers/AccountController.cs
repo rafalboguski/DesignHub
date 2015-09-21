@@ -52,14 +52,20 @@ namespace DesignHubSite.Controllers
             }
         }
 
+        [AllowAnonymous]
+        public ActionResult Login2()
+        {
+            return View("Login");
+        }
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
-            return View();
-        }
+            return RedirectToAction("Login2");
+        }    
 
         //
         // POST: /Account/Login

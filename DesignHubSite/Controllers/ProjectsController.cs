@@ -22,6 +22,7 @@ namespace DesignHubSite.Controllers
         [Route("")]
         public IHttpActionResult GetProjects()
         {
+            System.Diagnostics.Debug.WriteLine("ProjectsController:GetProjects()");
             return Json(_db.Projects);
         }
 
