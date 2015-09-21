@@ -12,6 +12,7 @@ using DesignHubSite.Models;
 
 namespace DesignHubSite.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/Projects")]
     public class ProjectsController : ApiController
     {
