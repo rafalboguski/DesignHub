@@ -6,9 +6,12 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using DesignHubSite.Models;
+using Microsoft.AspNet.Identity;
 
 namespace DesignHubSite.Controllers
 {
@@ -39,21 +42,7 @@ namespace DesignHubSite.Controllers
         //            return Json("sdfsdf");
         //        }
 
-        [HttpGet]
-        [Route("dodaj")]
-        public IHttpActionResult Dodaj()
-        {
-            var p = new Project
-            {
-                Name = "aaa",
-                Description = "aaa"
-            };
 
-            _db.Projects.Add(p);
-            _db.SaveChanges();
-
-            return Ok();
-        }
 
         //        // PUT: api/Projects/5
         //        [ResponseType(typeof(void))]
@@ -90,21 +79,54 @@ namespace DesignHubSite.Controllers
         //            return StatusCode(HttpStatusCode.NoContent);
         //        }
         //
+
         // POST: api/Projects
         [HttpPost]
         [Route("")]
         public IHttpActionResult PostProject(Project project)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid && project == null)
             {
                 return BadRequest(ModelState);
             }
 
+            var currentUserId = User.Identity.GetUserId();
+            var currentUser = _db.Users.FirstOrDefault(x => x.Id == currentUserId);
+
+            project.OwnerId = currentUserId;
+           
             _db.Projects.Add(project);
+
+            
+            currentUser.Projects.Add(project);
+            
+            
             _db.SaveChanges();
 
             return Ok();
         }
+
+        //[HttpPost]
+        //[Route("{id}/image")]
+        //public HttpResponseMessage SendImage(int id)
+        //{
+        //    var httpRequest = HttpContext.Current.Request;
+        //    if (httpRequest.Files.Count > 0)
+        //    {
+        //        foreach (string file in httpRequest.Files)
+        //        {
+        //            var postedFile = httpRequest.Files[file];
+        //            var filePath = HttpContext.Current.Server.MapPath("~/" + postedFile.FileName);
+        //            postedFile.SaveAs(filePath);
+        //            // NOTE: To store in memory use postedFile.InputStream
+        //        }
+
+        //        return Request.CreateResponse(HttpStatusCode.Created);
+        //    }
+
+        //    return Request.CreateResponse(HttpStatusCode.BadRequest);
+        //}
+
 
         // DELETE: api/Projects/5
         [HttpDelete]
@@ -122,6 +144,9 @@ namespace DesignHubSite.Controllers
 
             return Ok();
         }
+
+
+
         //
         //        protected override void Dispose(bool disposing)
         //        {
