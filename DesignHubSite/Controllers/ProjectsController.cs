@@ -18,12 +18,12 @@ namespace DesignHubSite.Controllers
     {
         private readonly ApplicationDbContext _db = new ApplicationDbContext();
 
-        
+
         [Route("")]
         public IHttpActionResult GetProjects()
         {
             System.Diagnostics.Debug.WriteLine("ProjectsController:GetProjects()");
-            return Json(_db.Projects);
+            return Json(_db.Projects.AsNoTracking());
         }
 
 
@@ -43,7 +43,6 @@ namespace DesignHubSite.Controllers
         [Route("dodaj")]
         public IHttpActionResult Dodaj()
         {
-
             var p = new Project
             {
                 Name = "aaa",
@@ -91,36 +90,38 @@ namespace DesignHubSite.Controllers
         //            return StatusCode(HttpStatusCode.NoContent);
         //        }
         //
-        //        // POST: api/Projects
-        //        [ResponseType(typeof(Project))]
-        //        public IHttpActionResult PostProject(Project project)
-        //        {
-        //            if (!ModelState.IsValid)
-        //            {
-        //                return BadRequest(ModelState);
-        //            }
-        //
-        //            _db.Projects.Add(project);
-        //            _db.SaveChanges();
-        //
-        //            return CreatedAtRoute("DefaultApi", new { id = project.Id }, project);
-        //        }
-        //
-        //        // DELETE: api/Projects/5
-        //        [ResponseType(typeof(Project))]
-        //        public IHttpActionResult DeleteProject(int id)
-        //        {
-        //            var project = _db.Projects.Find(id);
-        //            if (project == null)
-        //            {
-        //                return NotFound();
-        //            }
-        //
-        //            _db.Projects.Remove(project);
-        //            _db.SaveChanges();
-        //
-        //            return Ok(project);
-        //        }
+        // POST: api/Projects
+        [HttpPost]
+        [Route("")]
+        public IHttpActionResult PostProject(Project project)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _db.Projects.Add(project);
+            _db.SaveChanges();
+
+            return Ok();
+        }
+
+        // DELETE: api/Projects/5
+        [HttpDelete]
+        [Route("{id}")]
+        public IHttpActionResult DeleteProject(int id)
+        {
+            var project = _db.Projects.Find(id);
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            _db.Projects.Remove(project);
+            _db.SaveChanges();
+
+            return Ok();
+        }
         //
         //        protected override void Dispose(bool disposing)
         //        {

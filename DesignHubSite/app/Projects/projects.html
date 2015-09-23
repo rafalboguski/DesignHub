@@ -19,21 +19,25 @@
         <table class="table table-striped table-bordered table-hover">
             <thead>
                 <tr>
+                    <th>Id</th>
                     <th>Name</th>
                     <th>Description</th>
-                    <th>Owner</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr data-ng-repeat="project in projects">
                     <td>
+                        {{ project.Id }}
+                    </td>
+                    <td>
                         {{ project.Name }}
                     </td>
                     <td>
-                        {{ project.Description }}
+                        {{project.Description}}
                     </td>
                     <td>
-                        {{project.Owner.UserName}}
+                        <button class="btn btn-danger" ng-click="deleteProject($index, project.Id)">Remove</button>
                     </td>
                 </tr>
             </tbody>

@@ -27,13 +27,14 @@
         list-style-type: none;
         font-size: 16px;
     }
-   
+
 
     #sidebar li {
-        padding-bottom: 10px;
     }
 
     #sidebar a {
+        padding: 0;
+        
         text-decoration: none;
         color: #999;
     }

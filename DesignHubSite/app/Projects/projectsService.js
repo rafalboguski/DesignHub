@@ -21,6 +21,16 @@ app.service('projectsService', ['$http', function ($http) {
         });
     };
 
+    this.deleteProject = function (id) {
+        return $http({
+            method: 'DELETE',
+            url: apiUrl + '/projects/' + id,
+            data: {
+            },
+            headers: { 'Content-Type': 'application/json' }
+        });
+    };
+
 }]);
 
 //62937

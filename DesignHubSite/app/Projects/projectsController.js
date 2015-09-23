@@ -24,7 +24,19 @@ app.controller('projectsController', ['$scope', 'projectsService', function ($sc
         }, function (error) {
             alert(error.data.message);
         });
+    }
 
+    $scope.deleteProject = function (idx, id) {
+
+        projectsService.deleteProject(id).then(function (results) {
+            $scope.getProjects();
+            if (results.status == 200) {
+                $scope.projects.splice(idx, 1);
+                //alert('Deleted');
+            }
+        }, function (error) {
+            alert(error.data.message);
+        });
     }
 
 }]);

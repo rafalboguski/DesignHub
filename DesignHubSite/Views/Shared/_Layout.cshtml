@@ -38,13 +38,12 @@
         <div id="sidebar" ng-show="{{user_logged}}">
             <ul>
                 <li>
-                    <a href="#/projects" ng-class="{'sidebar-active-el':current_page === 'projects'}" ng-click="current_page = 'projects'">
+                    <a class="btn btn-default" href="#/projects" ng-class="{'sidebar-active-el':current_page === 'projects'}" ng-click="current_page = 'projects'">
                         My Projects
                     </a>
                 </li>
-
                 <li>
-                    <a href="#/settings" ng-class="{'sidebar-active-el':current_page === 'settings'}" ng-click="current_page = 'settings'">
+                    <a class="btn btn-default" href="#/settings" ng-class="{'sidebar-active-el':current_page === 'settings'}" ng-click="current_page = 'settings'">
                         Settings
                     </a>
                 </li>
