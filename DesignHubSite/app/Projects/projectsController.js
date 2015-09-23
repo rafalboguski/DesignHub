@@ -14,11 +14,12 @@ app.controller('projectsController', ['$scope', 'Upload', '$timeout', 'projectsS
         });
     }
 
+    //
     $scope.uploadFiles = function (file) {
         $scope.f = file;
         if (file && !file.$error) {
             file.upload = Upload.upload({
-                url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
+                url: 'http://localhost:54520//api/projects/image',
                 file: file
             });
 
@@ -37,7 +38,7 @@ app.controller('projectsController', ['$scope', 'Upload', '$timeout', 'projectsS
             });
         }
     }
-
+    //
 
     $scope.createProject = function (user) {
         projectsService.createProject(user).then(function (results) {
