@@ -42,6 +42,10 @@
             color: white;
         }
 
+    #sidebar .sidebar-active-el {
+        color: orange;
+    }
+
 #content {
     padding: 20px;
     left: 10em;

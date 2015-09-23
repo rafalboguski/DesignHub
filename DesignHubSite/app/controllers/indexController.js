@@ -10,11 +10,6 @@ app.controller('indexController', ['$scope', function ($scope) {
             $scope.user_logged = true;
 
     };
-    $scope.updateLocation = function (page) {
-
-        $scope.current_page = page;
-
-    };
-
+   
 
 }]);
