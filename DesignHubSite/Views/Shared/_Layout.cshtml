@@ -24,7 +24,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    @Html.ActionLink("DesignHub", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                    @Html.ActionLink("DesignHub", "Index", "Home", new {area = ""}, new {@class = "navbar-brand"})
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
@@ -34,17 +34,26 @@
                 </div>
             </div>
         </div>
-        <div class="container">
+
+        <div id="sidebar" ng-show="{{user_logged}}">
+            <ul>
+                <li><a>{{current_page}}</a></li> 
+                <li><a href="#/projects" ng-click="updateLocation('projects');">My Projects</a></li>
+                
+                <li><a>Settings</a></li>
+                <li></li>
+
+            </ul>
+
+            
+        </div>
+
+        <div id="content">
         
             @RenderBody()
 
             <div data-ng-view=""></div>
 
-            <hr/>
-
-            <footer>
-                <p>Footer</p>
-            </footer>
         </div>
     </div>
 
