@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('projectsController', ['$scope', 'projectsService', function ($scope, projectsService) {
+app.controller('projectsController', ['$scope', 'Upload', '$timeout', 'projectsService', function ($scope, Upload,$timeout, projectsService) {
 
 
     $scope.projects = [];
@@ -14,6 +14,29 @@ app.controller('projectsController', ['$scope', 'projectsService', function ($sc
         });
     }
 
+    $scope.uploadFiles = function (file) {
+        $scope.f = file;
+        if (file && !file.$error) {
+            file.upload = Upload.upload({
+                url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
+                file: file
+            });
+
+            file.upload.then(function (response) {
+                $timeout(function () {
+                    file.result = response.data;
+                });
+            }, function (response) {
+                if (response.status > 0)
+                    $scope.errorMsg = response.status + ': ' + response.data;
+            });
+
+            file.upload.progress(function (evt) {
+                file.progress = Math.min(100, parseInt(100.0 *
+                                                       evt.loaded / evt.total));
+            });
+        }
+    }
 
 
     $scope.createProject = function (user) {

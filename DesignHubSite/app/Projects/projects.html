@@ -12,6 +12,29 @@
             <input class="btn btn-success" ng-click="createProject(user)" value="Add new project" />
         </form>
 
+
+
+       
+        
+
+        <h4>Upload on file select</h4>
+        <button type="file" ngf-select="uploadFiles($file)"
+                accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
+            Select File
+        </button>
+        <br><br>
+        File:
+        <div style="font:smaller">
+            {{f.name}} {{f.$error}} {{f.$errorParam}}
+            <span class="progress" ng-show="f.progress >= 0">
+                <div style="width:{{f.progress}}%"
+                     ng-bind="f.progress + '%'"></div>
+            </span>
+        </div>
+        {{f}}
+        {{errorMsg}}
+
+
     </div>
 
     <!-- List -->

@@ -22,9 +22,7 @@ namespace DesignHubSite.Models
 
         public byte[] Image { get; set; }
 
-        public virtual ICollection<>
-
-
+ 
         [Required]
         public virtual string OwnerId { get; set; }
 

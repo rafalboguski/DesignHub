@@ -1,4 +1,7 @@
-﻿var app = angular.module('AngularAuthApp', ['ngRoute']);
+﻿var app = angular.module('AngularAuthApp', ['ngRoute','ngFileUpload']);
+
+
+
 
 app.config(function ($routeProvider) {
 
