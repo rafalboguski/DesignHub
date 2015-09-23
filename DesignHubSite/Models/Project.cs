@@ -20,6 +20,7 @@ namespace DesignHubSite.Models
 
         public string Description { get; set; }
 
+        public string ImageName { get; set; }
         public byte[] Image { get; set; }
 
  
@@ -29,9 +30,7 @@ namespace DesignHubSite.Models
         [JsonIgnore]
         public virtual ApplicationUser Owner { get; set; } = null;
 
-
         
-
     }
 
 }

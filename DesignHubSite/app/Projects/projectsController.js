@@ -19,7 +19,7 @@ app.controller('projectsController', ['$scope', 'Upload', '$timeout', 'projectsS
         $scope.f = file;
         if (file && !file.$error) {
             file.upload = Upload.upload({
-                url: 'http://localhost:54520//api/projects/image',
+                url: 'http://localhost:54520//api/projects/1/image',
                 file: file
             });
 

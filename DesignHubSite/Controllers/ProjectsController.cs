@@ -81,11 +81,18 @@ namespace DesignHubSite.Controllers
         //
 
         [HttpPost]
-        [Route("image")]
-        public async Task<IHttpActionResult> Upload()
+        [Route("{id}/image")]
+        public async Task<IHttpActionResult> UploadImage(int id)
         {
             if (!Request.Content.IsMimeMultipartContent())
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+
+            var project = _db.Projects.Single(x => x.Id == id);
+
+            if (project == null)
+            {
+                return NotFound();
+            }
 
             var provider = new MultipartMemoryStreamProvider();
             await Request.Content.ReadAsMultipartAsync(provider);
@@ -93,9 +100,12 @@ namespace DesignHubSite.Controllers
             {
                 var filename = file.Headers.ContentDisposition.FileName.Trim('\"');
                 var buffer = await file.ReadAsByteArrayAsync();
-                //Do whatever you want with filename and its binaray data.
+
+                project.ImageName = filename;
+                project.Image = buffer;
             }
 
+            _db.SaveChanges();
             return Ok();
         }
 
@@ -116,16 +126,16 @@ namespace DesignHubSite.Controllers
             var currentUser = _db.Users.FirstOrDefault(x => x.Id == currentUserId);
 
             project.OwnerId = currentUserId;
-           
+
             _db.Projects.Add(project);
 
-            
+
             currentUser.Projects.Add(project);
-            
-            
+
+
             _db.SaveChanges();
 
-            return Ok();
+            return Json(project.Id);
         }
 
         //[HttpPost]
