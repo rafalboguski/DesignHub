@@ -184,17 +184,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201509231731060_init.cs" />
-    <Compile Include="Migrations\201509231731060_init.Designer.cs">
-      <DependentUpon>201509231731060_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509231827357_3.cs" />
-    <Compile Include="Migrations\201509231827357_3.Designer.cs">
-      <DependentUpon>201509231827357_3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509232047367_2.cs" />
-    <Compile Include="Migrations\201509232047367_2.Designer.cs">
-      <DependentUpon>201509232047367_2.cs</DependentUpon>
+    <Compile Include="Migrations\201509241127222_init.cs" />
+    <Compile Include="Migrations\201509241127222_init.Designer.cs">
+      <DependentUpon>201509241127222_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -310,14 +302,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201509231731060_init.resx">
-      <DependentUpon>201509231731060_init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509231827357_3.resx">
-      <DependentUpon>201509231827357_3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509232047367_2.resx">
-      <DependentUpon>201509232047367_2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201509241127222_init.resx">
+      <DependentUpon>201509241127222_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

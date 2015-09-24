@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('projectsController', ['$scope', 'Upload', '$timeout', 'projectsService', function ($scope, Upload,$timeout, projectsService) {
+app.controller('projectsController', ['$scope', 'Upload', '$timeout', 'projectsService', function ($scope, Upload, $timeout, projectsService) {
 
 
     $scope.projects = [];
@@ -15,11 +15,11 @@ app.controller('projectsController', ['$scope', 'Upload', '$timeout', 'projectsS
     }
 
     //
-    $scope.uploadFiles = function (file) {
+    $scope.uploadFiles = function (projectId, file) {
         $scope.f = file;
         if (file && !file.$error) {
             file.upload = Upload.upload({
-                url: 'http://localhost:54520//api/projects/1/image',
+                url: 'http://localhost:54520//api/projects/' + projectId + '/image',
                 file: file
             });
 

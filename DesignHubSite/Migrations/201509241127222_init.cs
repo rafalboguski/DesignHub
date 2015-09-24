@@ -12,8 +12,10 @@ namespace DesignHubSite.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Name = c.String(nullable: false),
                         Description = c.String(),
+                        ImageName = c.String(),
+                        Image = c.Binary(),
                         OwnerId = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)

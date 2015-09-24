@@ -17,23 +17,6 @@
 
 
 
-        <h4>Upload on file select</h4>
-        <button type="file" ngf-select="uploadFiles($file)"
-                accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
-            Select File
-        </button>
-        <br><br>
-        File:
-        <div style="font:smaller">
-            {{f.name}} {{f.$error}} {{f.$errorParam}}
-            <span class="progress" ng-show="f.progress >= 0">
-                <div style="width:{{f.progress}}%"
-                     ng-bind="f.progress + '%'"></div>
-            </span>
-        </div>
-        fffff{{f}}
-        {{errorMsg}}
-
 
     </div>
 
@@ -52,11 +35,13 @@
             </thead>
             <tbody>
                 <tr data-ng-repeat="project in projects">
-                    <td>
-                        <div class="row">{{project.ImageName}}</div>
-                        <div class="row">
-                            <img style="height: 400px;width: auto; "
-                                 ng-src="data:image/JPEG;base64,{{project.Image}}">
+                    <td style="padding-left: 30px;">
+                        <div class="col">
+                            <div class="row">{{project.ImageName}}</div>
+                            <div class="row">
+                                <img style="height: 100px;width: auto; "
+                                     ng-src="data:image/JPEG;base64,{{project.Image}}">
+                            </div>
                         </div>
                     </td>
                     <td>
@@ -74,6 +59,24 @@
                     <td>
 
                         <button class="btn btn-danger" ng-click="deleteProject($index, project.Id)">Remove</button>
+
+                        <!-- Upload Image section -->
+                        <button class="btn btn-default" type="file" ngf-select="uploadFiles({{ project.Id }},$file)"
+                                accept="image/*" ngf-max-height="5000" ngf-max-size="20MB">
+                            Upload Image
+                        </button>
+                        <br><br>
+                        File:
+                        <div style="font:smaller">
+                            {{f.name}} {{f.$error}} {{f.$errorParam}}
+                            <span class="progress" ng-show="f.progress >= 0">
+                                <div style="width:{{f.progress}}%"
+                                     ng-bind="f.progress + '%'"></div>
+                            </span>
+                        </div>
+                        <!--Debug: fffff{{f}} {{errorMsg}}-->
+                        <!-- END -->
+
                     </td>
                 </tr>
             </tbody>
