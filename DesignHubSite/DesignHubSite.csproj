@@ -202,6 +202,10 @@
     <Content Include="app\Projects\projects.html" />
     <Content Include="app\Projects\projectsController.js" />
     <Content Include="app\Projects\projectsService.js" />
+    <Content Include="App_Data\aspnet-DesignHubSite.mdf" />
+    <Content Include="App_Data\aspnet-DesignHubSite_log.ldf">
+      <DependentUpon>aspnet-DesignHubSite.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -290,9 +294,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
