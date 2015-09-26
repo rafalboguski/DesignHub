@@ -18,9 +18,115 @@ namespace DesignHubSite.Controllers
         [Route("")]
         public IHttpActionResult GetProjects()
         {
-            System.Diagnostics.Debug.WriteLine("ProjectsController:GetProjects()");
-            return Json(_db.Projects.AsNoTracking());
+            var currentUserId = User.Identity.GetUserId();
+
+            var projects = from p in _db.Projects
+                      where (p.Owner.Id == currentUserId)
+                      || (p.Watchers.Select(c => c.Id).Contains(currentUserId))
+                      select p;
+         
+            return Json(projects);
         }
+
+
+
+        [HttpPost]
+        [Route("{id}/image")]
+        public async Task<IHttpActionResult> UploadImageToProject(int id)
+        {
+            if (!Request.Content.IsMimeMultipartContent())
+                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+
+            var project = _db.Projects.Single(x => x.Id == id);
+
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            var provider = new MultipartMemoryStreamProvider();
+            await Request.Content.ReadAsMultipartAsync(provider);
+            foreach (var file in provider.Contents)
+            {
+                var filename = file.Headers.ContentDisposition.FileName.Trim('\"');
+                var buffer = await file.ReadAsByteArrayAsync();
+
+                project.ImageName = filename;
+                project.Image = buffer;
+            }
+
+            _db.SaveChanges();
+            return Ok();
+        }
+
+
+        // POST: api/Projects
+        [HttpPost]
+        [Route("")]
+        public IHttpActionResult CreateProject(Project project)
+        {
+            if (!ModelState.IsValid && project == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var currentUserId = User.Identity.GetUserId();
+            var currentUser = _db.Users.FirstOrDefault(x => x.Id == currentUserId);
+
+            currentUser.Projects.Add(project);
+            project.Owner = currentUser;
+
+            _db.Projects.Add(project);
+            _db.SaveChanges();
+
+            return Ok();
+        }
+
+
+        // DELETE: api/Projects/5
+        [HttpDelete]
+        [Route("{id}")]
+        public IHttpActionResult DeleteProject(int id)
+        {
+            var project = _db.Projects.Find(id);
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            project.Watchers.Clear();
+
+            _db.Projects.Remove(project);
+            _db.SaveChanges();
+
+            return Ok();
+        }
+
+
+        [HttpPost]
+        [Route("{projectId}/inviteWatcher/{userId}")]
+        public IHttpActionResult InviteWatcher(int projectId, string userId)
+        {
+            var currentUserId = User.Identity.GetUserId();
+
+            var project = _db.Projects.First(p => p.Id == projectId);
+            var user = _db.Users.FirstOrDefault(x => x.Id == userId);
+            if (user != null && project != null && project.Owner.Id == currentUserId)
+            {
+                project.Watchers.Add(user);
+                user.WatchedProjects.Add(project);
+
+                _db.SaveChanges();
+            }
+            else
+            {
+                return NotFound();
+            }
+
+            return Ok();
+        }
+
+
 
 
         //        [ResponseType(typeof(Project))]
@@ -73,63 +179,7 @@ namespace DesignHubSite.Controllers
         //        }
         //
 
-        [HttpPost]
-        [Route("{id}/image")]
-        public async Task<IHttpActionResult> UploadImage(int id)
-        {
-            if (!Request.Content.IsMimeMultipartContent())
-                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
 
-            var project = _db.Projects.Single(x => x.Id == id);
-
-            if (project == null)
-            {
-                return NotFound();
-            }
-
-            var provider = new MultipartMemoryStreamProvider();
-            await Request.Content.ReadAsMultipartAsync(provider);
-            foreach (var file in provider.Contents)
-            {
-                var filename = file.Headers.ContentDisposition.FileName.Trim('\"');
-                var buffer = await file.ReadAsByteArrayAsync();
-
-                project.ImageName = filename;
-                project.Image = buffer;
-            }
-
-            _db.SaveChanges();
-            return Ok();
-        }
-
-
-
-
-        // POST: api/Projects
-        [HttpPost]
-        [Route("")]
-        public IHttpActionResult PostProject(Project project)
-        {
-            if (!ModelState.IsValid && project == null)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var currentUserId = User.Identity.GetUserId();
-            var currentUser = _db.Users.FirstOrDefault(x => x.Id == currentUserId);
-
-            project.OwnerId = currentUserId;
-
-            _db.Projects.Add(project);
-
-
-            currentUser.Projects.Add(project);
-
-
-            _db.SaveChanges();
-
-            return Json(project.Id);
-        }
 
         //[HttpPost]
         //[Route("{id}/image")]
@@ -152,23 +202,6 @@ namespace DesignHubSite.Controllers
         //    return Request.CreateResponse(HttpStatusCode.BadRequest);
         //}
 
-
-        // DELETE: api/Projects/5
-        [HttpDelete]
-        [Route("{id}")]
-        public IHttpActionResult DeleteProject(int id)
-        {
-            var project = _db.Projects.Find(id);
-            if (project == null)
-            {
-                return NotFound();
-            }
-
-            _db.Projects.Remove(project);
-            _db.SaveChanges();
-
-            return Ok();
-        }
 
 
 

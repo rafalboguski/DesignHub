@@ -9,6 +9,8 @@ app.controller('projectsController', ['$scope', 'Upload', '$timeout', 'projectsS
 
             $scope.projects = results.data;
 
+    
+
         }, function (error) {
             alert(error.data.message);
         });
@@ -26,6 +28,7 @@ app.controller('projectsController', ['$scope', 'Upload', '$timeout', 'projectsS
             file.upload.then(function (response) {
                 $timeout(function () {
                     file.result = response.data;
+                    $scope.getProjects();
                 });
             }, function (response) {
                 if (response.status > 0)
@@ -33,8 +36,7 @@ app.controller('projectsController', ['$scope', 'Upload', '$timeout', 'projectsS
             });
 
             file.upload.progress(function (evt) {
-                file.progress = Math.min(100, parseInt(100.0 *
-                                                       evt.loaded / evt.total));
+                file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
             });
         }
     }

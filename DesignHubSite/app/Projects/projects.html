@@ -34,34 +34,34 @@
                 </tr>
             </thead>
             <tbody>
-                <tr data-ng-repeat="project in projects">
+                <tr data-ng-repeat="x in projects">
                     <td style="padding-left: 30px;">
                         <div class="col">
-                            <div class="row">{{project.ImageName}}</div>
+                            <div class="row">{{x.Project.ImageName}}</div>
                             <div class="row">
                                 <img style="height: 100px;width: auto; "
-                                     ng-src="data:image/JPEG;base64,{{project.Image}}">
+                                     ng-src="data:image/JPEG;base64,{{x.Project.Image}}">
                             </div>
                         </div>
                     </td>
-                    <td>
-                        {{ project.Id }}
+                    <td>    
+                        {{ x.Project.Id }}
                     </td>
                     <td>
-                        {{ project.Name }}
+                        {{ x.Project.Name }}
                     </td>
                     <td>
-                        {{project.Description}}
+                        {{x.Project.Description}}
                     </td>
                     <td>
-                        {{project.OwnerId}}
+                        {{x.Owner}}
                     </td>
                     <td>
 
                         <button class="btn btn-danger" ng-click="deleteProject($index, project.Id)">Remove</button>
 
                         <!-- Upload Image section -->
-                        <button class="btn btn-default" type="file" ngf-select="uploadFiles({{ project.Id }},$file)"
+                        <button class="btn btn-default" type="file" ngf-select="uploadFiles({{ x.Project.Id }},$file)"
                                 accept="image/*" ngf-max-height="5000" ngf-max-size="20MB">
                             Upload Image
                         </button>
