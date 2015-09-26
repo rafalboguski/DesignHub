@@ -25,11 +25,6 @@ namespace DesignHubSite.Models
         public byte[] Image { get; set; }
 
 
-        //[Required]
-        //public virtual string OwnerId { get; set; }
-
-        //public string OwnerId { get; set; }
-        //public string OwnerName { get; set; }
 
         [JsonIgnore]
         public virtual ApplicationUser Owner { get; set; }

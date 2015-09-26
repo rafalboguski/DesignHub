@@ -4,13 +4,14 @@ using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Newtonsoft.Json;
 
 namespace DesignHubSite.Models
 {
-
+    
     public class ApplicationUser : IdentityUser
     {
 

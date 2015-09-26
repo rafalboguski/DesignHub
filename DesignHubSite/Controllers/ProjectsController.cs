@@ -23,7 +23,7 @@ namespace DesignHubSite.Controllers
             var projects = from p in _db.Projects
                       where (p.Owner.Id == currentUserId)
                       || (p.Watchers.Select(c => c.Id).Contains(currentUserId))
-                      select p;
+                      select new { Project = p, Owner = p.Owner.UserName };
          
             return Json(projects);
         }
