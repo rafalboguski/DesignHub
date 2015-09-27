@@ -9,19 +9,28 @@ app.controller('projectsController', ['$scope', 'Upload', '$timeout', 'projectsS
 
             $scope.projects = results.data;
 
-    
+        }, function (error) {
+            alert(error.data.message);
+        });
+    }
+
+    $scope.inviteWatcher = function (projectId, userId) {
+        projectsService.inviteWatcher(projectId, userId).then(function (results) {
+
+            if (results.status == 200) {
+                alert('ok');
+            }
 
         }, function (error) {
             alert(error.data.message);
         });
     }
 
-    //
     $scope.uploadFiles = function (projectId, file) {
         $scope.f = file;
         if (file && !file.$error) {
             file.upload = Upload.upload({
-                url: 'http://localhost:54520//api/projects/' + projectId + '/image',
+                url: projectsService.uploadImageAdress(projectId),
                 file: file
             });
 
@@ -40,7 +49,7 @@ app.controller('projectsController', ['$scope', 'Upload', '$timeout', 'projectsS
             });
         }
     }
-    //
+
 
     $scope.createProject = function (user) {
         projectsService.createProject(user).then(function (results) {

@@ -10,27 +10,26 @@ namespace DesignHubSite.Models
 {
 
 
-    public class Project
+    public class Image
     {
 
-        [Key]
         [Required]
         public int Id { get; set; }
 
-
         [Required]
-        [MaxLength(40)]
         public string Name { get; set; }
 
-        [MaxLength(400)]
         public string Description { get; set; }
 
         //public string ImageName { get; set; }
         //public byte[] Image { get; set; }
 
 
+
+        [JsonIgnore]
         public virtual ApplicationUser Owner { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<ApplicationUser> Watchers { get; set; } = new List<ApplicationUser>();
 
 

@@ -2,9 +2,11 @@
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using DesignHubSite.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DesignHubSite.Controllers
 {
@@ -21,11 +23,12 @@ namespace DesignHubSite.Controllers
             var currentUserId = User.Identity.GetUserId();
 
             var projects = from p in _db.Projects
-                      where (p.Owner.Id == currentUserId)
-                      || (p.Watchers.Select(c => c.Id).Contains(currentUserId))
-                      select new { Project = p, Owner = p.Owner.UserName };
-         
-            return Json(projects);
+                           where (p.Owner.Id == currentUserId)
+                           || (p.Watchers.Select(c => c.Id).Contains(currentUserId))
+                           select p;
+
+            
+            return Json(projects.ToList());
         }
 
 
@@ -51,8 +54,8 @@ namespace DesignHubSite.Controllers
                 var filename = file.Headers.ContentDisposition.FileName.Trim('\"');
                 var buffer = await file.ReadAsByteArrayAsync();
 
-                project.ImageName = filename;
-                project.Image = buffer;
+                //                project.ImageName = filename;
+                //                project.Image = buffer;
             }
 
             _db.SaveChanges();

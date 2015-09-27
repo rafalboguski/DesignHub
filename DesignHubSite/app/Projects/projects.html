@@ -34,34 +34,34 @@
                 </tr>
             </thead>
             <tbody>
-                <tr data-ng-repeat="x in projects">
+                <tr data-ng-repeat="Project in projects">
                     <td style="padding-left: 30px;">
                         <div class="col">
-                            <div class="row">{{x.Project.ImageName}}</div>
+                            <div class="row">{{Project.ImageName}}</div>
                             <div class="row">
                                 <img style="height: 100px;width: auto; "
-                                     ng-src="data:image/JPEG;base64,{{x.Project.Image}}">
+                                     ng-src="data:image/JPEG;base64,{{Project.Image}}">
                             </div>
                         </div>
                     </td>
                     <td>    
-                        {{ x.Project.Id }}
+                        {{ Project.Id }}
                     </td>
                     <td>
-                        {{ x.Project.Name }}
+                        {{ Project.Name }}
                     </td>
                     <td>
-                        {{x.Project.Description}}
+                        {{Project.Description}}
                     </td>
                     <td>
-                        {{x.Owner}}
+                        {{Owner.Name}}
                     </td>
                     <td>
-
+                              <!-- todo: add modals -->
                         <button class="btn btn-danger" ng-click="deleteProject($index, project.Id)">Remove</button>
 
                         <!-- Upload Image section -->
-                        <button class="btn btn-default" type="file" ngf-select="uploadFiles({{ x.Project.Id }},$file)"
+                        <button class="btn btn-default" type="file" ngf-select="uploadFiles({{ Project.Id }},$file)"
                                 accept="image/*" ngf-max-height="5000" ngf-max-size="20MB">
                             Upload Image
                         </button>
@@ -76,6 +76,9 @@
                         </div>
                         <!--Debug: fffff{{f}} {{errorMsg}}-->
                         <!-- END -->
+
+                        <button class="btn btn-danger" ng-click="">Invite Watchers</button>
+
 
                     </td>
                 </tr>
