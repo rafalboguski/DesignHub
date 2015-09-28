@@ -1,3 +1,8 @@
+using System.Collections.Generic;
+using System.Data.Entity.Validation;
+using DesignHubSite.Models;
+using Microsoft.AspNet.Identity;
+
 namespace DesignHubSite.Migrations
 {
     using System;
@@ -26,6 +31,48 @@ namespace DesignHubSite.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+
+            if (!context.Users.Any())
+            {
+                System.Diagnostics.Debug.WriteLine("INSIDE");
+                var hasher = new PasswordHasher();
+                try
+                {
+                    var users = new List<ApplicationUser> {
+                        new ApplicationUser
+                        {
+                            PasswordHash = hasher.HashPassword("123456"),
+                            Email = "kulfon@gmail.com",
+                            UserName = "kulfon@gmail.com",
+                            SecurityStamp = Guid.NewGuid().ToString()
+                        },
+                        new ApplicationUser
+                        {
+                            PasswordHash = hasher.HashPassword("123456"),
+                            Email = "zaba@gmail.com",
+                            UserName = "zaba@gmail.com",
+                            SecurityStamp = Guid.NewGuid().ToString()
+                        }
+                        };
+
+                    users.ForEach(user => context.Users.AddOrUpdate(user));
+
+                    context.SaveChanges();
+                }
+                catch (DbEntityValidationException e)
+                {
+                    System.Diagnostics.Debug.WriteLine("EXC: ");
+                    foreach (var result in e.EntityValidationErrors)
+                    {
+                        foreach (var error in result.ValidationErrors)
+                        {
+                            System.Diagnostics.Debug.WriteLine(error.ErrorMessage);
+                        }
+                    }
+
+                }
+            }
+
         }
     }
 }
