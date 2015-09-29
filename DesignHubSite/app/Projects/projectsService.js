@@ -8,6 +8,15 @@ app.service('projectsService', ['$http', function ($http) {
     };
 
 
+    this.inviteWatcher = function (projectId, userId) {
+        return $http({
+            method: 'POST',
+            url: apiUrl + '/projects/' + projectId + '/inviteWatcher/' + userId,
+            data: {},
+            headers: { 'Content-Type': 'application/json' }
+        });
+    };
+
     this.createProject = function (user) {
         return $http({
             method: 'POST',
@@ -15,10 +24,15 @@ app.service('projectsService', ['$http', function ($http) {
             data: {
                 'Name': user.name,
                 'Description': user.description
-                
+
             },
             headers: { 'Content-Type': 'application/json' }
         });
+    };
+
+
+    this.uploadImageAdress = function (projectId) {
+        return apiUrl + '/projects/' + projectId + '/image';
     };
 
     this.deleteProject = function (id) {
@@ -42,7 +56,7 @@ app.service('projectsService', ['$http', function ($http) {
 //    this.Search = function() {
 //        return $http.get(apiUrl + '/search/' + word);
 //    };
-    
+
 
 //    this.addFile = function(title, content, folder) {
 //        return $http({

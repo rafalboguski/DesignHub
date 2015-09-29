@@ -7,13 +7,13 @@ namespace DesignHubSite.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class init : IMigrationMetadata
+    public sealed partial class UserSerializer : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(init));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(UserSerializer));
         
         string IMigrationMetadata.Id
         {
-            get { return "201509282141278_init"; }
+            get { return "201509271046123_UserSerializer"; }
         }
         
         string IMigrationMetadata.Source
