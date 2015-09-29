@@ -1,4 +1,5 @@
 using System;
+using DesignHubSite.Controllers;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 
@@ -37,6 +38,12 @@ namespace DesignHubSite.App_Start
 
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
+
+            container.RegisterType<AccountController>(new InjectionConstructor());
+            container.RegisterType<ManageController>(new InjectionConstructor());
+//            container.RegisterType<AccountController>(new InjectionConstructor());
+
+
         }
     }
 }
