@@ -2,8 +2,9 @@ using System.Linq;
 using System.Web.Mvc;
 using Microsoft.Practices.Unity.Mvc;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(DesignHubSite.App_Start.UnityWebActivator), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(DesignHubSite.App_Start.UnityWebActivator), "Shutdown")]
+
+[assembly: WebActivator.PreApplicationStartMethod(typeof(DesignHubSite.App_Start.UnityWebActivator), "Start")]
+[assembly: WebActivator.ApplicationShutdownMethod(typeof(DesignHubSite.App_Start.UnityWebActivator), "Shutdown")]
 
 namespace DesignHubSite.App_Start
 {

@@ -1,7 +1,7 @@
 using System;
 using DesignHubSite.Controllers;
 using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.Configuration;
+
 
 namespace DesignHubSite.App_Start
 {
