@@ -44,7 +44,7 @@
                             </div>
                         </div>
                     </td>
-                    <td>    
+                    <td>
                         {{ Project.Id }}
                     </td>
                     <td>
@@ -56,12 +56,12 @@
                     <td>
                         {{Owner.Name}}
                     </td>
-                    <td>
+                    <td>                                                  
                               <!-- todo: add modals -->
-                        <button class="btn btn-danger" ng-click="deleteProject($index, project.Id)">Remove</button>
+                        <button class="btn btn-danger" ng-click="deleteProject($index, Project.Id)">Remove</button>
 
                         <!-- Upload Image section -->
-                        <button class="btn btn-default" type="file" ngf-select="uploadFiles({{ Project.Id }},$file)"
+                        <button class="btn btn-default" type="file" ngf-select="uploadFiles(Project.Id,$file)"
                                 accept="image/*" ngf-max-height="5000" ngf-max-size="20MB">
                             Upload Image
                         </button>

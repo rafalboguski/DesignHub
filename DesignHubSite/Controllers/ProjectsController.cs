@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using DesignHubSite.Models;
+using DesignHubSite.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -14,28 +16,40 @@ namespace DesignHubSite.Controllers
     [RoutePrefix("api/Projects")]
     public class ProjectsController : ApiController
     {
-        private readonly ApplicationDbContext _db = new ApplicationDbContext();
+
+
+        private readonly IProjectRepository _repo;
+
+        public ProjectsController(IProjectRepository repo)
+        {
+            _repo = repo;
+        }
 
 
         [Route("")]
-        public IHttpActionResult GetProjects()
+        public IHttpActionResult Projects()
         {
-            var currentUserId = User.Identity.GetUserId();
 
-            var projects = from p in _db.Projects
-                           where (p.Owner.Id == currentUserId)
-                           || (p.Watchers.Select(c => c.Id).Contains(currentUserId))
-                           select p;
+            return Json(_repo.GetProjects());
+        }
 
-            
-            return Json(projects.ToList());
+        [Route("{id}")]
+        public IHttpActionResult Project(int id)
+        {
+            var project = _repo.GetProject(id);
+            if (_repo.GetProject(id) == null)
+            {
+                return NotFound();
+            }
+
+            return Json(project);
         }
 
 
 
         [HttpPost]
         [Route("{id}/image")]
-        public async Task<IHttpActionResult> UploadImageToProject(int id)
+        public async Task<IHttpActionResult> UploadImage(int id)
         {
             if (!Request.Content.IsMimeMultipartContent())
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
@@ -63,46 +77,27 @@ namespace DesignHubSite.Controllers
         }
 
 
-        // POST: api/Projects
         [HttpPost]
         [Route("")]
-        public IHttpActionResult CreateProject(Project project)
+        public IHttpActionResult Create(Project project)
         {
             if (!ModelState.IsValid && project == null)
             {
                 return BadRequest(ModelState);
             }
 
-            var currentUserId = User.Identity.GetUserId();
-            var currentUser = _db.Users.FirstOrDefault(x => x.Id == currentUserId);
-
-            currentUser.Projects.Add(project);
-            project.Owner = currentUser;
-
-            _db.Projects.Add(project);
-            _db.SaveChanges();
+            _repo.CreateProject(project);
 
             return Ok();
         }
 
 
-        // DELETE: api/Projects/5
+
         [HttpDelete]
         [Route("{id}")]
         public IHttpActionResult DeleteProject(int id)
         {
-            var project = _db.Projects.Find(id);
-            if (project == null)
-            {
-                return NotFound();
-            }
-
-            project.Watchers.Clear();
-
-            _db.Projects.Remove(project);
-            _db.SaveChanges();
-
-            return Ok();
+            return (_repo.DeleteProject(id)) ? (IHttpActionResult)Ok() : NotFound();
         }
 
 
@@ -132,17 +127,7 @@ namespace DesignHubSite.Controllers
 
 
 
-        //        [ResponseType(typeof(Project))]
-        //        public IHttpActionResult GetProject(int id)
-        //        {
-        //            var project = _db.Projects.Find(id);
-        //            if (project == null)
-        //            {
-        //                return NotFound();
-        //            }
-        //
-        //            return Json("sdfsdf");
-        //        }
+
 
 
 
@@ -208,19 +193,6 @@ namespace DesignHubSite.Controllers
 
 
 
-        //
-        //        protected override void Dispose(bool disposing)
-        //        {
-        //            if (disposing)
-        //            {
-        //                _db.Dispose();
-        //            }
-        //            base.Dispose(disposing);
-        //        }
-        //
-        //        private bool ProjectExists(int id)
-        //        {
-        //            return _db.Projects.Count(e => e.Id == id) > 0;
-        //        }
+        
     }
 }

@@ -1,18 +1,22 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web.Script.Serialization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Newtonsoft.Json;
+using System.Web;
+using DesignHubSite.Models;
 
 namespace DesignHubSite.Models
 {
 
 
+    public interface IApplicationDbContext
+    {
+        DbSet<Project> Projects { get; set; }
+
+
+        int SaveChanges();
+        Database Database { get; }
+    }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
@@ -54,4 +58,19 @@ namespace DesignHubSite.Models
                         ;
         }
     }
+}
+
+namespace DesignHubSite.ExtensionMethods
+{
+
+    public static class MyExtensionMethods
+    {
+
+        public static string CurrentUserId(this ApplicationDbContext context)
+        {
+            return HttpContext.Current.User.Identity.GetUserId();
+        }
+
+    }
+
 }
