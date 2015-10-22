@@ -4,9 +4,17 @@
 
 
 
+img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 
 .navbar-inverse {
-    border-color: transparent;
+    margin-left:135px;
+    border-color: transparent !important;
+    /*background-color: transparent !important;*/
 }
 
 #sidebar, #content {
@@ -16,10 +24,11 @@
 }
 
 #sidebar {
-    padding-top: 20px;
-    left: -2em;
-    width: 10em;
-    position: fixed;
+    
+    top: 0;
+  position: fixed;
+    width: 135px;
+    /*position: fixed;*/
     background-color: #222;
 }
 
@@ -33,18 +42,19 @@
     }
 
     #sidebar a {
-        padding: 0;
-        
+
+        padding: 15px;
         text-decoration: none;
         color: #999;
     }
 
         #sidebar a:hover {
             color: white;
+            text-decoration: none;
         }
 
     #sidebar .sidebar-active-el {
-        color: orange;
+        background-color: #333333;
     }
 
 #content {

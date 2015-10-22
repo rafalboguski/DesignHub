@@ -8,7 +8,7 @@ app.config(function ($routeProvider) {
  
     $routeProvider.when("/projects", {
         controller: "projectsController",
-        templateUrl: "/app/Projects/projects.html"
+        templateUrl: "/FrontEnd/Projects/projects.html"
     });
 
     $routeProvider.otherwise({ redirectTo: "/home" });

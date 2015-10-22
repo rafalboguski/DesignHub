@@ -9,6 +9,9 @@
 
     <link href="~/content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/content/site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 
 </head>
@@ -17,40 +20,45 @@
     <div ng-controller="indexController" data-ng-init="init('@User.Identity.IsAuthenticated')">
 
         <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
+            <div >
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    @Html.ActionLink("DesignHub", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                    
                 </div>
                 <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
+                    <!--<ul class="nav navbar-nav">
                         <li><a href="#/projects" ng-show="{{user_logged}}">My Orders</a></li>
-                    </ul>
+                    </ul>-->
                     @Html.Partial("_LoginPartial")
                 </div>
             </div>
         </div>
 
         <div id="sidebar" ng-show="{{user_logged}}">
-            <ul>
-                <li>
-                    <a class="btn btn-default" href="#/projects" ng-class="{'sidebar-active-el':current_page === 'projects'}" ng-click="current_page = 'projects'">
-                        My Projects
-                    </a>
-                </li>
-                <li>
-                    <a class="btn btn-default" href="#/settings" ng-class="{'sidebar-active-el':current_page === 'settings'}" ng-click="current_page = 'settings'">
-                        Settings
-                    </a>
-                </li>
 
-                <li></li>
+            <img src="http://i.imgur.com/1KSU8jy.png" width="120"/>
+            @Html.ActionLink("DesignHub", "Index", "Home", null, new { @class = "" })
 
-            </ul>
+           
+            <hr>
+            <a class="btn-block" 
+               href="#/projects"
+               ng-class="{'sidebar-active-el':current_page === 'projects'}" 
+               ng-click="current_page = 'projects'">
+               My Projects
+            </a>
+
+            <a class="btn-block" 
+               href="#/settings" 
+               ng-class="{'sidebar-active-el':current_page === 'settings'}" 
+               ng-click="current_page = 'settings'">
+               Settings
+            </a>
+
 
 
         </div>
@@ -71,14 +79,14 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-route.min.js"></script>
     <script src="~/Scripts/ng-file-upload-shim.min.js"></script>
     <script src="~/Scripts/ng-file-upload.min.js"></script>
-<!-- Load app main script -->
-    <script src="~/app/app.js"></script>
+    <!-- Load app main script -->
+    <script src="~/Frontend/app.js"></script>
     <!-- Load services -->
-    <script src="~/app/Projects/projectsService.js"></script>
+    <script src="~/Frontend/Projects/projectsService.js"></script>
     <!-- Load controllers -->
-    <script src="~/app/controllers/indexController.js"></script>
+    <script src="~/Frontend/controllers/indexController.js"></script>
 
-    <script src="~/app/Projects/projectsController.js"></script>
+    <script src="~/Frontend/Projects/projectsController.js"></script>
 
     @RenderSection("scripts", required: false)
 </body>

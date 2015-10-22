@@ -5,10 +5,10 @@ using System.Runtime.InteropServices;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using Newtonsoft.Json;
+using System;
 
 namespace DesignHubSite.Models
 {
-
 
     public class Project
     {
@@ -28,10 +28,18 @@ namespace DesignHubSite.Models
         //public string ImageName { get; set; }
         //public byte[] Image { get; set; }
 
+        public virtual ICollection<Image> Images { get; set; } = new List<Image>();
+
+
+
 
         public virtual ApplicationUser Owner { get; set; }
 
         public virtual ICollection<ApplicationUser> Watchers { get; set; } = new List<ApplicationUser>();
+
+
+        [Timestamp]
+        public Byte[] Timestamp { get; set; }
 
 
     }

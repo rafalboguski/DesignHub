@@ -8,14 +8,26 @@ namespace DesignHubSite.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.Projects",
+                "dbo.Images",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false),
                         Description = c.String(),
-                        ImageName = c.String(),
-                        Image = c.Binary(),
+                        Project_Id = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Projects", t => t.Project_Id)
+                .Index(t => t.Project_Id);
+            
+            CreateTable(
+                "dbo.Projects",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(nullable: false, maxLength: 40),
+                        Description = c.String(maxLength: 400),
+                        Timestamp = c.Binary(nullable: false, fixedLength: true, timestamp: true, storeType: "rowversion"),
                         Owner_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
@@ -91,6 +103,16 @@ namespace DesignHubSite.Migrations
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
             
             CreateTable(
+                "dbo.Versions",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ChangeInfo = c.String(nullable: false),
+                        Image = c.Binary(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
                 "dbo.ProjectsAndWatchers",
                 c => new
                     {
@@ -114,6 +136,7 @@ namespace DesignHubSite.Migrations
             DropForeignKey("dbo.Projects", "Owner_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Images", "Project_Id", "dbo.Projects");
             DropIndex("dbo.ProjectsAndWatchers", new[] { "UserId" });
             DropIndex("dbo.ProjectsAndWatchers", new[] { "ProjectId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
@@ -123,13 +146,16 @@ namespace DesignHubSite.Migrations
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.Projects", new[] { "Owner_Id" });
+            DropIndex("dbo.Images", new[] { "Project_Id" });
             DropTable("dbo.ProjectsAndWatchers");
+            DropTable("dbo.Versions");
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.Projects");
+            DropTable("dbo.Images");
         }
     }
 }

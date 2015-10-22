@@ -10,18 +10,17 @@ namespace DesignHubSite.Models
 {
 
 
-    public class Image
+    public class ImageViewModel
     {
-
-        [Required]
-        public int Id { get; set; }
+       
 
         [Required]
         public string Name { get; set; }
 
         public string Description { get; set; }
 
-        public Project Project { get; set; }
+        [Required]
+        public int ProjectId { get; set; }
 
 
 

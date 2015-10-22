@@ -63,6 +63,7 @@ app.controller('projectsController', ['$scope', 'Upload', '$timeout', 'projectsS
 
     $scope.deleteProject = function (idx, id) {
 
+        console.log(idx);
         projectsService.deleteProject(id).then(function (results) {
             $scope.getProjects();
             if (results.status == 200) {

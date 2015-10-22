@@ -37,31 +37,31 @@
                 <tr data-ng-repeat="Project in projects">
                     <td style="padding-left: 30px;">
                         <div class="col">
-                            <div class="row">{{Project.ImageName}}</div>
+                            <div class="row">{{Project.imageName}}</div>
                             <div class="row">
                                 <img style="height: 100px;width: auto; "
-                                     ng-src="data:image/JPEG;base64,{{Project.Image}}">
+                                     ng-src="data:image/JPEG;base64,{{Project.image}}">
                             </div>
                         </div>
                     </td>
                     <td>
-                        {{ Project.Id }}
+                        {{ Project.id }}
                     </td>
                     <td>
-                        {{ Project.Name }}
+                        {{ Project.name }}
                     </td>
                     <td>
-                        {{Project.Description}}
+                        {{Project.description}}
                     </td>
                     <td>
-                        {{Owner.Name}}
+                        {{Project.owner.name}}
                     </td>
                     <td>                                                  
                               <!-- todo: add modals -->
-                        <button class="btn btn-danger" ng-click="deleteProject($index, Project.Id)">Remove</button>
+                        <button class="btn btn-danger" ng-click="deleteProject($index, Project.id)">Remove</button>
 
                         <!-- Upload Image section -->
-                        <button class="btn btn-default" type="file" ngf-select="uploadFiles(Project.Id,$file)"
+                        <button class="btn btn-default" type="file" ngf-select="uploadFiles(Project.id, $file)"
                                 accept="image/*" ngf-max-height="5000" ngf-max-size="20MB">
                             Upload Image
                         </button>

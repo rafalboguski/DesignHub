@@ -33,6 +33,8 @@ namespace DesignHubSite.Models
 
 
         public DbSet<Project> Projects { get; set; }
+        public DbSet<Image> Images { get; set; }
+        public DbSet<Version> Versions { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

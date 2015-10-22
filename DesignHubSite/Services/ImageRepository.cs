@@ -13,84 +13,72 @@ using System.Net.Http;
 namespace DesignHubSite.Services
 {
 
-    public interface IProjectRepository
+    public interface IImageRepository
     {
 
-        Project GetProject(int id);
+        Image GetImage(int id);
 
-        List<Project> GetProjects();
+        List<Image> GetImages();
 
-        void CreateProject(Project project);
+        void CreateImage(ImageViewModel image);
 
-        bool DeleteProject(int id);
+        bool DeleteImage(int id);
 
         Task<bool> UploadImage(int id, HttpRequestMessage request);
 
-        bool InviteWatcher(int projectId, string userId);
+      
 
     }
 
 
-    public class ProjectRepository : IProjectRepository
+    public class ImageRepository : IImageRepository
     {
 
 
-        public Project GetProject(int id)
+        public Image GetImage(int id)
         {
             using (var db = ApplicationDbContext.Create())
             {
                 var currentUserId = db.CurrentUserId();
-            
-                var pa = db.Projects.Include("Watchers").Include("Owner").Include("Images")
-                                .SingleOrDefault(p => (p.Id == id) &&
-                                (p.Owner.Id == currentUserId) || (p.Watchers.Select(c => c.Id).Contains(currentUserId)));
-
-                return pa;
+                return db.Images.SingleOrDefault(x=>x.Id == id && x.Project.Owner.Id == currentUserId);
             }
         }
 
 
-        public List<Project> GetProjects()
+        public List<Image> GetImages()
         {
             using (var db = ApplicationDbContext.Create())
             {
 
                 var currentUserId = HttpContext.Current.User.Identity.GetUserId();
-                var projects = from p in db.Projects
-                               .Include("Watchers")
-                               .Include("Owner")
-                               .Include("Images")
-                               where (p.Owner.Id == currentUserId) || (p.Watchers.Select(c => c.Id).Contains(currentUserId))
-                               select p;
+     
+                var images = from image in db.Images
+                             where image.Project.Owner.Id == currentUserId
+                             select image;
 
-                
-
-                return projects.ToList();
+                return images.ToList();
             }
         }
 
-        public void CreateProject(Project project)
+        public void CreateImage(ImageViewModel model)
         {
             using (var db = ApplicationDbContext.Create())
             {
                 var currentUserId = db.CurrentUserId();
-                var currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
 
-                currentUser.Projects.Add(project);
-                project.Owner = currentUser;
+                var image = new Image
+                {
+                    Name = model.Name,
+                    Description = model.Description,
+                    Project = db.Projects.SingleOrDefault(p=>p.Id==model.ProjectId)
+                };
 
-                var image = db.Images.SingleOrDefault();
-
-                image.Project = project;
-                project.Images.Add(image);
-
-
-                db.Projects.Add(project);
+                db.Images.Add(image);
                 db.SaveChanges();
             }
         }
 
-        public bool DeleteProject(int id)
+        public bool DeleteImage(int id)
         {
             using (var db = ApplicationDbContext.Create())
             {
@@ -148,27 +136,7 @@ namespace DesignHubSite.Services
 
             }
         }
-
-        public bool InviteWatcher(int projectId, string userId)
-        {
-            using (var db = ApplicationDbContext.Create())
-            {
-                var project = db.Projects.First(p => p.Id == projectId);
-                var user = db.Users.FirstOrDefault(x => x.Id == userId);
-                if (user != null && project != null && project.Owner.Id == db.CurrentUserId())
-                {
-                    project.Watchers.Add(user);
-                    user.WatchedProjects.Add(project);
-
-                    db.SaveChanges();
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
+      
 
 
 

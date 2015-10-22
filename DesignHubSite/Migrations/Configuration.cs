@@ -38,6 +38,8 @@ namespace DesignHubSite.Migrations
                 var hasher = new PasswordHasher();
                 try
                 {
+                    // users
+
                     var users = new List<ApplicationUser> {
                         new ApplicationUser
                         {
@@ -56,6 +58,12 @@ namespace DesignHubSite.Migrations
                         };
 
                     users.ForEach(user => context.Users.AddOrUpdate(user));
+
+                    // images
+
+                    Image image = new Image { Name = "Cat picture", Description = "none" };
+
+                    context.Images.Add(image);
 
                     context.SaveChanges();
                 }

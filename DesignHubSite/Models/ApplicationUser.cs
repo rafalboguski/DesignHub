@@ -36,22 +36,6 @@ namespace DesignHubSite.Models
         [JsonProperty]
         public string Name => UserName;
 
-        //todo: later exclude from serializing
-  //      [NotMapped]
-  //      [JsonProperty]
-  //      public string OwnedProjects
-  //      {
-  //          get
-  //          {
-  //              var json = Json.Encode(
-  //                  Projects.Select(x => new ProjectViewModel { Id = x.Id, Name = x.Name }).ToList()
-  //                  );
-  //              json = json.Replace("\"", "\'");
-  //              json = json.Replace(@"\", "");
-  //              return json;
-  //          }
-  //      }
-
         #endregion
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
