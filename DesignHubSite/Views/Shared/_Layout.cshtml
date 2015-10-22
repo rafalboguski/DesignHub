@@ -29,6 +29,8 @@
                     </button>
                     
                 </div>
+
+                <!--todo: add switch dev/client mode-->
                 <div class="navbar-collapse collapse">
                     <!--<ul class="nav navbar-nav">
                         <li><a href="#/projects" ng-show="{{user_logged}}">My Orders</a></li>
@@ -52,12 +54,34 @@
                My Projects
             </a>
 
+            <a class="btn-block"
+               href="#/myprojects"
+               ng-class="{'sidebar-active-el':current_page === 'settings'}"
+               ng-click="current_page = 'settings'">
+                Activity
+            </a>
+            <a class="btn-block"
+               href="#/myprojects"
+               ng-class="{'sidebar-active-el':current_page === 'settings'}"
+               ng-click="current_page = 'settings'">
+                Statistics
+            </a>
+
             <a class="btn-block" 
-               href="#/settings" 
+               href="#/myprojects" 
                ng-class="{'sidebar-active-el':current_page === 'settings'}" 
                ng-click="current_page = 'settings'">
-               Settings
+               Messages
             </a>
+
+            <a class="btn-block"
+               href="#/myprojects"
+               ng-class="{'sidebar-active-el':current_page === 'settings'}"
+               ng-click="current_page = 'settings'">
+                Settings
+            </a>
+
+
 
 
 
@@ -87,6 +111,8 @@
     <script src="~/Frontend/controllers/indexController.js"></script>
 
     <script src="~/Frontend/Projects/projectsController.js"></script>
+    
+
 
     @RenderSection("scripts", required: false)
 </body>

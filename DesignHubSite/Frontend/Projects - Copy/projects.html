@@ -1,0 +1,89 @@
+
+<div ng-show="{{user_logged}}">
+    <!-- Add Button -->
+    <div class="row">
+
+        <button class="btn btn-danger" ng-click="getProjects()">Get Projects</button>
+
+        <form novalidate class="simple-form">
+            <input type="text" ng-model="user.name" placeholder="Name" />
+            <input type="text" ng-model="user.description" placeholder="Description" />
+
+            <input class="btn btn-success" ng-click="createProject(user)" value="Add new project" />
+        </form>
+
+
+
+
+
+
+
+    </div>
+
+    <!-- List -->
+    <div class="row" data-ng-init="getProjects()">
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Owner</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="Project in projects">
+                    <td style="padding-left: 30px;">
+                        <div class="col">
+                            <div class="row">{{Project.imageName}}</div>
+                            <div class="row">
+                                <img style="height: 100px;width: auto; "
+                                     ng-src="data:image/JPEG;base64,{{Project.image}}">
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        {{ Project.id }}
+                    </td>
+                    <td>
+                        {{ Project.name }}
+                    </td>
+                    <td>
+                        {{Project.description}}
+                    </td>
+                    <td>
+                        {{Project.owner.name}}
+                    </td>
+                    <td>                                                  
+                              <!-- todo: add modals -->
+                        <button class="btn btn-danger" ng-click="deleteProject($index, Project.id)">Remove</button>
+
+                        <!-- Upload Image section -->
+                        <button class="btn btn-default" type="file" ngf-select="uploadFiles(Project.id, $file)"
+                                accept="image/*" ngf-max-height="5000" ngf-max-size="20MB">
+                            Upload Image
+                        </button>
+                        <br><br>
+                        File:
+                        <div style="font:smaller">
+                            {{f.name}} {{f.$error}} {{f.$errorParam}}
+                            <span class="progress" ng-show="f.progress >= 0">
+                                <div style="width:{{f.progress}}%"
+                                     ng-bind="f.progress + '%'"></div>
+                            </span>
+                        </div>
+                        <!--Debug: fffff{{f}} {{errorMsg}}-->
+                        <!-- END -->
+
+                        <button class="btn btn-danger" ng-click="">Invite Watchers</button>
+
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

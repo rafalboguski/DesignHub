@@ -4,6 +4,35 @@
 
 
 
+*, *:before, *:after {box-sizing:  border-box !important;}
+
+
+.row {
+ -moz-column-width: 19em;
+ -webkit-column-width: 19em;
+ -moz-column-gap: 0;
+ -webkit-column-gap:0; 
+  
+}
+
+.row > .col-md-3 {
+ display: inline-block;
+ padding: 0;
+ margin: 0;
+ width:  90%; 
+ float:none;
+}
+
+.img-responsive {
+  border:1px solid #999;
+}
+
+
+
+
+
+
+
 img{
     display: block;
     margin-left: auto;

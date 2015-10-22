@@ -1,7 +1,9 @@
 
+<link href="~/Frontend/Projects/projects.css" rel="stylesheet" />
+
 <div ng-show="{{user_logged}}">
     <!-- Add Button -->
-    <div class="row">
+    <div class="row" hidden>
 
         <button class="btn btn-danger" ng-click="getProjects()">Get Projects</button>
 
@@ -22,68 +24,85 @@
 
     <!-- List -->
     <div class="row" data-ng-init="getProjects()">
-        <table class="table table-striped table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Owner</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr data-ng-repeat="Project in projects">
-                    <td style="padding-left: 30px;">
-                        <div class="col">
-                            <div class="row">{{Project.imageName}}</div>
-                            <div class="row">
-                                <img style="height: 100px;width: auto; "
-                                     ng-src="data:image/JPEG;base64,{{Project.image}}">
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        {{ Project.id }}
-                    </td>
-                    <td>
-                        {{ Project.name }}
-                    </td>
-                    <td>
-                        {{Project.description}}
-                    </td>
-                    <td>
-                        {{Project.owner.name}}
-                    </td>
-                    <td>                                                  
-                              <!-- todo: add modals -->
-                        <button class="btn btn-danger" ng-click="deleteProject($index, Project.id)">Remove</button>
+       
+       
+      
+        <div class="col-md-3" style="margin:10px;background-color:darkgrey;padding:20px;">
+            <img src="//placehold.it/380" class="img-responsive">
 
-                        <!-- Upload Image section -->
-                        <button class="btn btn-default" type="file" ngf-select="uploadFiles(Project.id, $file)"
-                                accept="image/*" ngf-max-height="5000" ngf-max-size="20MB">
-                            Upload Image
-                        </button>
-                        <br><br>
-                        File:
-                        <div style="font:smaller">
-                            {{f.name}} {{f.$error}} {{f.$errorParam}}
-                            <span class="progress" ng-show="f.progress >= 0">
-                                <div style="width:{{f.progress}}%"
-                                     ng-bind="f.progress + '%'"></div>
-                            </span>
-                        </div>
-                        <!--Debug: fffff{{f}} {{errorMsg}}-->
-                        <!-- END -->
+            <p>sfsf</p>
+            <p>sfdsdfsf sdf sdfsd</p>
+        </div>
+        <div class="col-md-3" style="margin:10px;background-color:darkgrey;padding:20px;">
+            <img src="//placehold.it/460x111" class="img-responsive">
 
-                        <button class="btn btn-danger" ng-click="">Invite Watchers</button>
+            <p>sfsf</p>
+            <p>sfdsdfsf sdf sdfsd</p>
+        </div>
+        <div class="col-md-3" style="margin:10px;background-color:darkgrey;padding:20px;">
+            <img src="//placehold.it/320x222" class="img-responsive">
 
+            <p>sfsf</p>
+            <p>sfdsdfsf sdf sdfsd</p>
+        </div>
+        <div class="col-md-3" style="margin:10px;background-color:darkgrey;padding:20px;">
+            <img src="//placehold.it/330x555" class="img-responsive">
 
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+            <p>sfsf</p>
+            <p>sfdsdfsf sdf sdfsd</p>
+        </div>
+        <div class="col-md-3" style="margin:10px;background-color:darkgrey;padding:20px;">
+            <img src="//placehold.it/210x700" class="img-responsive">
+
+            <p>1111111111</p>
+            <p>sfdsdfsf sdf sdfsd</p>
+        </div>
+        <div class="col-md-3" style="margin:10px;background-color:darkgrey;padding:20px;">
+            <img src="//placehold.it/320x222" class="img-responsive">
+
+            <p>sfsf</p>
+            <p>sfdsdfsf sdf sdfsd</p>
+        </div>
+        <div class="col-md-3" style="margin:10px;background-color:darkgrey;padding:20px;">
+            <img src="//placehold.it/330x555" class="img-responsive">
+
+            <p>sfsf</p>
+            <p>sfdsdfsf sdf sdfsd</p>
+        </div>
+        <div class="col-md-3" style="margin:10px;background-color:darkgrey;padding:20px;">
+            <img src="//placehold.it/210x700" class="img-responsive">
+
+            <p>1111111111</p>
+            <p>sfdsdfsf sdf sdfsd</p>
+        </div>
+        <div class="col-md-3" style="margin:10px;background-color:darkgrey;padding:20px;">
+            <img src="//placehold.it/320x222" class="img-responsive">
+
+            <p>sfsf</p>
+            <p>sfdsdfsf sdf sdfsd</p>
+        </div>
+        <div class="col-md-3" style="margin:10px;background-color:darkgrey;padding:20px;">
+            <img src="//placehold.it/330x555" class="img-responsive">
+
+            <p>sfsf</p>
+            <p>sfdsdfsf sdf sdfsd</p>
+        </div>
+        <div class="col-md-3" style="margin:10px;background-color:darkgrey;padding:20px;">
+            <img src="//placehold.it/210x700" class="img-responsive">
+
+            <p>1111111111</p>
+            <p>sfdsdfsf sdf sdfsd</p>
+        </div>
+                <!--
+        <div hidden ng-repeat="Project in projects"  class="col-md-3" 
+             style="margin:10px;background-color:darkgrey;padding:20px;">
+            <img src="//placehold.it/380" class="img-responsive">
+            
+                 <p>sfsf</p>
+            <p>sfdsdfsf sdf sdfsd</p>
+        </div>
+           -->
+
     </div>
 
 </div>
