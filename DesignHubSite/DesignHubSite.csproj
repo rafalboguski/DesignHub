@@ -220,12 +220,12 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\PartialCss\projects.css" />
     <Content Include="Frontend\app.js" />
     <Content Include="Frontend\controllers\indexController.js" />
     <Content Include="Frontend\Projects - Copy\projects.html" />
     <Content Include="Frontend\Projects - Copy\projectsController.js" />
     <Content Include="Frontend\Projects - Copy\projectsService.js" />
-    <Content Include="Frontend\Projects\projects.css" />
     <Content Include="Frontend\Projects\projects.html" />
     <Content Include="Frontend\Projects\projectsController.js" />
     <Content Include="Frontend\Projects\projectsService.js" />
@@ -258,6 +258,12 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\angular-file-upload.min.js.map" />
     <Compile Include="Models\ApplicationUser.cs" />
+    <Content Include=".bin\.bowerrc" />
+    <None Include=".bin\bower.cmd" />
+    <Content Include=".bin\bower.json" />
+    <None Include=".bin\git.cmd" />
+    <None Include=".bin\node.cmd" />
+    <Content Include="Content\PartialCss\sidebar.css" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\FileAPI.flash.swf" />
     <Content Include="Scripts\FileAPI.js" />
@@ -321,6 +327,7 @@
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\bower_components\" />
     <Folder Include="Content\Lib\" />
   </ItemGroup>
   <ItemGroup>

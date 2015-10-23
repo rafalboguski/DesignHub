@@ -5,7 +5,7 @@
     {
     @Html.AntiForgeryToken()
 
-        <ul class="nav navbar-nav navbar-right" style="margin-right:15px;">
+        <ul >
             <li>
                 <a>
                     <span class="glyphicon glyphicon-user"></span>
@@ -23,7 +23,7 @@
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right" style="margin-right:15px;">
+    <ul >
         <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>

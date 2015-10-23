@@ -1,0 +1,40 @@
+#sidebar, #content {
+    position: absolute;
+    top: 50px; /* no navbar overlapping */
+    bottom: 0;
+}
+
+#sidebar {
+     float:left;
+    top: 0;
+    position: fixed;
+    width: 200px;
+    /*position: fixed;*/
+    background-color: #2071a7;
+}
+
+    #sidebar ul {
+        list-style-type: none;
+        font-size: 16px;
+    }
+
+
+    #sidebar li {
+    }
+
+    #sidebar a {
+        padding: 15px;
+        text-decoration: none;
+        color: #999;
+    }
+
+        #sidebar a:hover {
+            color: white;
+            text-decoration: none;
+        }
+
+    #sidebar .sidebar-active-el {
+        background-color: #333333;
+    }
+
+

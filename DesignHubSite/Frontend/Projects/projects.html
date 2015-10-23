@@ -1,6 +1,4 @@
 
-<link href="~/Frontend/Projects/projects.css" rel="stylesheet" />
-
 <div ng-show="{{user_logged}}">
     <!-- Add Button -->
     <div class="row" hidden>
@@ -23,86 +21,21 @@
     </div>
 
     <!-- List -->
-    <div class="row" data-ng-init="getProjects()">
-       
-       
-      
-        <div class="col-md-3" style="margin:10px;background-color:darkgrey;padding:20px;">
-            <img src="//placehold.it/380" class="img-responsive">
+    <div class="gallery">
+        <div class="row" data-ng-init="getProjects()">
 
-            <p>sfsf</p>
-            <p>sfdsdfsf sdf sdfsd</p>
-        </div>
-        <div class="col-md-3" style="margin:10px;background-color:darkgrey;padding:20px;">
-            <img src="//placehold.it/460x111" class="img-responsive">
 
-            <p>sfsf</p>
-            <p>sfdsdfsf sdf sdfsd</p>
-        </div>
-        <div class="col-md-3" style="margin:10px;background-color:darkgrey;padding:20px;">
-            <img src="//placehold.it/320x222" class="img-responsive">
 
-            <p>sfsf</p>
-            <p>sfdsdfsf sdf sdfsd</p>
-        </div>
-        <div class="col-md-3" style="margin:10px;background-color:darkgrey;padding:20px;">
-            <img src="//placehold.it/330x555" class="img-responsive">
+            <div hidden ng-repeat="Project in projects" class="col-md-3"
+                 style="margin:10px;background-color:darkgrey;padding:20px;">
+                <img src="//placehold.it/380" class="img-responsive">
 
-            <p>sfsf</p>
-            <p>sfdsdfsf sdf sdfsd</p>
-        </div>
-        <div class="col-md-3" style="margin:10px;background-color:darkgrey;padding:20px;">
-            <img src="//placehold.it/210x700" class="img-responsive">
+                <p>sfsf</p>
+                <p>sfdsdfsf sdf sdfsd</p>
+            </div>
 
-            <p>1111111111</p>
-            <p>sfdsdfsf sdf sdfsd</p>
-        </div>
-        <div class="col-md-3" style="margin:10px;background-color:darkgrey;padding:20px;">
-            <img src="//placehold.it/320x222" class="img-responsive">
 
-            <p>sfsf</p>
-            <p>sfdsdfsf sdf sdfsd</p>
         </div>
-        <div class="col-md-3" style="margin:10px;background-color:darkgrey;padding:20px;">
-            <img src="//placehold.it/330x555" class="img-responsive">
-
-            <p>sfsf</p>
-            <p>sfdsdfsf sdf sdfsd</p>
-        </div>
-        <div class="col-md-3" style="margin:10px;background-color:darkgrey;padding:20px;">
-            <img src="//placehold.it/210x700" class="img-responsive">
-
-            <p>1111111111</p>
-            <p>sfdsdfsf sdf sdfsd</p>
-        </div>
-        <div class="col-md-3" style="margin:10px;background-color:darkgrey;padding:20px;">
-            <img src="//placehold.it/320x222" class="img-responsive">
-
-            <p>sfsf</p>
-            <p>sfdsdfsf sdf sdfsd</p>
-        </div>
-        <div class="col-md-3" style="margin:10px;background-color:darkgrey;padding:20px;">
-            <img src="//placehold.it/330x555" class="img-responsive">
-
-            <p>sfsf</p>
-            <p>sfdsdfsf sdf sdfsd</p>
-        </div>
-        <div class="col-md-3" style="margin:10px;background-color:darkgrey;padding:20px;">
-            <img src="//placehold.it/210x700" class="img-responsive">
-
-            <p>1111111111</p>
-            <p>sfdsdfsf sdf sdfsd</p>
-        </div>
-                <!--
-        <div hidden ng-repeat="Project in projects"  class="col-md-3" 
-             style="margin:10px;background-color:darkgrey;padding:20px;">
-            <img src="//placehold.it/380" class="img-responsive">
-            
-                 <p>sfsf</p>
-            <p>sfdsdfsf sdf sdfsd</p>
-        </div>
-           -->
-
     </div>
 
 </div>

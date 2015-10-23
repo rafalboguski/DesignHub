@@ -4,14 +4,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DesignHub</title>
-    @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
-    <link href="~/content/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/content/site.css" rel="stylesheet" />
+
+
+
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="~/content/site.css" />
+    <link rel="stylesheet" href="~/content/PartialCss/projects.css" />
+    <link rel="stylesheet" href="~/content/PartialCss/sidebar.css" />
 
 
 </head>
@@ -19,39 +23,22 @@
 
     <div ng-controller="indexController" data-ng-init="init('@User.Identity.IsAuthenticated')">
 
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div >
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    
-                </div>
 
-                <!--todo: add switch dev/client mode-->
-                <div class="navbar-collapse collapse">
-                    <!--<ul class="nav navbar-nav">
-                        <li><a href="#/projects" ng-show="{{user_logged}}">My Orders</a></li>
-                    </ul>-->
-                    @Html.Partial("_LoginPartial")
-                </div>
-            </div>
-        </div>
+
+        
 
         <div id="sidebar" ng-show="{{user_logged}}">
 
-            <img src="http://i.imgur.com/1KSU8jy.png" width="120"/>
+            <img src="http://i.imgur.com/1KSU8jy.png" width="120" />
             @Html.ActionLink("DesignHub", "Index", "Home", null, new { @class = "" })
 
-           
+
             <hr>
-            <a class="btn-block" 
+            <a class="btn-block"
                href="#/projects"
-               ng-class="{'sidebar-active-el':current_page === 'projects'}" 
+               ng-class="{'sidebar-active-el':current_page === 'projects'}"
                ng-click="current_page = 'projects'">
-               My Projects
+                My Projects
             </a>
 
             <a class="btn-block"
@@ -67,11 +54,11 @@
                 Statistics
             </a>
 
-            <a class="btn-block" 
-               href="#/myprojects" 
-               ng-class="{'sidebar-active-el':current_page === 'settings'}" 
+            <a class="btn-block"
+               href="#/myprojects"
+               ng-class="{'sidebar-active-el':current_page === 'settings'}"
                ng-click="current_page = 'settings'">
-               Messages
+                Messages
             </a>
 
             <a class="btn-block"
@@ -82,6 +69,10 @@
             </a>
 
 
+            @Html.Partial("_LoginPartial")
+
+
+
 
 
 
@@ -89,10 +80,11 @@
 
         <div id="content">
 
-            @RenderBody()
+            <div >
+                @RenderBody()
 
             <div data-ng-view=""></div>
-
+            </div>
         </div>
     </div>
 
@@ -111,7 +103,7 @@
     <script src="~/Frontend/controllers/indexController.js"></script>
 
     <script src="~/Frontend/Projects/projectsController.js"></script>
-    
+
 
 
     @RenderSection("scripts", required: false)

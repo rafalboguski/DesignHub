@@ -1,0 +1,32 @@
+*, *:before, *:after {box-sizing:  border-box !important;}
+
+
+
+.gallery{
+    margin-left: 60px;
+    background-color:aquamarine;
+}
+
+.gallery .row {
+ -moz-column-width: 19em;
+ -webkit-column-width: 19em;
+ -moz-column-gap: 0;
+ -webkit-column-gap:0; 
+ margin: 0px;
+  
+}
+
+.gallery .row > .col-md-3 {
+ display: inline-block;
+ padding: 0;
+ margin: 10px;
+ width: 90%; 
+ float:none;
+}
+
+.gallery .img-responsive {
+  border:1px solid #999;
+}
+
+
+
