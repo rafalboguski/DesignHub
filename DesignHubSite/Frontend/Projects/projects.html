@@ -1,26 +1,11 @@
 
 <div ng-show="{{user_logged}}">
-    <!-- Add Button -->
-    <div class="row" hidden>
-
-        <button class="btn btn-danger" ng-click="getProjects()">Get Projects</button>
-
-        <form novalidate class="simple-form">
-            <input type="text" ng-model="user.name" placeholder="Name" />
-            <input type="text" ng-model="user.description" placeholder="Description" />
-
-            <input class="btn btn-success" ng-click="createProject(user)" value="Add new project" />
-        </form>
 
 
 
 
+    <h1>My projects</h1>
 
-
-
-    </div>
-
-    <!-- List -->
     <div class="gallery">
         <div class="row" data-ng-init="getProjects()">
 

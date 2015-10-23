@@ -34,39 +34,14 @@
 
 
             <hr>
-            <a class="btn-block"
+            <a class="btn-block" 
                href="#/projects"
                ng-class="{'sidebar-active-el':current_page === 'projects'}"
                ng-click="current_page = 'projects'">
-                My Projects
+                My Projects Gallery
             </a>
-
-            <a class="btn-block"
-               href="#/myprojects"
-               ng-class="{'sidebar-active-el':current_page === 'settings'}"
-               ng-click="current_page = 'settings'">
-                Activity
-            </a>
-            <a class="btn-block"
-               href="#/myprojects"
-               ng-class="{'sidebar-active-el':current_page === 'settings'}"
-               ng-click="current_page = 'settings'">
-                Statistics
-            </a>
-
-            <a class="btn-block"
-               href="#/myprojects"
-               ng-class="{'sidebar-active-el':current_page === 'settings'}"
-               ng-click="current_page = 'settings'">
-                Messages
-            </a>
-
-            <a class="btn-block"
-               href="#/myprojects"
-               ng-class="{'sidebar-active-el':current_page === 'settings'}"
-               ng-click="current_page = 'settings'">
-                Settings
-            </a>
+                      {{current_page}}
+           
 
 
             @Html.Partial("_LoginPartial")
@@ -80,7 +55,7 @@
 
         <div id="content">
 
-            <div >
+            <div style="background-color:white;padding:20px;">
                 @RenderBody()
 
             <div data-ng-view=""></div>

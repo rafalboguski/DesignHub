@@ -1,15 +1,11 @@
-#sidebar, #content {
-    position: absolute;
-    top: 50px; /* no navbar overlapping */
-    bottom: 0;
-}
+
 
 #sidebar {
-     float:left;
-    top: 0;
     position: fixed;
+    bottom: 0;
+    top: 0;
     width: 200px;
-    /*position: fixed;*/
+    color: white;
     background-color: #2071a7;
 }
 
@@ -19,22 +15,19 @@
     }
 
 
-    #sidebar li {
-    }
-
+  
     #sidebar a {
         padding: 15px;
         text-decoration: none;
-        color: #999;
+        color: white;
     }
 
         #sidebar a:hover {
-            color: white;
             text-decoration: none;
+            background-color: #0c6098;
         }
 
     #sidebar .sidebar-active-el {
         background-color: #333333;
+        background-color: #0c6098;
     }
-
-

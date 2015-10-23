@@ -3,28 +3,28 @@
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-        <ul >
-            <li>
-                <a>
-                    <span class="glyphicon glyphicon-user"></span>
-                    @User.Identity.GetUserName()
-                </a>
-            </li>
-            <li>
-                <a href="javascript:document.getElementById('logoutForm').submit()">
-                    <span class="glyphicon glyphicon-log-in"></span>
-                    Log off
-                </a>
-            </li>
-        </ul>
+
+        <a>
+            <span class="glyphicon glyphicon-user"></span>
+            @User.Identity.GetUserName()
+        </a>
+
+        <a href="javascript:document.getElementById('logoutForm').submit()">
+            <span class="glyphicon glyphicon-log-in"></span>
+            Log off
+        </a>
+
     }
 }
 else
 {
-    <ul >
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
+
+    @Html.ActionLink("Register", "Register", "Account", routeValues: null,
+           htmlAttributes: new { id = "registerLink" })
+
+    @Html.ActionLink("Log in", "Login", "Account", routeValues: null,
+           htmlAttributes: new { id = "loginLink" })
+
 }

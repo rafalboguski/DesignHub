@@ -1,4 +1,5 @@
 ﻿body {
+    background-color:#f1f4f8;
 }
 
 
@@ -8,6 +9,9 @@ a {
     outline: 0 !important;
 }
 
+.btn{
+    border-radius:0 !important;
+}
 
 
 img{
@@ -25,8 +29,9 @@ img{
 
 
 #content {
-    padding: 20px;
-    left: 10em;
-    right: 0;
+    margin-left:200px;
+    
+    overflow-x: hidden;
+    padding:20px;
     /*background-color: bisque;*/
 }
