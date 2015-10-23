@@ -27,9 +27,9 @@
 
         
 
-        <div id="sidebar" ng-show="{{user_logged}}">
+        <div id="sidebar">
 
-            <img src="http://i.imgur.com/1KSU8jy.png" width="120" />
+            <img class="center" src="http://i.imgur.com/1KSU8jy.png" width="120" />
             @Html.ActionLink("DesignHub", "Index", "Home", null, new { @class = "" })
 
 
@@ -40,7 +40,7 @@
                ng-click="current_page = 'projects'">
                 My Projects Gallery
             </a>
-                      {{current_page}}
+                    
            
 
 
@@ -55,7 +55,7 @@
 
         <div id="content">
 
-            <div style="background-color:white;padding:20px;">
+            <div style="background-color:white;padding:0px;">
                 @RenderBody()
 
             <div data-ng-view=""></div>

@@ -1,30 +1,38 @@
 ﻿@using Microsoft.AspNet.Identity
-@if (Request.IsAuthenticated)
-{
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+
+<br><br><br><br>
+<div class="account-panel">
+    @if (Request.IsAuthenticated)
     {
-        @Html.AntiForgeryToken()
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "" }))
+        {
+            @Html.AntiForgeryToken()
 
 
-        <a>
-            <span class="glyphicon glyphicon-user"></span>
-            @User.Identity.GetUserName()
-        </a>
+            <div class="btn btn-block" style="background-color: #0c6098 !important;
+                                                        height:50px;">
 
-        <a href="javascript:document.getElementById('logoutForm').submit()">
-            <span class="glyphicon glyphicon-log-in"></span>
-            Log off
-        </a>
+                <img class="avatar-small" src="https://gitlab.com/uploads/user/avatar/64248/stanhu.jpg" width="30" />
+                @User.Identity.GetUserName()
 
+
+            </div>
+            <br>
+            <div class="btn btn-block" onclick="javascript: document.getElementById('logoutForm').submit()">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+            </div>
+
+
+        }
     }
-}
-else
-{
+    else
+    {
 
-    @Html.ActionLink("Register", "Register", "Account", routeValues: null,
+        @Html.ActionLink("Register", "Register", "Account", routeValues: null,
            htmlAttributes: new { id = "registerLink" })
 
-    @Html.ActionLink("Log in", "Login", "Account", routeValues: null,
+        @Html.ActionLink("Log in", "Login", "Account", routeValues: null,
            htmlAttributes: new { id = "loginLink" })
 
-}
+    }
+</div>
