@@ -220,6 +220,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\img\logo_tmp.png" />
     <Content Include="Content\PartialCss\projects.css" />
     <Content Include="Frontend\app.js" />
     <Content Include="Frontend\controllers\indexController.js" />

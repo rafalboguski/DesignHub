@@ -29,11 +29,19 @@
 
         <div id="sidebar">
 
-            <img class="center" src="http://i.imgur.com/1KSU8jy.png" width="120" />
-            @Html.ActionLink("DesignHub", "Index", "Home", null, new { @class = "" })
+            <img class="center" src="~/Content/img/logo_tmp.png" width="200" 
+                 style="
+                        margin-top:10px;
+                        margin-bottom:10px;
+                        padding-top:20px;
+                        padding-bottom:30px;
+                        background-color:rgba(255, 255, 255, 0.12);
+                        "
+            />
+            <!--@Html.ActionLink("DesignHub", "Index", "Home", null, new { @class = "" })-->                                        
 
 
-            <hr>
+           
             <a class="btn-block" 
                href="#/projects"
                ng-class="{'sidebar-active-el':current_page === 'projects'}"
