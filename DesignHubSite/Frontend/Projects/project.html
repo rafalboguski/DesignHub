@@ -1,0 +1,79 @@
+
+<div ng-show="{{user_logged}}" class="window">
+
+   
+        <div  data-ng-init="getProject()">
+
+
+            <h1>Project {{project.name}}</h1>
+
+          
+
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Owner</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding-left: 30px;">
+                            <div class="col">
+                                <div class="row">{{project.imageName}}</div>
+                                <div class="row">
+                                    <img style="height: 100px;width: auto; "
+                                         ng-src="data:image/JPEG;base64,{{project.image}}">
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            {{ project.id }}
+                        </td>
+                        <td>
+                            {{ project.name }}
+                        </td>
+                        <td>
+                            {{ project.description}}
+                        </td>
+                        <td>
+                            {{ project.owner.name}}
+                        </td>
+                        <td>
+                            <!-- todo: add modals -->
+                            <button class="btn btn-danger" ng-click="deleteProject($index, project.id)">Remove</button>
+
+                            <!-- Upload Image section -->
+                            <button class="btn btn-default" type="file" ngf-select="uploadFiles(project.id, $file)"
+                                    accept="image/*" ngf-max-height="5000" ngf-max-size="20MB">
+                                Upload Image
+                            </button>
+                            <br><br>
+                            File:
+                            <div style="font:smaller">
+                                {{f.name}} {{f.$error}} {{f.$errorParam}}
+                                <span class="progress" ng-show="f.progress >= 0">
+                                    <div style="width:{{f.progress}}%"
+                                         ng-bind="f.progress + '%'"></div>
+                                </span>
+                            </div>
+                            <!--Debug: fffff{{f}} {{errorMsg}}-->
+                            <!-- END -->
+
+                            <button class="btn btn-danger" ng-click="">Invite Watchers</button>
+
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+
+        </div>
+    
+</div>

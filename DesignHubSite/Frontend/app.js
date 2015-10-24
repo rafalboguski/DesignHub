@@ -11,12 +11,12 @@ app.config(function ($routeProvider) {
         templateUrl: "/FrontEnd/Projects/projects.html"
     });
 
-    $routeProvider.when("/myprojects", {
-        controller: "myProjectsController",
-        templateUrl: "/FrontEnd/MyProjects/myprojects.html"
+    $routeProvider.when("/project/:projectId", {
+        controller: "projectsController",
+        templateUrl: "/FrontEnd/Projects/project.html"
     });
 
-    $routeProvider.otherwise({ redirectTo: "/home" });
+    $routeProvider.otherwise({ redirectTo: "/projects" });
 });
 
 

@@ -227,6 +227,7 @@
     <Content Include="Frontend\Projects - Copy\projects.html" />
     <Content Include="Frontend\Projects - Copy\projectsController.js" />
     <Content Include="Frontend\Projects - Copy\projectsService.js" />
+    <Content Include="Frontend\Projects\project.html" />
     <Content Include="Frontend\Projects\projects.html" />
     <Content Include="Frontend\Projects\projectsController.js" />
     <Content Include="Frontend\Projects\projectsService.js" />

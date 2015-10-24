@@ -7,6 +7,9 @@ app.service('projectsService', ['$http', function ($http) {
         return $http.get(apiUrl + '/projects');
     };
 
+    this.getProject = function (id) {
+        return $http.get(apiUrl + '/projects/' + id);
+    };
 
     this.inviteWatcher = function (projectId, userId) {
         return $http({

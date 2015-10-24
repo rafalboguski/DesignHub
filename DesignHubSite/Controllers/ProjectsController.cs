@@ -9,6 +9,7 @@ using DesignHubSite.Models;
 using DesignHubSite.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using DesignHubSite.ExtensionMethods;
 
 namespace DesignHubSite.Controllers
 {
@@ -50,6 +51,19 @@ namespace DesignHubSite.Controllers
                 return BadRequest(ModelState);
 
             _repo.CreateProject(project);
+
+            return Ok();
+        }
+
+        
+        [Route("add")]
+        public IHttpActionResult GetAdd()
+        {
+
+            var sb = ApplicationDbContext.Create();
+            var id = sb.CurrentUserId();
+
+            _repo.CreateProject(new Project { Name="sdf", Description="sdfsfd",Owner=sb.Users.SingleOrDefault(u=>u.Id == id)});
 
             return Ok();
         }

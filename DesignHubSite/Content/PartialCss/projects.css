@@ -1,10 +1,13 @@
 *, *:before, *:after {box-sizing:  border-box !important;}
 
 
+.window{
+      background-color:#EEEEEE;
+}
 
 .gallery{
   
-    background-color:aquamarine;
+    
 }
 
 .gallery .row {
@@ -16,7 +19,7 @@
   
 }
 
-.gallery .row > .col-md-3 {
+.gallery .row > div {
  display: inline-block;
  padding: 0;
  margin: 10px;
@@ -26,6 +29,10 @@
 
 .gallery .img-responsive {
   border:1px solid #999;
+}
+ .gallery .img-responsive:hover {
+  border:1px solid #999;
+ 
 }
 
 

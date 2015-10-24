@@ -1,5 +1,5 @@
 
-<div ng-show="{{user_logged}}">
+<div ng-show="{{user_logged}}" class="window">
 
 
 
@@ -9,16 +9,23 @@
     <div class="gallery">
         <div class="row" data-ng-init="getProjects()">
 
+            <!--background-image: url(../images/test-background.gif); height: 200px; width: 400px-->
 
+            <div ng-repeat="Project in projects">
 
-            <div hidden ng-repeat="Project in projects" class="col-md-3"
-                 style="margin:10px;background-color:darkgrey;padding:20px;">
-                <img src="//placehold.it/380" class="img-responsive">
+                <div ng-class="computeCssClass(Project.id)">
+                    <div class="panel-heading">
+                        {{Project.id}} {{Project.name}}
+                    </div>
+                    <a class="panel-body" href="#/project/{{Project.id}}"   style="padding:0;">
+                        <img src="http://theworldsbestever.s3.amazonaws.com/blog/wp-content/uploads/2014/08/Lana-Zakocela-02.jpg" class="img-responsive">
+                    </a>
 
-                <p>sfsf</p>
-                <p>sfdsdfsf sdf sdfsd</p>
+                </div>
             </div>
 
+
+            
 
         </div>
     </div>
