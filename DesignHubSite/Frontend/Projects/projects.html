@@ -6,26 +6,43 @@
 
     <h1>My projects</h1>
 
+    <div ng-show="current_page == 'projects'">
+        <a class="btn btn-default" ng-click="showDescriptions = !showDescriptions">
+            Show descriptions
+        </a>
+    </div>
+    
+
+
     <div class="gallery">
         <div class="row" data-ng-init="getProjects()">
 
-            <!--background-image: url(../images/test-background.gif); height: 200px; width: 400px-->
+
+           
 
             <div ng-repeat="Project in projects">
 
-                <div ng-class="computeCssClass(Project.id)">
+                <div class="panel panel-default">
                     <div class="panel-heading">
                         {{Project.id}} {{Project.name}}
                     </div>
-                    <a class="panel-body" href="#/project/{{Project.id}}"   style="padding:0;">
+                    <a class="panel-body" href="#/project/{{Project.id}}"  style="padding:0;">
                         <img src="http://theworldsbestever.s3.amazonaws.com/blog/wp-content/uploads/2014/08/Lana-Zakocela-02.jpg" class="img-responsive">
+
+                        <div ng-show="showDescriptions" class="col-md-5">
+                            <p>Description:</p>
+                            {{Project.description}}
+                        </div>
+
                     </a>
+
+
 
                 </div>
             </div>
 
 
-            
+
 
         </div>
     </div>

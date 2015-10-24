@@ -2,15 +2,17 @@
 app.controller('projectsController', ['$scope', '$routeParams', 'Upload', '$timeout', 'projectsService',
     function ($scope, $routeParams, Upload, $timeout, projectsService) {
 
+        $scope.current_page = $scope.$parent.current_page;
 
         $scope.projectId = $routeParams.projectId;
         $scope.project;
         $scope.projects = [];
+        $scope.desc = true;
 
 
         $scope.getProject = function () {
             projectsService.getProject($scope.projectId).then(function (results) {
-
+                $scope.$parent.current_page = 'dupa';
                 $scope.project = results.data;
 
             }, function (error) {
@@ -92,10 +94,5 @@ app.controller('projectsController', ['$scope', '$routeParams', 'Upload', '$time
         }
 
 
-        // todo: use more generic one
-        $scope.computeCssClass = function (id) {
-            if (id < 10)
-                return 'panel panel-danger';
-            return 'panel panel-default';
-        }
+     
     }]);
