@@ -94,5 +94,10 @@ app.controller('projectsController', ['$scope', '$routeParams', 'Upload', '$time
         }
 
 
-     
+        // todo: use more generic one
+        $scope.computeCssClass = function (id) {
+            if (id < 10)
+                return 'panel panel-danger';
+            return 'panel panel-default';
+        }
     }]);

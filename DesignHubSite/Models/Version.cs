@@ -22,7 +22,13 @@ namespace DesignHubSite.Models
 
         public byte[] Image { get; set; }
 
+       
+        public virtual Project Project { get; set; }
 
+
+
+        public virtual ICollection<Version> Childs { get; set; } = new List<Version>();
+            
 
 
 

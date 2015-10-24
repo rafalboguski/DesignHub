@@ -41,7 +41,8 @@ namespace DesignHubSite.Services
             {
                 var currentUserId = db.CurrentUserId();
             
-                var pa = db.Projects.Include("Watchers").Include("Owner").Include("Images")
+                var pa = db.Projects.Include("Watchers").Include("Owner").Include("Versions").Include("Head")
+                               .Include("Root")
                                 .SingleOrDefault(p => (p.Id == id) &&
                                 (p.Owner.Id == currentUserId) || (p.Watchers.Select(c => c.Id).Contains(currentUserId)));
 
@@ -59,7 +60,9 @@ namespace DesignHubSite.Services
                 var projects = from p in db.Projects
                                .Include("Watchers")
                                .Include("Owner")
-                               .Include("Images")
+                               .Include("Versions")
+                               .Include("Head")
+                               .Include("Root")
                                where (p.Owner.Id == currentUserId) || (p.Watchers.Select(c => c.Id).Contains(currentUserId))
                                select p;
 
@@ -78,12 +81,6 @@ namespace DesignHubSite.Services
 
                 currentUser.Projects.Add(project);
                 project.Owner = currentUser;
-
-                var image = db.Images.SingleOrDefault();
-
-                image.Project = project;
-                project.Images.Add(image);
-
 
                 db.Projects.Add(project);
                 db.SaveChanges();
@@ -108,9 +105,11 @@ namespace DesignHubSite.Services
                 }
 
                 project.Watchers.Clear();
-                foreach (var image in project.Images)
-                    image.Project = null;
-                project.Images.Clear();
+
+                foreach (var version in project.Versions)
+                    version.Project = null;
+
+                project.Versions.Clear();
 
                 db.Projects.Remove(project);
                 db.SaveChanges();

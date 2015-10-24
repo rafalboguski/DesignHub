@@ -61,9 +61,7 @@ namespace DesignHubSite.Migrations
 
                     // images
 
-                    Image image = new Image { Name = "Cat picture", Description = "none" };
-
-                    context.Images.Add(image);
+                
 
                     context.SaveChanges();
                 }

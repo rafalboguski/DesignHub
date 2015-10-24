@@ -28,7 +28,12 @@ namespace DesignHubSite.Models
         //public string ImageName { get; set; }
         //public byte[] Image { get; set; }
 
-        public virtual ICollection<Image> Images { get; set; } = new List<Image>();
+
+        public virtual Version Root { get; set; }
+        public virtual Version Head { get; set; }
+
+
+        public virtual ICollection<Version> Versions { get; set; } = new List<Version>();
 
 
 
