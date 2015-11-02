@@ -19,11 +19,13 @@ namespace DesignHubSite.Controllers
     {
 
 
-        private readonly IProjectRepository _repo;
+        private readonly IRepository<Project> _repoProjects;
+        private readonly IProjectService _serviceProjects;
 
-        public ProjectsController(IProjectRepository repo)
+        public ProjectsController(IRepository<Project> repo, IProjectService serviceProjects)
         {
-            _repo = repo;
+            _repoProjects = repo;
+            _serviceProjects = serviceProjects;
         }
 
 
@@ -31,13 +33,13 @@ namespace DesignHubSite.Controllers
         public ICollection<Project> GetProjects()
         {
 
-            return _repo.GetProjects();
+            return _repoProjects.All();
         }
 
         [Route("{id}")]
         public Project GetProject(int id)
         {
-            var project = _repo.GetProject(id);
+            var project = _repoProjects.Single(id);
        
             return project;
         }
@@ -50,7 +52,7 @@ namespace DesignHubSite.Controllers
             if (!ModelState.IsValid && project == null)
                 return BadRequest(ModelState);
 
-            _repo.CreateProject(project);
+            _repoProjects.Create(project);
 
             return Ok();
         }
@@ -63,7 +65,7 @@ namespace DesignHubSite.Controllers
             var sb = ApplicationDbContext.Create();
             var id = sb.CurrentUserId();
 
-            _repo.CreateProject(new Project { Name="sdf", Description="sdfsfd",Owner=sb.Users.SingleOrDefault(u=>u.Id == id)});
+            _repoProjects.Create(new Project { Name="sdf", Description="sdfsfd",Owner=sb.Users.SingleOrDefault(u=>u.Id == id)});
 
             return Ok();
         }
@@ -73,7 +75,7 @@ namespace DesignHubSite.Controllers
         [Route("{id}")]
         public IHttpActionResult DeleteProject(int id)
         {
-            return (_repo.DeleteProject(id)) ? (IHttpActionResult)Ok() : NotFound();
+            return (_repoProjects.Delete(id)) ? (IHttpActionResult)Ok() : NotFound();
         }
 
 
@@ -81,7 +83,7 @@ namespace DesignHubSite.Controllers
         [Route("{id}/image")]
         public async Task<IHttpActionResult> UploadImage(int id)
         {
-            if (await _repo.UploadImage(id, Request) == true)
+            if (await _serviceProjects.UploadImage(id, Request) == true)
                 return Ok();
             else
                 return NotFound();
@@ -92,7 +94,7 @@ namespace DesignHubSite.Controllers
         [Route("{projectId}/inviteWatcher/{userId}")]
         public IHttpActionResult InviteWatcher(int projectId, string userId)
         {
-            if (_repo.InviteWatcher(projectId, userId))
+            if (_serviceProjects.InviteWatcher(projectId, userId))
                 return Ok();
             else
                 return NotFound();

@@ -2,6 +2,7 @@ using Microsoft.Practices.Unity;
 using System.Web.Http;
 using DesignHubSite.Services;
 using Unity.WebApi;
+using DesignHubSite.Models;
 
 namespace DesignHubSite
 {
@@ -9,13 +10,17 @@ namespace DesignHubSite
     {
         public static void RegisterComponents()
         {
-			var container = new UnityContainer();
+            var container = new UnityContainer();
             
             // register all your components with the container here
             // it is NOT necessary to register your controllers
             
             // e.g. container.RegisterType<ITestService, TestService>();
-            container.RegisterType<IProjectRepository, ProjectRepository>();
+            container.RegisterType<IRepository<Project>, ProjectRepository>();
+            container.RegisterType<INodeRepository, NodeRepository>();
+
+
+            container.RegisterType<IProjectService, ProjectService>();
             
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

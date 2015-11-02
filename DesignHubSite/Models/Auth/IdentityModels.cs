@@ -34,7 +34,7 @@ namespace DesignHubSite.Models
 
         public DbSet<Project> Projects { get; set; }
        
-        public DbSet<Version> Versions { get; set; }
+        public DbSet<Node> Nodes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

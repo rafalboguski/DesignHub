@@ -29,11 +29,11 @@ namespace DesignHubSite.Models
         //public byte[] Image { get; set; }
 
 
-        public virtual Version Root { get; set; }
-        public virtual Version Head { get; set; }
+        public virtual Node Root { get; set; }
+        public virtual Node Head { get; set; }
 
 
-        public virtual ICollection<Version> Versions { get; set; } = new List<Version>();
+        public virtual ICollection<Node> Nodes { get; set; } = new List<Node>();
 
 
 

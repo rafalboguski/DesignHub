@@ -10,7 +10,7 @@ namespace DesignHubSite.Models
 {
 
 
-    public class Version
+    public class Node
     {
 
         [Required]
@@ -27,8 +27,14 @@ namespace DesignHubSite.Models
 
 
 
-        public virtual ICollection<Version> Childs { get; set; } = new List<Version>();
+        public virtual Node Father { get; set; } 
+        public virtual ICollection<Node> Childs { get; set; } 
             
+
+        public Node()
+        {
+            Childs = new List<Node>();
+        }
 
 
 

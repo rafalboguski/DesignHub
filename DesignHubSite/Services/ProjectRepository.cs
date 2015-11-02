@@ -13,36 +13,23 @@ using System.Net.Http;
 namespace DesignHubSite.Services
 {
 
-    public interface IProjectRepository
-    {
 
-        Project GetProject(int id);
-
-        List<Project> GetProjects();
-
-        void CreateProject(Project project);
-
-        bool DeleteProject(int id);
-
-        Task<bool> UploadImage(int id, HttpRequestMessage request);
-
-        bool InviteWatcher(int projectId, string userId);
-
-    }
-
-
-    public class ProjectRepository : IProjectRepository
+    public class ProjectRepository : IRepository<Project>
     {
 
 
-        public Project GetProject(int id)
+        public Project Single(int id)
         {
             using (var db = ApplicationDbContext.Create())
             {
                 var currentUserId = db.CurrentUserId();
-            
-                var pa = db.Projects.Include("Watchers").Include("Owner").Include("Versions").Include("Head")
-                               .Include("Root")
+
+                var pa = db.Projects
+                                .Include("Watchers")
+                                .Include("Owner")
+                                .Include("Nodes")
+                                .Include("Head")
+                                .Include("Root")
                                 .SingleOrDefault(p => (p.Id == id) &&
                                 (p.Owner.Id == currentUserId) || (p.Watchers.Select(c => c.Id).Contains(currentUserId)));
 
@@ -51,7 +38,7 @@ namespace DesignHubSite.Services
         }
 
 
-        public List<Project> GetProjects()
+        public List<Project> All()
         {
             using (var db = ApplicationDbContext.Create())
             {
@@ -60,19 +47,19 @@ namespace DesignHubSite.Services
                 var projects = from p in db.Projects
                                .Include("Watchers")
                                .Include("Owner")
-                               .Include("Versions")
+                               .Include("Nodes")
                                .Include("Head")
                                .Include("Root")
                                where (p.Owner.Id == currentUserId) || (p.Watchers.Select(c => c.Id).Contains(currentUserId))
                                select p;
 
-                
+
 
                 return projects.ToList();
             }
         }
 
-        public void CreateProject(Project project)
+        public void Create(Project project)
         {
             using (var db = ApplicationDbContext.Create())
             {
@@ -87,7 +74,7 @@ namespace DesignHubSite.Services
             }
         }
 
-        public bool DeleteProject(int id)
+        public bool Delete(int id)
         {
             using (var db = ApplicationDbContext.Create())
             {
@@ -106,10 +93,10 @@ namespace DesignHubSite.Services
 
                 project.Watchers.Clear();
 
-                foreach (var version in project.Versions)
+                foreach (var version in project.Nodes)
                     version.Project = null;
 
-                project.Versions.Clear();
+                project.Nodes.Clear();
 
                 db.Projects.Remove(project);
                 db.SaveChanges();
@@ -117,58 +104,6 @@ namespace DesignHubSite.Services
                 return true;
             }
         }
-
-        public async Task<bool> UploadImage(int id, HttpRequestMessage request)
-        {
-            if (!request.Content.IsMimeMultipartContent())
-                return false;
-
-            using (var db = ApplicationDbContext.Create())
-            {
-                // TODO: check if right owner
-                var project = db.Projects.Single(x => x.Id == id);
-
-                if (project == null)
-                    return false;
-
-                var provider = new MultipartMemoryStreamProvider();
-                await request.Content.ReadAsMultipartAsync(provider);
-                foreach (var file in provider.Contents)
-                {
-                    var filename = file.Headers.ContentDisposition.FileName.Trim('\"');
-                    var buffer = await file.ReadAsByteArrayAsync();
-
-                    //                project.ImageName = filename;
-                    //                project.Image = buffer;
-                }
-
-                db.SaveChanges();
-                return true;
-
-            }
-        }
-
-        public bool InviteWatcher(int projectId, string userId)
-        {
-            using (var db = ApplicationDbContext.Create())
-            {
-                var project = db.Projects.First(p => p.Id == projectId);
-                var user = db.Users.FirstOrDefault(x => x.Id == userId);
-                if (user != null && project != null && project.Owner.Id == db.CurrentUserId())
-                {
-                    project.Watchers.Add(user);
-                    user.WatchedProjects.Add(project);
-
-                    db.SaveChanges();
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
-
 
 
     }
