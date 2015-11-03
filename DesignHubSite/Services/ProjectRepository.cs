@@ -42,14 +42,11 @@ namespace DesignHubSite.Services
         {
             using (var db = ApplicationDbContext.Create())
             {
+                                                             
+                db.Configuration.LazyLoadingEnabled = false;
 
                 var currentUserId = HttpContext.Current.User.Identity.GetUserId();
                 var projects = from p in db.Projects
-                               .Include("Watchers")
-                               .Include("Owner")
-                               .Include("Nodes")
-                               .Include("Head")
-                               .Include("Root")
                                where (p.Owner.Id == currentUserId) || (p.Watchers.Select(c => c.Id).Contains(currentUserId))
                                select p;
 

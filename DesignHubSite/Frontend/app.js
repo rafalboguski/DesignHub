@@ -15,8 +15,12 @@ app.config(function ($routeProvider) {
         controller: "projectsController",
         templateUrl: "/FrontEnd/Projects/project.html"
     });
+    $routeProvider.when("/settings", {
+        
+        templateUrl: "/FrontEnd/Projects/project.html"
+    });
 
-    $routeProvider.otherwise({ redirectTo: "/projects" });
+    $routeProvider.otherwise({ redirectTo: "/projec" });
 });
 
 

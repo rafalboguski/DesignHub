@@ -7,11 +7,16 @@
     @Scripts.Render("~/bundles/modernizr")
 
 
-
-
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="~/Content/bower_components/materialize/dist/css/materialize.min.css" media="screen,projection" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 
     <link rel="stylesheet" href="~/content/site.css" />
     <link rel="stylesheet" href="~/content/PartialCss/projects.css" />
@@ -20,36 +25,65 @@
 
 </head>
 <body>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="~/Content/bower_components/materialize/dist/js/materialize.js"></script>
+
 
     <div ng-controller="indexController" data-ng-init="init('@User.Identity.IsAuthenticated')">
 
 
 
-        
+
 
         <div id="sidebar">
 
-            <img class="center" src="~/Content/img/logo_tmp.png" width="180" 
+            <img class="center" src="~/Content/img/logo_tmp.png" width="180"
                  style="
                         margin-top:10px;
                         margin-bottom:10px;
                         padding-top:20px;
                         padding-bottom:30px;
-                       
-                        "
-            />
-            <!--@Html.ActionLink("DesignHub", "Index", "Home", null, new { @class = "" })-->                                        
+
+                        " />
+            <!--@Html.ActionLink("DesignHub", "Index", "Home", null, new { @class = "" })-->
 
 
-           
-            <a class="btn-block" 
+
+            <a class="btn-block"
                href="#/projects"
                ng-class="{'sidebar-active-el':current_page === 'projects'}"
                ng-click="current_page = 'projects'">
                 My Projects Gallery
             </a>
-                    
-           
+
+
+            <ul class="collapsible" data-collapsible="accordion">
+                <li>
+                    <a href="#/projects" class="waves-effect waves-light collapsible-header">
+                        <i class="material-icons">filter_drama</i>
+                        My Projects
+                    </a>
+                    <div class="collapsible-body">
+                    <p>Those are your projecst. Go ahead pick one or add new</p>
+                    </div>
+                </li>
+                <li>
+                    <a href="#/settings"  class="waves-effect waves-light collapsible-header">
+                        <i class="material-icons">place</i>
+                        Settings
+                    </a>
+                    <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+                </li>
+                <li>
+                    <div class="waves-effect waves-light collapsible-header">
+                        <i class="material-icons">whatshot</i>
+                        Messages
+                    </div>
+                    <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+                </li>
+            </ul>
+
+
 
 
             @Html.Partial("_LoginPartial")
@@ -63,13 +97,13 @@
 
         <div id="content">
 
-            <div style="background-color:white;padding:0px;">
+            <div style="padding:0px;">
                 @RenderBody()
 
                 <div data-ng-view=""></div>
             </div>
         </div>
-   </div>
+    </div>
 
     @Scripts.Render("~/bundles/jquery")
 

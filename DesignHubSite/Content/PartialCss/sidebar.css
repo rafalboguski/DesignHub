@@ -4,9 +4,11 @@
     position: fixed;
     bottom: 0;
     top: 0;
-    width: 200px;
+    width: 210px;
+  
     color: white;
-    background-color: #2071a7;
+    background-color: #191919;
+    border-right: 10px solid #282828;
 }
 
     #sidebar ul {
@@ -15,19 +17,46 @@
     }
 
 
-  
-    #sidebar a {
-        padding: 15px;
+/* accordion */
+
+.collapsible {
+    border-top: 1px solid transparent;
+    border-right: 1px solid transparent;
+    border-left: 1px solid transparent;
+    margin: 0.5rem 0px 1rem;
+}
+
+
+
+
+.collapsible-header {
+    background-color: transparent !important;
+    border-bottom: 1px solid transparent !important;
+}
+#sidebar .active{
+           background-color: crimson;
+}
+
+.collapsible-body{
+    background-color: rgba(11, 11, 11, 1);
+    border-bottom: 1px solid transparent !important;
+}
+
+
+/* end accordion */
+
+#sidebar a {
+    padding: 15px;
+    text-decoration: none;
+    color: white;
+}
+
+    #sidebar a:hover {
         text-decoration: none;
-        color: white;
-    }
-
-        #sidebar a:hover {
-            text-decoration: none;
-            background-color: #0c6098;
-        }
-
-    #sidebar .sidebar-active-el {
-        background-color: #333333;
         background-color: #0c6098;
     }
+
+#sidebar .sidebar-active-el {
+    background-color: #333333;
+    background-color: #0c6098;
+}
