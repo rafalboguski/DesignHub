@@ -9,18 +9,23 @@
             @Html.AntiForgeryToken()
 
 
-            <div class="btn btn-block" style="background-color: #0c6098 !important;
-                                                        height:70px;">
 
-                <img class="avatar-small" src="https://gitlab.com/uploads/user/avatar/64248/stanhu.jpg" width="30" />
-                @User.Identity.GetUserName()
-
-
+            <div style="padding:5px;">
+                <div class="chip"
+                     style="font-size:16px; color:black;width: 100%;
+                       border-radius:0;
+                       background-color:transparent;
+                       color:white;
+                       ">
+                    <img src="http://czasdzieci.pl/pliki/wydarzenia/2012/f_w_41138_5aa44.jpg" width="50" alt="Contact Person">
+                    @User.Identity.GetUserName()
+                </div>
             </div>
-            <br>
-            <div class="btn btn-block" onclick="javascript: document.getElementById('logoutForm').submit()"
-                 style=" height:20px;">
-                    <span class="glyphicon glyphicon-chevron-left" style="bottom: 14px;top:unset;"></span>
+            <hr style="height:1px; margin:5px;visibility:hidden;" />  
+            <div class="btn waves-effect waves-red" onclick="javascript: document.getElementById('logoutForm').submit()"
+                 style="background-color:rgba(11, 11, 11, 1);
+                 width:100%">
+                <span class="glyphicon glyphicon-chevron-left" style=""></span>
             </div>
 
 

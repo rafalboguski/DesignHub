@@ -20,6 +20,7 @@ namespace DesignHubSite.Models
         public string ChangeInfo { get; set; }
 
 
+        [JsonIgnore]
         public byte[] Image { get; set; }
 
        

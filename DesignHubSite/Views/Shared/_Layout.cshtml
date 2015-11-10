@@ -46,36 +46,42 @@
 
                         " />
             <!--@Html.ActionLink("DesignHub", "Index", "Home", null, new { @class = "" })-->
-
-
-
-            <a class="btn-block"
+            <!--<a  class="btn-block"
                href="#/projects"
                ng-class="{'sidebar-active-el':current_page === 'projects'}"
                ng-click="current_page = 'projects'">
                 My Projects Gallery
-            </a>
+            </a>   -->
+            {{current_page}}
+
+        
+
+            <div onClick="$('#expand').trigger('click');" class="btn btn-lg">Click</div>
+       
 
 
             <ul class="collapsible" data-collapsible="accordion">
                 <li>
-                    <a href="#/projects" class="waves-effect waves-light collapsible-header">
+                    <div id="expand" href="#/projects" ng-click="href('/projects');alert('fag');"
+                         class="waves-effect waves-light collapsible-header">
                         <i class="material-icons">filter_drama</i>
                         My Projects
-                    </a>
+                    </div>
                     <div class="collapsible-body">
-                    <p>Those are your projecst. Go ahead pick one or add new</p>
+                        <p>Those are your projecst. Go ahead pick one or add new</p>
                     </div>
                 </li>
                 <li>
-                    <a href="#/settings"  class="waves-effect waves-light collapsible-header">
+                    <a id="aSettings" href="#/settings" ng-click="current_page = 'Settings'"
+                       class="waves-effect waves-light collapsible-header">
                         <i class="material-icons">place</i>
                         Settings
                     </a>
                     <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
                 </li>
                 <li>
-                    <div class="waves-effect waves-light collapsible-header">
+                    <div id="aTmp" ng-click="current_page = 'Tmp'"
+                         class="waves-effect waves-light collapsible-header">
                         <i class="material-icons">whatshot</i>
                         Messages
                     </div>

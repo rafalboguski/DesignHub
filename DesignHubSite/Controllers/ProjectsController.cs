@@ -30,21 +30,22 @@ namespace DesignHubSite.Controllers
 
 
         [Route("")]
-        public ICollection<Project> GetProjects()
+        public ICollection<ProjectListViewModel> GetProjects()
         {
+            var projects = _repoProjects.All();
 
-            return _repoProjects.All();
+            return ProjectListViewModel.Map(projects);
         }
 
         [Route("{id}")]
         public Project GetProject(int id)
         {
             var project = _repoProjects.Single(id);
-       
+
             return project;
         }
 
-         
+
         [HttpPost]
         [Route("")]
         public IHttpActionResult Create(Project project)
@@ -57,7 +58,7 @@ namespace DesignHubSite.Controllers
             return Ok();
         }
 
-        
+
         [Route("add")]
         public IHttpActionResult GetAdd()
         {
@@ -65,7 +66,7 @@ namespace DesignHubSite.Controllers
             var sb = ApplicationDbContext.Create();
             var id = sb.CurrentUserId();
 
-            _repoProjects.Create(new Project { Name="sdf", Description="sdfsfd",Owner=sb.Users.SingleOrDefault(u=>u.Id == id)});
+            _repoProjects.Create(new Project { Name = "sdf", Description = "sdfsfd", Owner = sb.Users.SingleOrDefault(u => u.Id == id) });
 
             return Ok();
         }
@@ -102,6 +103,6 @@ namespace DesignHubSite.Controllers
 
 
 
-       
+
     }
 }
