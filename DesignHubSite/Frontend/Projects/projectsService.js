@@ -20,13 +20,13 @@ app.service('projectsService', ['$http', function ($http) {
         });
     };
 
-    this.createProject = function (user) {
+    this.createProject = function (project) {
         return $http({
             method: 'POST',
             url: apiUrl + '/projects',
             data: {
-                'Name': user.name,
-                'Description': user.description
+                'Name': project.name,
+                'Description': project.description
 
             },
             headers: { 'Content-Type': 'application/json' }

@@ -32,75 +32,79 @@
     <div ng-controller="indexController" data-ng-init="init('@User.Identity.IsAuthenticated')">
 
 
-
-
-
+        <!-- SideBar MENU -->
         <div id="sidebar">
 
             <img class="center" src="~/Content/img/logo_tmp.png" width="180"
-                 style="
-                        margin-top:10px;
+                 style="margin-top:10px;
                         margin-bottom:10px;
                         padding-top:20px;
                         padding-bottom:30px;
 
                         " />
             <!--@Html.ActionLink("DesignHub", "Index", "Home", null, new { @class = "" })-->
-            <!--<a  class="btn-block"
-               href="#/projects"
-               ng-class="{'sidebar-active-el':current_page === 'projects'}"
-               ng-click="current_page = 'projects'">
-                My Projects Gallery
-            </a>   -->
-            {{current_page}}
-
-        
-
-            <div onClick="$('#expand').trigger('click');" class="btn btn-lg">Click</div>
-       
+   
 
 
-            <ul class="collapsible" data-collapsible="accordion">
-                <li>
-                    <div id="expand" href="#/projects" ng-click="href('/projects');alert('fag');"
-                         class="waves-effect waves-light collapsible-header">
-                        <i class="material-icons">filter_drama</i>
-                        My Projects
-                    </div>
-                    <div class="collapsible-body">
-                        <p>Those are your projecst. Go ahead pick one or add new</p>
-                    </div>
-                </li>
-                <li>
-                    <a id="aSettings" href="#/settings" ng-click="current_page = 'Settings'"
-                       class="waves-effect waves-light collapsible-header">
-                        <i class="material-icons">place</i>
-                        Settings
-                    </a>
-                    <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
-                </li>
-                <li>
-                    <div id="aTmp" ng-click="current_page = 'Tmp'"
-                         class="waves-effect waves-light collapsible-header">
-                        <i class="material-icons">whatshot</i>
-                        Messages
-                    </div>
-                    <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
-                </li>
-            </ul>
+            <!-- Accordions, page navigation -->
+            @if (@User.Identity.IsAuthenticated)
+            {
+                <ul class="collapsible" data-collapsible="accordion">
+                    <li>
+                        <div id="aprojects" ng-click="href('/projects');"
+                             class="waves-effect waves-light collapsible-header">
+                            <i class="material-icons">view_quilt</i>
+                            My Projects
+                        </div>
+                        <div class="collapsible-body">
+                            <p>Those are your projects. Go ahead pick one or add new</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div id="asettings" ng-click="href('/settings');"
+                             class="waves-effect waves-light collapsible-header">
+                            <i class="material-icons">settings</i>
+                            Settings
+                        </div>
+                        <div class="collapsible-body"><p>Todo</p></div>
+                    </li>
+                    <li>
+                        <div id="atmp" ng-click="href('/tmp');"
+                             class="waves-effect waves-light collapsible-header">
+                            <i class="material-icons">message</i>
+                            Messages
+                        </div>
+                        <div class="collapsible-body"><p>Todo</p></div>
+                    </li>
+                </ul>
+
+            }
+            else
+            {
+                <ul class="collapsible" data-collapsible="accordion">
+                    <li>
+                        @Html.ActionLink("Login", "Login", "Account", routeValues: null,
+                        htmlAttributes: new { id = "loginLink", @class = "center waves-effect collapsible-header" })
+
+                        <hr style="padding:0;margin:0;">
+                    </li>
+                    
+                    <li>
+                        @Html.ActionLink("Register", "Register", "Account", routeValues: null,
+                        htmlAttributes: new { id = "registerLink", @class = "center waves-effect collapsible-header" })
+
+                    </li>
+                </ul>
+            }
 
 
 
-
+            <!-- Profile Pic and logout -->
             @Html.Partial("_LoginPartial")
-
-
-
-
-
 
         </div>
 
+        <!--  -->
         <div id="content">
 
             <div style="padding:0px;">
@@ -109,6 +113,33 @@
                 <div data-ng-view=""></div>
             </div>
         </div>
+
+        <!-- Footer -->
+        <footer class="page-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col l6 s12">
+                        <h5>Footer Content</h5>
+                        <p>You can use rows and columns here to organize your footer content.</p>
+                    </div>
+                    <div class="col l4 offset-l2 s12">
+                        <h5>Links</h5>
+                        <ul>
+                            <li><span>Link 1</span></li>
+                            <li><span>Link 2</span></li>
+                            <li><span>Link 3</span></li>
+                            <li><span>Link 4</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container">
+                    © 2014 Copyright Text
+                    <span class="right">More Links</span>
+                </div>
+            </div>
+        </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")

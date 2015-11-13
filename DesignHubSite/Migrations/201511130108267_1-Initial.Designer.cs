@@ -7,13 +7,13 @@ namespace DesignHubSite.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class init : IMigrationMetadata
+    public sealed partial class _1Initial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(init));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(_1Initial));
         
         string IMigrationMetadata.Id
         {
-            get { return "201510221228193_init"; }
+            get { return "201511130108267_1-Initial"; }
         }
         
         string IMigrationMetadata.Source

@@ -2,47 +2,68 @@
 @{
     ViewBag.Title = "Register";
 }
+<div class="col-md-5">
+    <h2>Create account</h2>
 
-<h2>@ViewBag.Title.</h2>
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <h4>Create a new account.</h4>
-    <hr/>
-    @Html.ValidationSummary("", new { @class = "text-danger" })
+        <hr />
+        @Html.ValidationSummary("", new { @class = "text-danger" })
 
-    <div>
-        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
+
+        <div class="input-field col-md-10">
+            <i class="material-icons prefix">account_circle</i>
             @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
-        </div>
-    </div>
+            <label for="icon_prefix">UserName</label>
 
-    <div>
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
+        </div>
+
+        <div class="input-field col-md-10">
+            <i class="material-icons prefix">email</i>
             @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            <label for="icon_prefix">Email</label>
+
         </div>
-    </div>
-    <div>
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
+
+        <div class="input-field col-md-10">
+            <i class="material-icons prefix">vpn_key</i>
             @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            <label for="icon_prefix">Password</label>
+
         </div>
-    </div>
-    <div>
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
+
+        <div class="input-field col-md-10">
+            <i class="material-icons prefix">replay</i>
             @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            <label for="icon_prefix">Confirm Password</label>
+
         </div>
-    </div>
-    <div>
-        <div class="col-md-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
+
+        <div class="form-group">
+            <div class="col-md-offset-6 col-md-10">
+                <button type="submit" class="btn btn-default waves-effect">Register</button>
+            </div>
         </div>
-    </div>
-}
+    }
+</div>
+
+<div class="col-md-2"></div>
+
+<div class="col-md-4">
+    <h2>Info about site</h2>
+
+    <p class="flow-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+
+
+</div>
+
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

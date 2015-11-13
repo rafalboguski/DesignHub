@@ -1,7 +1,27 @@
 ﻿body {
     background-color: #2F2F2F;
+    color: #B2B2B2;
 }
 
+
+
+
+
+
+input {
+    color: white !important;
+    outline: none !important;
+}
+
+    input:focus {
+        outline: none !important;
+    }
+
+
+
+#content h2 {
+    color: rgb(178, 178, 178);
+}
 
 
 /* no border around link after click */
@@ -14,7 +34,7 @@ a {
 }
 
 .row {
-     margin-right: 0 !important;
+    margin-right: 0 !important;
     margin-left: 0 !important;
 }
 
@@ -51,10 +71,31 @@ a {
 }
 
 
+footer {
+    position: relative;
+    z-index: -200;
+    top: 70vh;
+    background-color: rgb(25,25,25) !important;
+}
+
+
+
+.material-icons {
+    color: rgb(65,65,65);
+}
+
 
 .account-panel {
     position: fixed !important;
     bottom: 0 !important;
     left: 0 !important;
     width: 200px !important;
+}
+
+
+.bottom-sheet{
+   
+      border-top: 5px solid #26A69A;
+      background-color: #282828;
+   
 }

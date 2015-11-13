@@ -20,7 +20,7 @@ app.config(function ($routeProvider) {
         templateUrl: "/FrontEnd/Projects/project.html"
     });
 
-    $routeProvider.otherwise({ redirectTo: "/projec" });
+    $routeProvider.otherwise({ redirectTo: "/projects" });
 });
 
 

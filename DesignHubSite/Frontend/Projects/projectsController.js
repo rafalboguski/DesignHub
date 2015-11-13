@@ -1,18 +1,22 @@
 ﻿'use strict';
-app.controller('projectsController', ['$scope', '$routeParams', 'Upload', '$timeout', 'projectsService',
-    function ($scope, $routeParams, Upload, $timeout, projectsService) {
+app.controller('projectsController', ['$scope', '$routeParams','$location', 'Upload', '$timeout', 'projectsService',
+    function ($scope, $routeParams,$location, Upload, $timeout, projectsService) {
 
         $scope.current_page = $scope.$parent.current_page;
 
+        // project details
         $scope.projectId = $routeParams.projectId;
         $scope.project;
+
+        // gallery
         $scope.projects = [];
-        $scope.desc = true;
+    
+        $scope.visibleProjectsNum = 8;
 
 
         $scope.getProject = function () {
             projectsService.getProject($scope.projectId).then(function (results) {
-                $scope.$parent.current_page = 'dupa';
+              
                 $scope.project = results.data;
 
             }, function (error) {
@@ -23,7 +27,7 @@ app.controller('projectsController', ['$scope', '$routeParams', 'Upload', '$time
         $scope.getProjects = function () {
             projectsService.getProjects().then(function (results) {
 
-                $scope.projects = results.data;
+                $scope.projects = results.data.reverse();
 
             }, function (error) {
                 alert(error.data.message);
@@ -69,24 +73,25 @@ app.controller('projectsController', ['$scope', '$routeParams', 'Upload', '$time
         }
 
 
-        $scope.createProject = function (user) {
-            projectsService.createProject(user).then(function (results) {
-
+        $scope.createProject = function (project) {
+           
+            projectsService.createProject(project).then(function (results) {
                 $scope.getProjects();
+                project.name = '';
+                project.description = '';
+                $('#AddProjectModal').closeModal();
 
             }, function (error) {
                 alert(error.data.message);
             });
         }
 
-        $scope.deleteProject = function (idx, id) {
-
-            console.log(idx);
+        $scope.deleteProject = function ( id) {
+          
             projectsService.deleteProject(id).then(function (results) {
-                $scope.getProjects();
                 if (results.status == 200) {
-                    $scope.projects.splice(idx, 1);
-                    //alert('Deleted');
+                    $location.path('/projects');
+                    alert('Deleted');
                 }
             }, function (error) {
                 alert(error.data.message);
@@ -94,10 +99,7 @@ app.controller('projectsController', ['$scope', '$routeParams', 'Upload', '$time
         }
 
 
-        // todo: use more generic one
-        $scope.computeCssClass = function (id) {
-            if (id < 10)
-                return 'panel panel-danger';
-            return 'panel panel-default';
-        }
     }]);
+
+
+

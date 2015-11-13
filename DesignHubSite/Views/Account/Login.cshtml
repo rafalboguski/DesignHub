@@ -13,14 +13,7 @@
             <hr />*@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class="input-field col s6">
-
-            <input id="last_name" type="text" class="validate">
-            <label for="last_name">Last Name</label>
-        </div>
-
         <div class="form-group">
-
 
 
             <div class="input-field col-md-10">
@@ -34,7 +27,7 @@
         <div class="form-group">
 
             <div class="input-field col-md-10">
-                <i class="material-icons prefix">password_circle</i>
+                <i class="material-icons prefix">vpn_key</i>
                 @Html.PasswordFor(m => m.Password, new { @class = "form-control validate" })
                 <label for="icon_prefix">Password</label>
                 @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
@@ -50,8 +43,8 @@
                 </div>
             </div>*@
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Log in" class="btn btn-default" />
+            <div class="col-md-offset-6 col-md-10">
+                <button type="submit" class="btn btn-default waves-effect">Log in </button>
             </div>
         </div>
         @*<p>
@@ -64,6 +57,20 @@
     }
 
 </div>
+
+<div class="col-md-2"></div>
+
+<div class="col-md-4">
+    <h2>News about site</h2>
+
+    <p class="flow-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+
+   
+
+</div>
+
+
 @*<div class="col-md-4">
         <section id="socialLoginForm">
             @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })

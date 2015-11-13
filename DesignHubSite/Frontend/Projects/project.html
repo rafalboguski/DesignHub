@@ -5,6 +5,24 @@
     <div data-ng-init="getProject()">
 
 
+
+        <div class="row">
+            <div class="col s12">
+                <ul class="tabs">
+                    <li class="tab col s3"><a href="#test1">Test 1</a></li>
+                    <li class="tab col s3"><a class="active" href="#test2">Test 2</a></li>
+                    <li class="tab col s3 disabled"><a href="#test3">Disabled Tab</a></li>
+                    <li class="tab col s3"><a href="#test4">Test 4</a></li>
+                </ul>
+            </div>
+            <div id="test1" class="col s12">Test 1</div>
+            <div id="test2" class="col s12">Test 2</div>
+            <div id="test3" class="col s12">Test 3</div>
+            <div id="test4" class="col s12">Test 4</div>
+        </div>
+
+
+
         <h1>Project {{project.name}}</h1>
 
 
@@ -38,10 +56,12 @@
         <br><br><br>
         <div class="row well" >
 
-            <button class="btn btn-danger" ng-click="">Invite Watchers</button>
+            <button class="btn btn-danger" disabled ng-click="">Invite Watchers</button>
 
             <!-- todo: add modals -->
-            <button class="btn btn-danger" ng-click="deleteProject($index, project.id)">Remove</button>
+       
+            <button class="btn btn-danger" ng-click="deleteProject(project.id)">Remove</button>
+
 
             <!-- Upload Image section -->
             <button class="btn btn-default" type="file" ngf-select="uploadFiles(project.id, $file)"
@@ -60,38 +80,6 @@
             <!-- END -->
 
            
-
-        </div>
-
-        <div class="row well">
-
-         
-            <form novalidate class="simple-form">
-
-                <input type="text" ng-model="image.name"        placeholder="Image Name">
-                <input type="text" ng-model="image.description" placeholder="Image Description">
-
-                <input class="btn btn-success" ng-click="createImage(image)" value="Add new image" />
-
-                <button class="btn btn-default" type="file" ngf-select="uploadFiles(project.id, $file)"
-                        accept="image/*" ngf-max-height="5000" ngf-max-size="20MB">
-                    Add new Image
-                </button>
-
-            </form>
-
-
-            <div style="font:smaller">
-                {{f.name}} {{f.$error}} {{f.$errorParam}}
-                <span class="progress" ng-show="f.progress >= 0">
-                    <div style="width:{{f.progress}}%"
-                         ng-bind="f.progress + '%'"></div>
-                </span>
-            </div>
-            <!--Debug: fffff{{f}} {{errorMsg}}-->
-            <!-- END -->
-
-
 
         </div>
 

@@ -1,40 +1,24 @@
-*, *:before, *:after {box-sizing:  border-box !important;}
 
 
-.window{
-     
-}
 
-.gallery{
-  
-    
-}
 
-.gallery .row {
- -moz-column-width: 19em;
- -webkit-column-width: 19em;
- -moz-column-gap: 0;
- -webkit-column-gap:0; 
- margin: 0px;
-  
-}
+/* Fade out long text in panel*/
 
-.gallery .row > div {
- display: inline-block;
- padding: 0;
- margin: 10px;
- width: 90%; 
- float:none;
-}
-
-.gallery .img-responsive {
-  border:1px solid #999;
-}
- .gallery .img-responsive:hover {
-  border:1px solid #999;
-  width: 900px;
+.projects-panel-details {
  
+  height: 100px;
+  position: relative;
+  overflow: hidden;
 }
-
-
-
+.projects-panel-details .fade-overlay { 
+  position: absolute; 
+  bottom: 0; 
+  left: 0;
+  width: 100%; 
+  text-align: center; 
+  margin: 0; padding: 30px 0; 
+	
+  /* "transparent" only works here because == rgba(0,0,0,0) */
+  background-image: linear-gradient(to bottom, transparent, #0B0B0B);
+}
+/**/
