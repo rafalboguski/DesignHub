@@ -203,9 +203,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201511130108267_1-Initial.cs" />
-    <Compile Include="Migrations\201511130108267_1-Initial.Designer.cs">
-      <DependentUpon>201511130108267_1-Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201511212039514_initial.cs" />
+    <Compile Include="Migrations\201511212039514_initial.Designer.cs">
+      <DependentUpon>201511212039514_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511212116253_2.cs" />
+    <Compile Include="Migrations\201511212116253_2.Designer.cs">
+      <DependentUpon>201511212116253_2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511212117511_3.cs" />
+    <Compile Include="Migrations\201511212117511_3.Designer.cs">
+      <DependentUpon>201511212117511_3.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auth\AccountViewModels.cs" />
@@ -400,6 +408,7 @@
     <Content Include="Frontend\app.js" />
     <Content Include="Frontend\controllers\indexController.js" />
     <Content Include="Frontend\Nodes\nodesCtrl.js" />
+    <Content Include="Frontend\Nodes\nodesService.js" />
     <Content Include="Frontend\Projects - Copy\projects.html" />
     <Content Include="Frontend\Projects - Copy\projectsController.js" />
     <Content Include="Frontend\Projects - Copy\projectsService.js" />
@@ -408,10 +417,6 @@
     <Content Include="Frontend\Projects\projects.html" />
     <Content Include="Frontend\Projects\projectsController.js" />
     <Content Include="Frontend\Projects\projectsService.js" />
-    <Content Include="App_Data\aspnet-DesignHubSite.mdf" />
-    <Content Include="App_Data\aspnet-DesignHubSite_log.ldf">
-      <DependentUpon>aspnet-DesignHubSite.mdf</DependentUpon>
-    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -682,6 +687,7 @@
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\" />
     <Folder Include="Content\bower_components\materialize\tests\pages\" />
     <Folder Include="Content\bower_components\materialize\test\html\" />
     <Folder Include="Content\Lib\" />
@@ -695,8 +701,14 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201511130108267_1-Initial.resx">
-      <DependentUpon>201511130108267_1-Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201511212039514_initial.resx">
+      <DependentUpon>201511212039514_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511212116253_2.resx">
+      <DependentUpon>201511212116253_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511212117511_3.resx">
+      <DependentUpon>201511212117511_3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

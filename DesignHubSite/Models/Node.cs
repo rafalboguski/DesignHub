@@ -23,19 +23,22 @@ namespace DesignHubSite.Models
         [JsonIgnore]
         public byte[] Image { get; set; }
 
-       
+
+        [Required]
         public virtual Project Project { get; set; }
 
+        public bool Root { get; set; }
+                                    
+        public bool Head { get; set; }
+
+        public virtual Node Parent { get; set; }
+        public virtual ICollection<Node> Childrens { get; set; } = new List<Node>();
 
 
-        public virtual Node Father { get; set; } 
-        public virtual ICollection<Node> Childs { get; set; } 
-            
+        // graph data
 
-        public Node()
-        {
-            Childs = new List<Node>();
-        }
+        public int positionX { get; set; } = 100;
+        public int positionY { get; set; } = 30;
 
 
 

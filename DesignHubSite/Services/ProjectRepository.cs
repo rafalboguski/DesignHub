@@ -17,19 +17,27 @@ namespace DesignHubSite.Services
     public class ProjectRepository : IRepository<Project>
     {
 
+        private readonly INodeRepository _nodeRepo;
+
+        public ProjectRepository(INodeRepository nodeRepository)
+        {
+            _nodeRepo = nodeRepository;
+
+        }
 
         public Project Single(int id)
         {
             using (var db = ApplicationDbContext.Create())
             {
+
+                db.Configuration.LazyLoadingEnabled = false;
+
                 var currentUserId = db.CurrentUserId();
 
                 var pa = db.Projects
                                 .Include("Watchers")
                                 .Include("Owner")
                                 .Include("Nodes")
-                                .Include("Head")
-                                .Include("Root")
                                 .SingleOrDefault(p => (p.Id == id) &&
                                 (p.Owner.Id == currentUserId) || (p.Watchers.Select(c => c.Id).Contains(currentUserId)));
 
@@ -42,7 +50,7 @@ namespace DesignHubSite.Services
         {
             using (var db = ApplicationDbContext.Create())
             {
-                                                             
+
                 db.Configuration.LazyLoadingEnabled = false;
 
                 var currentUserId = HttpContext.Current.User.Identity.GetUserId();
@@ -50,8 +58,6 @@ namespace DesignHubSite.Services
                                .Include("Watchers")
                                .Include("Owner")
                                .Include("Nodes")
-                               .Include("Head")
-                               .Include("Root")
                                where (p.Owner.Id == currentUserId) || (p.Watchers.Select(c => c.Id).Contains(currentUserId))
                                select p;
 
@@ -73,6 +79,11 @@ namespace DesignHubSite.Services
 
                 db.Projects.Add(project);
                 db.SaveChanges();
+
+                // add initial node
+                var rootNodeId = _nodeRepo.Create(new Node() { ChangeInfo = "init" }, project.Id, null);
+
+
             }
         }
 

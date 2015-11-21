@@ -30,7 +30,7 @@ namespace DesignHubSite.Controllers
 
 
         [Route("")]
-        public ICollection<Node> GetProjects()
+        public ICollection<Node> GetNodes()
         {
             var nodes = _repo.All();
 
@@ -43,6 +43,14 @@ namespace DesignHubSite.Controllers
             var node = _repo.Single(id);
 
             return node;
+        }
+
+        [Route("project/{projectId}")]
+        public ICollection<Node> GetProjectNodes(int projectId)
+        {
+            var nodes = _repo.All(projectId);
+
+            return nodes;
         }
 
 

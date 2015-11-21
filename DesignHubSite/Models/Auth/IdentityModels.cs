@@ -27,7 +27,9 @@ namespace DesignHubSite.Models
 
         public static ApplicationDbContext Create()
         {
-            return new ApplicationDbContext();
+            var context = new ApplicationDbContext();
+            context.Configuration.LazyLoadingEnabled = false;
+            return context;
         }
 
 

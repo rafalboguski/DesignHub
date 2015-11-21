@@ -40,7 +40,7 @@ namespace DesignHubSite.Models
                     Id = p.Id,
                     Name = p.Name,
                     Description = p.Description,
-                    HeadImage = p.Head?.Image,
+                    //HeadImage = p.Head?.Image,
                     Owner = p.Owner,
                     NodesNumber = p.Nodes.Count,
                     Timestamp = p.Timestamp,

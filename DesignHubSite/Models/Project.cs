@@ -29,9 +29,6 @@ namespace DesignHubSite.Models
         //public byte[] Image { get; set; }
 
 
-        public virtual Node Root { get; set; }
-        public virtual Node Head { get; set; }
-
 
         public virtual ICollection<Node> Nodes { get; set; } = new List<Node>();
 
