@@ -23,6 +23,20 @@
     <link rel="stylesheet" href="~/content/PartialCss/sidebar.css" />
 
 
+    <!-- joint diagrams -->
+
+
+    <link href="http://www.jointjs.com/downloads/joint.min.css" rel="stylesheet">
+
+    <!--script src="http://www.jointjs.com/js/vendor/jquery/jquery.min.js"></!--script>-->
+    <script src="http://www.jointjs.com/js/vendor/lodash/lodash.min.js"></script>
+    <script src="http://www.jointjs.com/js/vendor/backbone/backbone-min.js"></script>
+
+    <script src="http://www.jointjs.com/downloads/joint.min.js"></script>
+
+
+
+
 </head>
 <body>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -70,7 +84,7 @@
 
                                 </li>
                                 <li>
-                                    <div href="#/project/{{project_id}}"
+                                    <div ng-click="href('/project/'+project_id)"
                                          class="waves-effect waves-light collapsible-header">
                                         <i class="material-icons">view_quilt</i>
                                         Details
@@ -86,7 +100,7 @@
 
                                 </li>
                                 <li>
-                                    <div href="#/project/{{project_id}}"
+                                    <div ng-click="href('/project/'+project_id+'/graph')"
                                          class="waves-effect waves-light collapsible-header">
                                         <i class="material-icons">settings</i>
                                         Graph
@@ -199,6 +213,7 @@
     <script src="~/Frontend/controllers/indexController.js"></script>
 
     <script src="~/Frontend/Projects/projectsController.js"></script>
+    <script src="~/Frontend/Nodes/nodesCtrl.js"></script>
 
 
 

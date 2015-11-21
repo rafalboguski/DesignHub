@@ -15,6 +15,11 @@ app.config(function ($routeProvider) {
         controller: "projectsController",
         templateUrl: "/FrontEnd/Projects/project.html"
     });
+    $routeProvider.when("/project/:projectId/graph", {
+        controller: "nodesCtrl",
+        templateUrl: "/FrontEnd/Nodes/nodes.html"
+        });
+
     $routeProvider.when("/settings", {
         
         templateUrl: "/FrontEnd/Projects/project.html"

@@ -5,6 +5,8 @@
 
 
 
+
+
             <!-- ADD NEW PROJECT -->
             <!-- TODO: extract this to controller -->
             <script>
@@ -25,6 +27,23 @@
                     <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
                 </ul>-->
             </div>
+
+
+            <div class="row dark-panel">
+                <h3>Filter</h3>
+
+                <div class="row well">
+
+                    <button class="btn btn-danger" disabled ng-click="">sdfsdf</button>
+
+   
+                    <button class="btn btn-danger" ng-click="deleteProject(project.id)">sfsdf</button>
+
+                </div>
+
+
+            </div>
+
 
             <!-- Add Project Modal Structure -->
             <div id="AddProjectModal" class="modal bottom-sheet">
@@ -82,8 +101,8 @@
                             overflow: hidden;
                             ">
 
-            <a class="panel-body" 
-                                   ng-click="href('/project/'+Project.id);"
+            <a class="panel-body"
+               ng-click="href('/project/'+Project.id);"
                style="padding:0;">
                 <img src="http://www.farhieyecare.com/wp-content/uploads/2012/01/placeholder.png"
                      style=" border-top-right-radius: 10px;

@@ -43,6 +43,7 @@ app.controller('indexController', ['$scope', '$location', function ($scope, $loc
 
     // accordion don't work as <a> so this is necessary
     $scope.href = function (route) {
+       
         $location.path(route);
         
     };
