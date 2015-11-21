@@ -1,6 +1,6 @@
 ﻿'use strict';
 app.controller('projectsController', ['$scope', '$routeParams','$location', 'Upload', '$timeout', 'projectsService',
-    function ($scope, $routeParams,$location, Upload, $timeout, projectsService) {
+    function ($scope,$routeParams, $location, Upload, $timeout, projectsService) {
 
         $scope.current_page = $scope.$parent.current_page;
 
@@ -18,6 +18,10 @@ app.controller('projectsController', ['$scope', '$routeParams','$location', 'Upl
             projectsService.getProject($scope.projectId).then(function (results) {
               
                 $scope.project = results.data;
+               
+                $scope.$parent.project_name = results.data.name;
+                $scope.$parent.project_id = $scope.projectId;
+
 
             }, function (error) {
                 alert(error.data.message);

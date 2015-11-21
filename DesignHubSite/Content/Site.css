@@ -71,6 +71,19 @@ a {
 }
 
 
+.well{
+    background-color:transparent !important;
+}
+
+.dark-panel{
+    border-radius: 10px;
+    background-color: #191919;
+    margin:15px;
+    padding-left:15px;
+    padding-right:15px;
+   
+}
+
 footer {
     position: relative;
     z-index: -200;

@@ -82,7 +82,9 @@
                             overflow: hidden;
                             ">
 
-            <a class="panel-body" href="#/project/{{Project.id}}" style="padding:0;">
+            <a class="panel-body" 
+                                   ng-click="href('/project/'+Project.id);"
+               style="padding:0;">
                 <img src="http://www.farhieyecare.com/wp-content/uploads/2012/01/placeholder.png"
                      style=" border-top-right-radius: 10px;
                                      border-top-left-radius: 10px;

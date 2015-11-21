@@ -57,7 +57,49 @@
                             My Projects
                         </div>
                         <div class="collapsible-body">
-                            <p>Those are your projects. Go ahead pick one or add new</p>
+                            <p ng-show="current_page.indexOf('project/') == -1">Those are your projects. Go ahead pick one or add new</p>
+                            <ul ng-show="current_page.indexOf('project/') > -1" class="collapsible" data-collapsible="accordion" style="box-shadow: 0px 0px 0px 0px;">
+                                
+                                <p>Project {{project_name}}</p>
+                                <li>
+                                    <div href="#/project/{{project_id}}"
+                                         class="waves-effect waves-light collapsible-header">
+                                        <i class="material-icons">view_quilt</i>
+                                        Actual Image
+                                    </div>
+
+                                </li>
+                                <li>
+                                    <div href="#/project/{{project_id}}"
+                                         class="waves-effect waves-light collapsible-header">
+                                        <i class="material-icons">view_quilt</i>
+                                        Details
+                                    </div>
+
+                                </li>
+                                <li>
+                                    <div href="#/project/{{project_id}}"
+                                         class="waves-effect waves-light collapsible-header">
+                                        <i class="material-icons">view_quilt</i>
+                                        Notifications
+                                    </div>
+
+                                </li>
+                                <li>
+                                    <div href="#/project/{{project_id}}"
+                                         class="waves-effect waves-light collapsible-header">
+                                        <i class="material-icons">settings</i>
+                                        Graph
+                                    </div>
+                                </li>
+                                <li>
+                                    <div href="#/project/{{project_id}}"
+                                         class="waves-effect waves-light collapsible-header">
+                                        <i class="material-icons">settings</i>
+                                        Statistics
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
                     </li>
                     <li>
@@ -88,7 +130,7 @@
 
                         <hr style="padding:0;margin:0;">
                     </li>
-                    
+
                     <li>
                         @Html.ActionLink("Register", "Register", "Account", routeValues: null,
                         htmlAttributes: new { id = "registerLink", @class = "center waves-effect collapsible-header" })
