@@ -23,8 +23,7 @@ namespace DesignHubSite.Models
         [JsonIgnore]
         public byte[] Image { get; set; }
 
-
-        [Required]
+       
         public virtual Project Project { get; set; }
 
         public bool Root { get; set; }

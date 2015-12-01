@@ -18,6 +18,8 @@ namespace DesignHubSite.Services
 
         int Create(Node node, int projectId, int? previousNodeId);
 
+        int Update(int nodeId, Node data);
+
         bool Delete(int id);
 
 
@@ -86,6 +88,7 @@ namespace DesignHubSite.Services
 
                 var project = db.Projects.SingleOrDefault(p => p.Id == projectId);
                 project.Nodes.Add(node);
+                node.Project = project;
 
                 // is root
                 if (previousNodeId == null)
@@ -106,6 +109,26 @@ namespace DesignHubSite.Services
             }
         }
 
+        public int Update(int nodeId, Node data)
+        {
+            using (var db = ApplicationDbContext.Create())
+            {
+                var currentUserId = db.CurrentUserId();
+                var currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
+
+
+                var node = db.Nodes.SingleOrDefault(n => n.Id == nodeId);
+
+                node.positionX = data.positionX;
+                node.positionY = data.positionY;
+
+                
+                db.SaveChanges();
+                return node.Id;
+            }
+        }
+
+       
         public bool Delete(int id)
         {
             //using (var db = ApplicationDbContext.Create())
@@ -145,7 +168,7 @@ namespace DesignHubSite.Services
             //}
         }
 
-
+        
     }
 
 

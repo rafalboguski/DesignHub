@@ -43,6 +43,34 @@ app.controller('nodesCtrl', ['$scope', '$routeParams', '$location', 'Upload', '$
         }
 
 
+        $scope.nodeClick = function () {
+
+            alert('Fag');
+
+
+        }
+
+        $scope.saveAll = function () {
+
+
+            angular.forEach($scope.nodes, function (node) {
+
+                nodesService.saveNode(node.rect.attributes.nodeId, {position: {
+                        x: node.rect.attributes.position.x,
+                        y: node.rect.attributes.position.y
+                    }
+                }).then(function (results) {
+
+                }, function (error) {
+                    alert(error.data.message);
+                });
+            });
+
+            alert("Saved");
+
+
+        }
+
         $scope.drawGraph = function () {
 
 
@@ -62,13 +90,14 @@ app.controller('nodesCtrl', ['$scope', '$routeParams', '$location', 'Upload', '$
 
             angular.forEach($scope.nodes, function (node) {
                 node.rect = new joint.shapes.basic.Rect({
+                    nodeId: node.id,
                     position: { x: node.positionX, y: node.positionY },
                     size: { width: 140, height: 40 },
                     attrs: {
 
                         rect: { fill: '#B2B2B2', rx: 5, ry: 5, 'stroke-width': 0, stroke: 'black' },
                         text: {
-                            onclick: "alert('fag');",
+                            //onclick: "alert('fag');",
                             text: 'my label', fill: 'black',
                             'font-size': 22, 'font-weight': 'bold', 'font-variant': 'small-caps', 'text-transform': 'capitalize'
                         }
@@ -96,13 +125,30 @@ app.controller('nodesCtrl', ['$scope', '$routeParams', '$location', 'Upload', '$
                 graph.addCells([value.rect]);
             });
 
-           
+
 
             //graph.addCells([rect, rect2, link]);
 
             graph.on('all', function (eventName, cell) {
-                if (eventName != 'change:position')
-                    console.log(arguments);
+
+                // Zaznaczenie noda
+
+                // Zaznaczenie kilku nodow
+
+                // Połączenie nodów
+
+                // Zmiana pozycji noda
+                //if (eventName != 'change:position') {
+                if (eventName == 'batch:stop') {
+
+                    //nodesService.NodeUpdate(cell.nodeId, { position: [2,3]} );
+
+
+                    console.log(cell);
+                    //console.log(cell.attributes.position);
+
+
+                }
             });
 
         }
