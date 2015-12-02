@@ -74,10 +74,12 @@ namespace DesignHubSite.Services
                 var currentUserId = db.CurrentUserId();
                 var currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
 
-                currentUser.Projects.Add(project);
                 project.Owner = currentUser;
 
                 db.Projects.Add(project);
+                db.SaveChanges();
+
+                currentUser.Projects.Add(project);
                 db.SaveChanges();
 
                 // add initial node

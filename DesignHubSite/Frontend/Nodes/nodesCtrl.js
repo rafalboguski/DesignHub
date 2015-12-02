@@ -7,11 +7,39 @@ app.controller('nodesCtrl', ['$scope', '$routeParams', '$location', 'Upload', '$
 
         $scope.nodes;
 
+        $scope.selectManyNodes = false;
+        $scope.selectedNodesId = [-1];
+
 
         $scope.getNodes = function () {
 
             nodesService.getNodes($scope.projectId).then(function (res) {
+                // czyste dane a api
                 $scope.nodes = res.data;
+
+                // opakowanie dla JointJs, potrzebne do wykresu svg
+                console.log('Create nodes');
+                angular.forEach($scope.nodes, function (node) {
+                    console.log('Node ' + node.id);
+                   
+                    node.rect = new joint.shapes.basic.Rect({
+                        nodeId: node.id,
+                        position: { x: node.positionX, y: node.positionY },
+                        size: { width: 140, height: 40 },
+                        attrs: {
+
+                            rect: { class: 'Rect' + node.id, fill: '#B2B2B2', rx: 5, ry: 5, 'stroke-width': 0, stroke: 'black' },
+                            text: {
+                                //onclick: "alert('fag');",
+                                text: 'Id ' + node.id, fill: 'black',
+                                'font-size': 22, 'font-weight': 'bold', 'font-variant': 'small-caps', 'text-transform': 'capitalize'
+                            }
+
+                        }
+                    });
+                    console.log(node.rect);
+                });
+
                 $scope.drawGraph();
 
 
@@ -43,19 +71,14 @@ app.controller('nodesCtrl', ['$scope', '$routeParams', '$location', 'Upload', '$
         }
 
 
-        $scope.nodeClick = function () {
 
-            alert('Fag');
-
-
-        }
-
+        // save graph and nodes
         $scope.saveAll = function () {
-
 
             angular.forEach($scope.nodes, function (node) {
 
-                nodesService.saveNode(node.rect.attributes.nodeId, {position: {
+                nodesService.saveNode(node.rect.attributes.nodeId, {
+                    position: {
                         x: node.rect.attributes.position.x,
                         y: node.rect.attributes.position.y
                     }
@@ -66,6 +89,7 @@ app.controller('nodesCtrl', ['$scope', '$routeParams', '$location', 'Upload', '$
                 });
             });
 
+            $scope.drawGraph();
             alert("Saved");
 
 
@@ -88,25 +112,6 @@ app.controller('nodesCtrl', ['$scope', '$routeParams', '$location', 'Upload', '$
 
 
 
-            angular.forEach($scope.nodes, function (node) {
-                node.rect = new joint.shapes.basic.Rect({
-                    nodeId: node.id,
-                    position: { x: node.positionX, y: node.positionY },
-                    size: { width: 140, height: 40 },
-                    attrs: {
-
-                        rect: { fill: '#B2B2B2', rx: 5, ry: 5, 'stroke-width': 0, stroke: 'black' },
-                        text: {
-                            //onclick: "alert('fag');",
-                            text: 'my label', fill: 'black',
-                            'font-size': 22, 'font-weight': 'bold', 'font-variant': 'small-caps', 'text-transform': 'capitalize'
-                        }
-
-                    }
-                });
-
-                console.log(node);
-            });
 
 
 
@@ -120,6 +125,8 @@ app.controller('nodesCtrl', ['$scope', '$routeParams', '$location', 'Upload', '$
             //    }
             //});
 
+            graph.clear();
+            console.log('Draw nodes');
             angular.forEach($scope.nodes, function (value) {
 
                 graph.addCells([value.rect]);
@@ -131,22 +138,22 @@ app.controller('nodesCtrl', ['$scope', '$routeParams', '$location', 'Upload', '$
 
             graph.on('all', function (eventName, cell) {
 
-                // Zaznaczenie noda
-
-                // Zaznaczenie kilku nodow
-
-                // Połączenie nodów
-
-                // Zmiana pozycji noda
-                //if (eventName != 'change:position') {
-                if (eventName == 'batch:stop') {
-
-                    //nodesService.NodeUpdate(cell.nodeId, { position: [2,3]} );
 
 
-                    console.log(cell);
-                    //console.log(cell.attributes.position);
+                if (eventName == 'change:position') {
 
+                    // Wybierz jeden
+                    if ($scope.selectManyNodes == false) {
+                        $('.Rect' + $scope.selectedNodesId[0]).attr('fill', '#B2B2B2');
+                        $scope.selectedNodesId = [];
+                        $scope.selectedNodesId.push(cell.attributes.nodeId);
+                        $('.Rect' + $scope.selectedNodesId[0]).attr('fill', 'blue');
+                    }
+                    else {
+
+
+                    }
+                    // Wybierz kilka
 
                 }
             });

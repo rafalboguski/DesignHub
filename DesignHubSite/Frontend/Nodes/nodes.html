@@ -2,7 +2,53 @@
 <div ng-show="{{user_logged}}" class="window">
     <div data-ng-init="init()">
 
+        <!-- ADD NEW NODE MODAL -->
+        <!-- TODO: extract this to controller -->
+        <script>
+            // materialize modal initailizer
+            $(document).ready(function () {
+                jQuery.noConflict();
+                $('.modal-trigger').leanModal();
+            });
+        </script>
 
+        <!-- Add Node Modal Structure -->
+        <div id="AddNodeModal" class="modal bottom-sheet">
+
+            <div class="container">
+                <form novalidate class="simple-form">
+
+                    <div class="col-md-3">
+                        <img style="padding:20px;" src="https://d1elrd4d6l6916.cloudfront.net/assets/logo-placeholder-3ac0fec96380a52f259a4b44fdcfd557.png" alt="Drag&Drop image" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <!--<div class="input-field">
+                            <input type="text" ng-model="node.name" />
+                            <label for="icon_prefix">Name</label>
+
+                        </div>-->
+                        <div class="input-field">
+                            <textarea type="text" class="materialize-textarea" ng-model="node.ChangeInfo" />
+                            <label for="icon_prefix">Changes compared to previous node</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <btn class="btn waves-effect waves-green" ng-click="createNode(node)">Add new node</btn>
+
+                    </div>
+
+                   
+
+                </form>
+            </div>
+
+        </div>
+
+
+
+        <!-- Left Panel -->
         <div class="col-md-6">
             <div class="row dark-panel">
                 <h1>Versions Graph</h1>
@@ -14,21 +60,30 @@
 
 
         </div>
+        <!-- Right panel -->
         <div class="col-md-5">
             <div class="row dark-panel">
                 <h1>Preview</h1>
 
 
-                <div class="row well" >
-                     <button class="btn" ng-click="saveAll();">Save</button>
+                <div class="row well">
+                    <button class="btn" ng-click="saveAll();">Add Node</button>
+                    <button class="btn" ng-click="saveAll();">Save</button>
 
-                    
+                    <!-- Modal trigger -->
+                    <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+                        <a class="modal-trigger btn-floating btn-large red waves-effect waves-light" data-target="AddNodeModal">
+                            <i class="large material-icons">add</i>
+                        </a>
+                        
+                    </div>
+                    slected node id : {{selectedNodesId}} sdf
                 </div>
-                
+
             </div>
         </div>
 
     </div>
-   
+
 
 </div>
