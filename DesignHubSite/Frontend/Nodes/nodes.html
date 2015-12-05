@@ -39,7 +39,7 @@
 
                     </div>
 
-                   
+
 
                 </form>
             </div>
@@ -52,9 +52,20 @@
         <div class="col-md-6">
             <div class="row dark-panel">
                 <h1>Versions Graph</h1>
+                <div class="row">
+                    <!-- Modal trigger -->
+                    <button class="btn waves-effect waves-light blue" ng-click="saveAll();">Save</button>
+                    <button class="btn waves-effect waves-light orange" ng-click="clearSelection();">Clear selection</button>
+                    <a class="btn modal-trigger waves-effect waves-light green" data-target="AddNodeModal" ng-show="selectedNodesId.length == 1">Add Node</a>
 
+                    <form class="right" >
+                        <input type="checkbox" class="filled-in" id="filled-in-box" ng-model="selectManyNodes" />
+                        <label for="filled-in-box">Select multiple</label>
+                    </form>
+                </div>
 
-                <div id="myholder"></div>
+                <!-- Graph -->
+                <div class="row well"><div ng-click="graphClick();" id="myholder"></div></div>
 
             </div>
 
@@ -64,21 +75,6 @@
         <div class="col-md-5">
             <div class="row dark-panel">
                 <h1>Preview</h1>
-
-
-                <div class="row well">
-                    <button class="btn" ng-click="saveAll();">Add Node</button>
-                    <button class="btn" ng-click="saveAll();">Save</button>
-
-                    <!-- Modal trigger -->
-                    <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-                        <a class="modal-trigger btn-floating btn-large red waves-effect waves-light" data-target="AddNodeModal">
-                            <i class="large material-icons">add</i>
-                        </a>
-                        
-                    </div>
-                    slected node id : {{selectedNodesId}} sdf
-                </div>
 
             </div>
         </div>

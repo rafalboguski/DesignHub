@@ -1,6 +1,6 @@
 ﻿'use strict';
-app.controller('nodesCtrl', ['$scope', '$routeParams', '$location', 'Upload', '$timeout', 'projectsService', 'nodesService',
-    function ($scope, $routeParams, $location, Upload, $timeout, projectsService, nodesService) {
+app.controller('nodesCtrl', ['$scope','$route', '$routeParams', '$location', 'Upload', '$timeout', 'projectsService', 'nodesService',
+    function ($scope, $route,$routeParams, $location, Upload, $timeout, projectsService, nodesService) {
 
 
         $scope.projectId = $routeParams.projectId;
@@ -8,7 +8,7 @@ app.controller('nodesCtrl', ['$scope', '$routeParams', '$location', 'Upload', '$
         $scope.nodes;
 
         $scope.selectManyNodes = false;
-        $scope.selectedNodesId = [-1];
+        $scope.selectedNodesId = [];
 
 
         $scope.getNodes = function () {
@@ -18,10 +18,8 @@ app.controller('nodesCtrl', ['$scope', '$routeParams', '$location', 'Upload', '$
                 $scope.nodes = res.data;
 
                 // opakowanie dla JointJs, potrzebne do wykresu svg
-                console.log('Create nodes');
                 angular.forEach($scope.nodes, function (node) {
-                    console.log('Node ' + node.id);
-                   
+
                     node.rect = new joint.shapes.basic.Rect({
                         nodeId: node.id,
                         position: { x: node.positionX, y: node.positionY },
@@ -36,8 +34,7 @@ app.controller('nodesCtrl', ['$scope', '$routeParams', '$location', 'Upload', '$
                             }
 
                         }
-                    });
-                    console.log(node.rect);
+                    }); 
                 });
 
                 $scope.drawGraph();
@@ -61,6 +58,14 @@ app.controller('nodesCtrl', ['$scope', '$routeParams', '$location', 'Upload', '$
             });
         }
 
+        $scope.clearSelection = function () {
+
+            $scope.selectedNodesId.forEach(function (element) {
+
+                $('.Rect' + element).attr('fill', '#B2B2B2');
+            });
+            $scope.selectedNodesId = [];
+        }
 
 
         $scope.init = function () {
@@ -71,6 +76,11 @@ app.controller('nodesCtrl', ['$scope', '$routeParams', '$location', 'Upload', '$
         }
 
 
+
+        $scope.graphClick = function () {
+
+            console.log($scope.selectedNodesId);
+        }
 
         // save graph and nodes
         $scope.saveAll = function () {
@@ -89,9 +99,9 @@ app.controller('nodesCtrl', ['$scope', '$routeParams', '$location', 'Upload', '$
                 });
             });
 
-            $scope.drawGraph();
+          
             alert("Saved");
-
+            $route.reload();
 
         }
 
@@ -103,8 +113,8 @@ app.controller('nodesCtrl', ['$scope', '$routeParams', '$location', 'Upload', '$
 
             var paper = new joint.dia.Paper({
                 el: $('#myholder'),
-                width: 1600,
-                height: 1200,
+                width: 800,
+                height: 500,
                 model: graph,
                 gridSize: 1
             });
@@ -126,7 +136,6 @@ app.controller('nodesCtrl', ['$scope', '$routeParams', '$location', 'Upload', '$
             //});
 
             graph.clear();
-            console.log('Draw nodes');
             angular.forEach($scope.nodes, function (value) {
 
                 graph.addCells([value.rect]);
@@ -139,22 +148,25 @@ app.controller('nodesCtrl', ['$scope', '$routeParams', '$location', 'Upload', '$
             graph.on('all', function (eventName, cell) {
 
 
-
                 if (eventName == 'change:position') {
 
-                    // Wybierz jeden
+                    var currentId = cell.attributes.nodeId;
+                    // Zaznacz jeden node
                     if ($scope.selectManyNodes == false) {
                         $('.Rect' + $scope.selectedNodesId[0]).attr('fill', '#B2B2B2');
                         $scope.selectedNodesId = [];
-                        $scope.selectedNodesId.push(cell.attributes.nodeId);
+                        $scope.selectedNodesId.push(currentId);
                         $('.Rect' + $scope.selectedNodesId[0]).attr('fill', 'blue');
                     }
+                        // Zaznaczam kilka
                     else {
+                        if ($scope.selectedNodesId.indexOf(currentId) == -1) {
+                            $scope.selectedNodesId.push(currentId);
 
-
+                            var foundId = $scope.selectedNodesId.indexOf(currentId);
+                            $('.Rect' + $scope.selectedNodesId[foundId]).attr('fill', 'blue');
+                        }
                     }
-                    // Wybierz kilka
-
                 }
             });
 
