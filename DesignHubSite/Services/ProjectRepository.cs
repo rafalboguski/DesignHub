@@ -83,7 +83,7 @@ namespace DesignHubSite.Services
                 db.SaveChanges();
 
                 // add initial node
-                var rootNodeId = _nodeRepo.Create(new Node() { ChangeInfo = "init" }, project.Id, null);
+                var rootNodeId = _nodeRepo.Create(new NodeDTO() { ChangeInfo = "init",ProjectId = project.Id });
 
 
             }

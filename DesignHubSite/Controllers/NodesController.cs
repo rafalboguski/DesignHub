@@ -56,14 +56,14 @@ namespace DesignHubSite.Controllers
 
         [HttpPost]
         [Route("")]
-        public IHttpActionResult Create(Node node, int projectId, int? fatherNodeId = null)
+        public Node Create(NodeDTO nodeDto)
         {
-            if (!ModelState.IsValid && node == null)
-                return BadRequest(ModelState);
+            if (!ModelState.IsValid && nodeDto == null)
+                return null;
 
-            _repo.Create(node, projectId, fatherNodeId);
+            var node = _repo.Create(nodeDto);
 
-            return Ok();
+            return node;
         }
 
 

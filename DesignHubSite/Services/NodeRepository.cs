@@ -16,7 +16,7 @@ namespace DesignHubSite.Services
 
         List<Node> All(int? projectId = null);
 
-        int Create(Node node, int projectId, int? previousNodeId);
+        Node Create(NodeDTO nodeDto);
 
         int Update(int nodeId, Node data);
 
@@ -79,33 +79,49 @@ namespace DesignHubSite.Services
         /*
             if previous nod is null then node is root
         */
-        public int Create(Node node, int projectId, int? previousNodeId)
+        public Node Create(NodeDTO nodeDto)
         {
             using (var db = ApplicationDbContext.Create())
             {
+
+                // int? parentId
+
                 var currentUserId = db.CurrentUserId();
                 var currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
 
-                var project = db.Projects.SingleOrDefault(p => p.Id == projectId);
+                if (nodeDto.ProjectId == null)
+                    return null;
+                var project = db.Projects.SingleOrDefault(p => p.Id == nodeDto.ProjectId);
+
+                var node = new Node
+                {
+                    ChangeInfo = nodeDto.ChangeInfo,
+                    Image = nodeDto.Image,
+                    positionX = nodeDto.positionX,
+                    positionY = nodeDto.positionY,
+                    Project = project,
+                    
+                };
+
                 project.Nodes.Add(node);
                 node.Project = project;
 
                 // is root
-                if (previousNodeId == null)
+                if (nodeDto.ParentId == null)
                 {
                     node.Root = true;
                 }
                 else
                 {
-                    var previousNode = db.Nodes.SingleOrDefault(n => n.Id == previousNodeId);
-                    previousNode.Childrens.Add(node);
-                    node.Parent = previousNode;
+                    var parent = db.Nodes.SingleOrDefault(n => n.Id == nodeDto.ParentId);
+                    parent.Childrens.Add(node);
+                    node.Parent = parent;
                 }
 
 
                 db.Nodes.Add(node);
                 db.SaveChanges();
-                return node.Id;
+                return node;
             }
         }
 
@@ -122,13 +138,13 @@ namespace DesignHubSite.Services
                 node.positionX = data.positionX;
                 node.positionY = data.positionY;
 
-                
+
                 db.SaveChanges();
                 return node.Id;
             }
         }
 
-       
+
         public bool Delete(int id)
         {
             //using (var db = ApplicationDbContext.Create())
@@ -168,7 +184,7 @@ namespace DesignHubSite.Services
             //}
         }
 
-        
+
     }
 
 

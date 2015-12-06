@@ -12,7 +12,7 @@ app.service('nodesService', ['$http', function ($http) {
     };
 
     this.saveNode = function (id, changes) {
-                 
+
         // zmiana pozycji na grafie
         if (typeof (changes.position) != 'undefined') {
             return $http({
@@ -28,7 +28,23 @@ app.service('nodesService', ['$http', function ($http) {
         }
     };
 
-   
+    this.createNode = function (nodeDto) {
+        return $http({
+            method: 'POST',
+            url: apiUrl + '/nodes',
+            data: {
+                'ChangeInfo': nodeDto.ChangeInfo,
+                'Image': nodeDto.Image,
+                'Description': nodeDto.description,
+                'ParentId': nodeDto.ParentId,
+                'ProjectId': nodeDto.ProjectId
+
+            },
+            headers: { 'Content-Type': 'application/json' }
+        });
+    };
+
+
 
 
 }]);

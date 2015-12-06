@@ -19,7 +19,6 @@ app.controller('nodesCtrl', ['$scope','$route', '$routeParams', '$location', 'Up
 
                 // opakowanie dla JointJs, potrzebne do wykresu svg
                 angular.forEach($scope.nodes, function (node) {
-
                     node.rect = new joint.shapes.basic.Rect({
                         nodeId: node.id,
                         position: { x: node.positionX, y: node.positionY },
@@ -32,9 +31,8 @@ app.controller('nodesCtrl', ['$scope','$route', '$routeParams', '$location', 'Up
                                 text: 'Id ' + node.id, fill: 'black',
                                 'font-size': 22, 'font-weight': 'bold', 'font-variant': 'small-caps', 'text-transform': 'capitalize'
                             }
-
                         }
-                    }); 
+                    });
                 });
 
                 $scope.drawGraph();
@@ -75,6 +73,41 @@ app.controller('nodesCtrl', ['$scope','$route', '$routeParams', '$location', 'Up
 
         }
 
+        $scope.createNode = function (node) {
+
+            node.ProjectId = $scope.projectId;
+            nodesService.createNode(node).then(function (res) {
+
+                $('#AddNodeModal').closeModal();
+
+                var node = res.data;
+
+                node.rect = new joint.shapes.basic.Rect({
+                    nodeId: node.id,
+                    position: { x: node.positionX, y: node.positionY },
+                    size: { width: 140, height: 40 },
+                    attrs: {
+
+                        rect: { class: 'Rect' + node.id, fill: '#B2B2B2', rx: 5, ry: 5, 'stroke-width': 0, stroke: 'black' },
+                        text: {
+                            //onclick: "alert('fag');",
+                            text: 'Id ' + node.id, fill: 'black',
+                            'font-size': 22, 'font-weight': 'bold', 'font-variant': 'small-caps', 'text-transform': 'capitalize'
+                        }
+                    }
+                });
+
+                graph.addCells([node.rect]);
+                $scope.nodes.push(node);
+                alert('ok');
+                node.coChangeInfo = '';
+
+                
+
+            }, function (error) {
+                alert(error.data.message);
+            });
+        }
 
 
         $scope.graphClick = function () {
@@ -85,6 +118,7 @@ app.controller('nodesCtrl', ['$scope','$route', '$routeParams', '$location', 'Up
         // save graph and nodes
         $scope.saveAll = function () {
 
+            var i = $scope.nodes.length;
             angular.forEach($scope.nodes, function (node) {
 
                 nodesService.saveNode(node.rect.attributes.nodeId, {
@@ -94,24 +128,23 @@ app.controller('nodesCtrl', ['$scope','$route', '$routeParams', '$location', 'Up
                     }
                 }).then(function (results) {
 
+                    i--;
+                    if (i <= 0) {
+                        $route.reload();
+                    }
                 }, function (error) {
                     alert(error.data.message);
                 });
             });
 
-          
-            alert("Saved");
-            $route.reload();
-
         }
 
+        var graph = new joint.dia.Graph;
+        var paper;
         $scope.drawGraph = function () {
 
 
-
-            var graph = new joint.dia.Graph;
-
-            var paper = new joint.dia.Paper({
+            paper = new joint.dia.Paper({
                 el: $('#myholder'),
                 width: 800,
                 height: 500,
@@ -119,10 +152,7 @@ app.controller('nodesCtrl', ['$scope','$route', '$routeParams', '$location', 'Up
                 gridSize: 1
             });
 
-
-
-
-
+            graph.clear();
 
 
             //var link = new joint.dia.Link({
@@ -135,13 +165,10 @@ app.controller('nodesCtrl', ['$scope','$route', '$routeParams', '$location', 'Up
             //    }
             //});
 
-            graph.clear();
-            angular.forEach($scope.nodes, function (value) {
 
+            angular.forEach($scope.nodes, function (value) {
                 graph.addCells([value.rect]);
             });
-
-
 
             //graph.addCells([rect, rect2, link]);
 
@@ -149,7 +176,6 @@ app.controller('nodesCtrl', ['$scope','$route', '$routeParams', '$location', 'Up
 
 
                 if (eventName == 'change:position') {
-
                     var currentId = cell.attributes.nodeId;
                     // Zaznacz jeden node
                     if ($scope.selectManyNodes == false) {
