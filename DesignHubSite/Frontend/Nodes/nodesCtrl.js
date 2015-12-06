@@ -7,6 +7,8 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
 
         $scope.selectedNode;
         $scope.nodes;
+        var links = [];
+        var linksId = {};
 
         $scope.selectManyNodes = false;
         $scope.selectedNodesId = [];
@@ -33,7 +35,34 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
                             }
                         }
                     });
+                    linksId[node.id] = node.rect.id;
+                    //node.rect.id = node.id;
+                    console.log(node.rect.id);
                 });
+
+                angular.forEach($scope.nodes, function (node) {
+
+                    // use map hash
+
+                    if (node.parent != null) {
+                        var link = new joint.dia.Link({
+                            source: { id: linksId[node.id] },
+                            target: { id: linksId[node.parent.id] },
+                            attrs: {
+                                '.connection': { stroke: '#26A69A', 'stroke-width': 3 },
+                                '.marker-source': { fill: '#26A69A', stroke: '#26A69A', d: 'M 10 0 L 0 5 L 10 10 z', 'stroke-width': 5 },
+                                '.marker-target': { fill: '#26A69A', stroke: '#26A69A', d: 'M 10 0 L 0 5 L 10 10 z', 'stroke-width': 5 }
+                            }
+                        });
+                        links.push(link);
+                    }
+
+
+                });
+
+
+
+
 
                 $scope.drawGraph();
 
@@ -58,6 +87,8 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
 
         $scope.clearSelection = function () {
 
+            
+            $scope.selectedNode = ''
             $scope.selectedNodesId.forEach(function (element) {
 
                 $('.Rect' + element).attr('fill', '#B2B2B2');
@@ -73,49 +104,17 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
 
         }
 
-        $scope.createNode = function (node) {
+        
 
+        $scope.createNode = function (node, file) {
+
+            console.log('create');
+            console.log($scope.selectedNodesId[0]);
+            node.ParentId = $scope.selectedNodesId[0];
             node.ProjectId = $scope.projectId;
             nodesService.createNode(node).then(function (res) {
-
-                $('#AddNodeModal').closeModal();
-
-                var node = res.data;
-
-                node.rect = new joint.shapes.basic.Rect({
-                    nodeId: node.id,
-                    position: { x: node.positionX, y: node.positionY },
-                    size: { width: 140, height: 40 },
-                    attrs: {
-
-                        rect: { class: 'Rect' + node.id, fill: '#B2B2B2', rx: 5, ry: 5, 'stroke-width': 0, stroke: 'black' },
-                        text: {
-                            //onclick: "alert('fag');",
-                            text: 'Id ' + node.id, fill: 'black',
-                            'font-size': 22, 'font-weight': 'bold', 'font-variant': 'small-caps', 'text-transform': 'capitalize'
-                        }
-                    }
-                });
-
-                graph.addCells([node.rect]);
-                $scope.nodes.push(node);
-                alert('ok');
-                node.coChangeInfo = '';
 
                 
-
-            }, function (error) {
-                alert(error.data.message);
-            });
-        }
-
-        $scope.uploadFiles = function (node, file) {
-
-
-            node.ProjectId = $scope.projectId;
-            nodesService.createNode(node).then(function (res) {
-
-                $('#AddNodeModal').closeModal();
 
                 var node = res.data;
 
@@ -131,6 +130,7 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
                     file.upload.then(function (response) {
                         $timeout(function () {
                             file.result = response.data;
+                            $('#AddNodeModal').closeModal();
                             alert('ok');
                             $route.reload();
                         });
@@ -154,58 +154,11 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
         }
 
 
-        //$scope.uploadFiles = function (node, file) {
-        //    alert('upload');
-        //    $scope.f = file;
-        //    if (file && !file.$error) {
-        //        file.upload = Upload.upload({
-        //            url: projectsService.uploadImageAdress(nodeId),
-        //            file: file
-        //        });
-
-        //        file.upload.then(function (response) {
-        //            $timeout(function () {
-        //                alert('$timeout');
-        //                file.result = response.data;
-        //                node.rect = new joint.shapes.basic.Rect({
-        //                    nodeId: node.id,
-        //                    position: { x: node.positionX, y: node.positionY },
-        //                    size: { width: 140, height: 40 },
-        //                    attrs: {
-
-        //                        rect: { class: 'Rect' + node.id, fill: '#B2B2B2', rx: 5, ry: 5, 'stroke-width': 0, stroke: 'black' },
-        //                        text: {
-        //                            //onclick: "alert('fag');",
-        //                            text: 'Id ' + node.id, fill: 'black',
-        //                            'font-size': 22, 'font-weight': 'bold', 'font-variant': 'small-caps', 'text-transform': 'capitalize'
-        //                        }
-        //                    }
-        //                });
-
-        //                graph.addCells([node.rect]);
-        //                $scope.nodes.push(node);
-        //                alert('ok');
-        //                node.coChangeInfo = '';
-                        
-
-        //            });
-        //        }, function (response) {
-        //            if (response.status > 0) {
-        //                $scope.errorMsg = response.status + ': ' + response.data;
-        //                alert(response.data);
-        //            }
-        //        });
-
-        //        file.upload.progress(function (evt) {
-        //            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-        //        });
-        //    }
-        //}
-
         $scope.graphClick = function () {
 
             console.log($scope.selectedNodesId);
 
+            console.log($scope.nodes);
             $scope.selectedNode = _.find($scope.nodes, function (n) {
                 return n.id == $scope.selectedNodesId
             });
@@ -266,6 +219,7 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
             angular.forEach($scope.nodes, function (value) {
                 graph.addCells([value.rect]);
             });
+            graph.addCells(links);
 
             //graph.addCells([rect, rect2, link]);
 
@@ -279,7 +233,7 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
                         $('.Rect' + $scope.selectedNodesId[0]).attr('fill', '#B2B2B2');
                         $scope.selectedNodesId = [];
                         $scope.selectedNodesId.push(currentId);
-                        $('.Rect' + $scope.selectedNodesId[0]).attr('fill', 'blue');
+                        $('.Rect' + $scope.selectedNodesId[0]).attr('fill', '#F44336');
                     }
                         // Zaznaczam kilka
                     else {
@@ -287,7 +241,7 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
                             $scope.selectedNodesId.push(currentId);
 
                             var foundId = $scope.selectedNodesId.indexOf(currentId);
-                            $('.Rect' + $scope.selectedNodesId[foundId]).attr('fill', 'blue');
+                            $('.Rect' + $scope.selectedNodesId[foundId]).attr('fill', '#F44336');
                         }
                     }
                 }

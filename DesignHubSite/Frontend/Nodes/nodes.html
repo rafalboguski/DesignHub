@@ -18,29 +18,8 @@
             <div class="container">
                 <form novalidate class="simple-form">
 
-                    <div class="col-md-3">
-                        <!--<img style="padding:20px;" src="https://d1elrd4d6l6916.cloudfront.net/assets/logo-placeholder-3ac0fec96380a52f259a4b44fdcfd557.png" alt="Drag&Drop image" />-->
-                        
-                        <!-- Upload Image section -->
-                        <button class="btn btn-default" type="file" ngf-select="uploadFiles(node, $file)"
-                                accept="image/*" ngf-max-height="5000" ngf-max-size="20MB">
-                            Upload Image
-                        </button>
-                        <br><br>
-                        File:
-                        <div style="font:smaller">
-                            {{f.name}} {{f.$error}} {{f.$errorParam}}
-                            <span class="progress" ng-show="f.progress >= 0">
-                                <div style="width:{{f.progress}}%"
-                                     ng-bind="f.progress + '%'"></div>
-                            </span>
-                        </div>
-                        <!--Debug: fffff{{f}} {{errorMsg}}-->
-                        <!-- END -->
-                    
-                    </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-9">
                         <!--<div class="input-field">
                             <input type="text" ng-model="node.name" />
                             <label for="icon_prefix">Name</label>
@@ -53,64 +32,92 @@
                     </div>
 
                     <div class="col-md-3">
-                        <btn class="btn waves-effect waves-green" ng-click="createNode(node, $file)">Add new node</btn>
+                        <!-- Upload Image section -->
+                        <button class="btn waves-effect waves-green" type="file" ngf-select="createNode(node, $file)"
+                                accept="image/*" ngf-max-height="5000" ngf-max-size="20MB">
+                            Add new Node {{(f.progress >= 0)? ' '+f.progress+'%':''}}
+                        </button>
 
-                    </div>
-
-
-
-                </form>
-            </div>
-
-        </div>
-
-
-
-        <!-- Left Panel -->
-        <div class="col-md-6">
-            <div class="row dark-panel">
-                <h1>Versions Graph</h1>
-                <div class="row">
-                    <!-- Modal trigger -->
-                    <button class="btn waves-effect waves-light blue" ng-click="saveAll();">Save</button>
-                    <button class="btn waves-effect waves-light orange" ng-click="clearSelection();">Clear selection</button>
-                    <a class="btn modal-trigger waves-effect waves-light green" data-target="AddNodeModal" ng-show="selectedNodesId.length == 1">Add Node</a>
-
-                    <form class="right" >
-                        <input type="checkbox" class="filled-in" id="filled-in-box" ng-model="selectManyNodes" />
-                        <label for="filled-in-box">Select multiple</label>
-                    </form>
-                </div>
-
-                <!-- Graph -->
-                <div class="row well"><div ng-click="graphClick();" id="myholder"></div></div>
-
-            </div>
-
-
-        </div>
-        <!-- Right panel -->
-        <div class="col-md-5">
-            <div class="row dark-panel">
-                <h1>Preview</h1>
-
-                <div class="well">
-                    <h5>Made changes</h5>
-               
-                    <div class="center">
-                        <div class="row">{{selectedNode.id}}  {{selectedNode.changeInfo}}</div>
-                        <div class="row">
-                            <img style="height: 400px;width: auto; "
-                                 ng-src="data:image/JPEG;base64,{{selectedNode.image}}">
+                        <div style="font:smaller">
+                            {{f.name}} {{f.$error}} {{f.$errorParam}}
+                            <span class="progress" ng-show="false">
+                                <div style="width:{{f.progress}}%"
+                                     ng-bind="f.progress + '%'"></div>
+                            </span>
                         </div>
-                    </div>
+                        <!--Debug: fffff
+                        {{f}} {{errorMsg}}-->
+                        <!-- END -->
 
-                </div>
+                    </div>
+                </form>
+
 
             </div>
+
+
+
+
         </div>
 
     </div>
+
+
+
+    <!-- Left Panel -->
+    <div class="col-md-6">
+        <div class="row dark-panel">
+            <h1>Versions Graph</h1>
+            <div class="row">
+                <!-- Modal trigger -->
+                <button class="btn waves-effect waves-light" ng-click="saveAll();">
+                    <i class="material-icons white left">vpn_key</i>
+                    Save
+                </button>
+                <button class="btn waves-effect waves-light" ng-click="clearSelection();" ng-show="selectedNodesId.length > 0">
+                    <i class="material-icons white left">location_off</i>
+                    Unselect
+                </button>
+                <a class="btn modal-trigger waves-effect waves-light red" data-target="AddNodeModal" ng-show="selectedNodesId.length == 1">
+                    <i class="material-icons white left">note_add</i>
+                    Add Node
+                </a>
+
+                <form class="right">
+                    <input type="checkbox" class="filled-in" id="filled-in-box" ng-model="selectManyNodes" />
+                    <label for="filled-in-box">Select multiple</label>
+                </form>
+            </div>
+
+            <!-- Graph -->
+            <div class="row well"><div ng-click="graphClick();" id="myholder"></div></div>
+
+        </div>
+
+
+    </div>
+    <!-- Right panel -->
+    <div class="col-md-5">
+        <div class="row dark-panel">
+            <h1>Preview</h1>
+
+            <div class="well">
+                <h5>Made changes</h5>
+
+                <div class="center" ng-show="selectedNode.image != null">
+                    <div class="row">{{selectedNode.id}}  {{selectedNode.changeInfo}}</div>
+                    <div class="row">
+                        <img style="height: 400px;width: auto; "
+                             ng-src="data:image/JPEG;base64,{{selectedNode.image}}">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
 
 
 </div>

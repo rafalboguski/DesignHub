@@ -6,7 +6,13 @@
 
 
 
+.material-icons{
+    background-color:transparent !important;
+}
 
+.white{
+    color:white !important;
+}
 
 input {
     color: white !important;
