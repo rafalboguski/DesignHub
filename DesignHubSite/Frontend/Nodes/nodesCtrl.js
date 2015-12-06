@@ -1,10 +1,11 @@
 ﻿'use strict';
-app.controller('nodesCtrl', ['$scope','$route', '$routeParams', '$location', 'Upload', '$timeout', 'projectsService', 'nodesService',
-    function ($scope, $route,$routeParams, $location, Upload, $timeout, projectsService, nodesService) {
+app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'Upload', '$timeout', 'projectsService', 'nodesService',
+    function ($scope, $route, $routeParams, $location, Upload, $timeout, projectsService, nodesService) {
 
 
         $scope.projectId = $routeParams.projectId;
 
+        $scope.selectedNode;
         $scope.nodes;
 
         $scope.selectManyNodes = false;
@@ -22,14 +23,13 @@ app.controller('nodesCtrl', ['$scope','$route', '$routeParams', '$location', 'Up
                     node.rect = new joint.shapes.basic.Rect({
                         nodeId: node.id,
                         position: { x: node.positionX, y: node.positionY },
-                        size: { width: 140, height: 40 },
+                        size: { width: 150, height: 50 },
                         attrs: {
 
                             rect: { class: 'Rect' + node.id, fill: '#B2B2B2', rx: 5, ry: 5, 'stroke-width': 0, stroke: 'black' },
                             text: {
-                                //onclick: "alert('fag');",
-                                text: 'Id ' + node.id, fill: 'black',
-                                'font-size': 22, 'font-weight': 'bold', 'font-variant': 'small-caps', 'text-transform': 'capitalize'
+                                text: node.changeInfo.slice(0, 11) + ' ...', fill: 'black',
+                                'font-size': 21, 'font-weight': 'bold'
                             }
                         }
                     });
@@ -109,10 +109,107 @@ app.controller('nodesCtrl', ['$scope','$route', '$routeParams', '$location', 'Up
             });
         }
 
+        $scope.uploadFiles = function (node, file) {
+
+
+            node.ProjectId = $scope.projectId;
+            nodesService.createNode(node).then(function (res) {
+
+                $('#AddNodeModal').closeModal();
+
+                var node = res.data;
+
+                ////
+
+                $scope.f = file;
+                if (file && !file.$error) {
+                    file.upload = Upload.upload({
+                        url: projectsService.uploadImageAdress(node.id),
+                        file: file
+                    });
+
+                    file.upload.then(function (response) {
+                        $timeout(function () {
+                            file.result = response.data;
+                            alert('ok');
+                            $route.reload();
+                        });
+                    }, function (response) {
+                        if (response.status > 0)
+                            $scope.errorMsg = response.status + ': ' + response.data;
+                    });
+
+                    file.upload.progress(function (evt) {
+                        file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+                    });
+                }
+
+                ////
+
+
+            }, function (error) {
+                alert(error.data.message);
+            });
+
+        }
+
+
+        //$scope.uploadFiles = function (node, file) {
+        //    alert('upload');
+        //    $scope.f = file;
+        //    if (file && !file.$error) {
+        //        file.upload = Upload.upload({
+        //            url: projectsService.uploadImageAdress(nodeId),
+        //            file: file
+        //        });
+
+        //        file.upload.then(function (response) {
+        //            $timeout(function () {
+        //                alert('$timeout');
+        //                file.result = response.data;
+        //                node.rect = new joint.shapes.basic.Rect({
+        //                    nodeId: node.id,
+        //                    position: { x: node.positionX, y: node.positionY },
+        //                    size: { width: 140, height: 40 },
+        //                    attrs: {
+
+        //                        rect: { class: 'Rect' + node.id, fill: '#B2B2B2', rx: 5, ry: 5, 'stroke-width': 0, stroke: 'black' },
+        //                        text: {
+        //                            //onclick: "alert('fag');",
+        //                            text: 'Id ' + node.id, fill: 'black',
+        //                            'font-size': 22, 'font-weight': 'bold', 'font-variant': 'small-caps', 'text-transform': 'capitalize'
+        //                        }
+        //                    }
+        //                });
+
+        //                graph.addCells([node.rect]);
+        //                $scope.nodes.push(node);
+        //                alert('ok');
+        //                node.coChangeInfo = '';
+                        
+
+        //            });
+        //        }, function (response) {
+        //            if (response.status > 0) {
+        //                $scope.errorMsg = response.status + ': ' + response.data;
+        //                alert(response.data);
+        //            }
+        //        });
+
+        //        file.upload.progress(function (evt) {
+        //            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+        //        });
+        //    }
+        //}
 
         $scope.graphClick = function () {
 
             console.log($scope.selectedNodesId);
+
+            $scope.selectedNode = _.find($scope.nodes, function (n) {
+                return n.id == $scope.selectedNodesId
+            });
+
         }
 
         // save graph and nodes

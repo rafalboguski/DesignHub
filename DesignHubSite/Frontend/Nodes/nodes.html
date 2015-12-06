@@ -19,7 +19,25 @@
                 <form novalidate class="simple-form">
 
                     <div class="col-md-3">
-                        <img style="padding:20px;" src="https://d1elrd4d6l6916.cloudfront.net/assets/logo-placeholder-3ac0fec96380a52f259a4b44fdcfd557.png" alt="Drag&Drop image" />
+                        <!--<img style="padding:20px;" src="https://d1elrd4d6l6916.cloudfront.net/assets/logo-placeholder-3ac0fec96380a52f259a4b44fdcfd557.png" alt="Drag&Drop image" />-->
+                        
+                        <!-- Upload Image section -->
+                        <button class="btn btn-default" type="file" ngf-select="uploadFiles(node, $file)"
+                                accept="image/*" ngf-max-height="5000" ngf-max-size="20MB">
+                            Upload Image
+                        </button>
+                        <br><br>
+                        File:
+                        <div style="font:smaller">
+                            {{f.name}} {{f.$error}} {{f.$errorParam}}
+                            <span class="progress" ng-show="f.progress >= 0">
+                                <div style="width:{{f.progress}}%"
+                                     ng-bind="f.progress + '%'"></div>
+                            </span>
+                        </div>
+                        <!--Debug: fffff{{f}} {{errorMsg}}-->
+                        <!-- END -->
+                    
                     </div>
 
                     <div class="col-md-6">
@@ -35,7 +53,7 @@
                     </div>
 
                     <div class="col-md-3">
-                        <btn class="btn waves-effect waves-green" ng-click="createNode(node)">Add new node</btn>
+                        <btn class="btn waves-effect waves-green" ng-click="createNode(node, $file)">Add new node</btn>
 
                     </div>
 
@@ -75,6 +93,19 @@
         <div class="col-md-5">
             <div class="row dark-panel">
                 <h1>Preview</h1>
+
+                <div class="well">
+                    <h5>Made changes</h5>
+               
+                    <div class="center">
+                        <div class="row">{{selectedNode.id}}  {{selectedNode.changeInfo}}</div>
+                        <div class="row">
+                            <img style="height: 400px;width: auto; "
+                                 ng-src="data:image/JPEG;base64,{{selectedNode.image}}">
+                        </div>
+                    </div>
+
+                </div>
 
             </div>
         </div>

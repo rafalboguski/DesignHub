@@ -44,6 +44,10 @@ app.service('nodesService', ['$http', function ($http) {
         });
     };
 
+    // wyslanie obrazu tylko do istniejacego noda, tylko do tesow
+    this.uploadImageAdress = function (projectId) {
+        return apiUrl + '/projects/' + projectId + '/image';
+    };
 
 
 

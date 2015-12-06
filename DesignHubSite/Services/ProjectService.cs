@@ -39,9 +39,9 @@ namespace DesignHubSite.Services
             using (var db = ApplicationDbContext.Create())
             {
                 // TODO: check if right owner
-                var project = db.Projects.Single(x => x.Id == id);
+                var node = db.Nodes.Single(x => x.Id == id);
 
-                if (project == null)
+                if (node == null)
                     return false;
 
                 var provider = new MultipartMemoryStreamProvider();
@@ -52,7 +52,7 @@ namespace DesignHubSite.Services
                     var buffer = await file.ReadAsByteArrayAsync();
 
                     //                project.ImageName = filename;
-                    //                project.Image = buffer;
+                                    node.Image = buffer;
                 }
 
                 db.SaveChanges();
