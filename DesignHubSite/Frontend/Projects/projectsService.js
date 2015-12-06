@@ -34,9 +34,9 @@ app.service('projectsService', ['$http', function ($http) {
     };
 
 
-    this.uploadImageAdress = function (projectId) {
-        return apiUrl + '/projects/' + projectId + '/image';
-    };
+    //this.uploadImageAdress = function (projectId) {
+    //    return apiUrl + '/projects/' + projectId + '/image';
+    //};
 
     this.deleteProject = function (id) {
         return $http({

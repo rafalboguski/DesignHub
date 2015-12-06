@@ -92,7 +92,7 @@ namespace DesignHubSite.Controllers
         [Route("{id}/image")]
         public async Task<IHttpActionResult> UploadImage(int id)
         {
-            if (await _service.UploadImage(id, Request) == true)
+            if (await _repo.UploadImage(id, Request) == true)
                 return Ok();
             else
                 return NotFound();

@@ -124,7 +124,7 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
                 $scope.f = file;
                 if (file && !file.$error) {
                     file.upload = Upload.upload({
-                        url: projectsService.uploadImageAdress(node.id),
+                        url: nodesService.uploadImageAdress(node.id),
                         file: file
                     });
 

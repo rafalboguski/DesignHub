@@ -18,7 +18,7 @@ namespace DesignHubSite.Services
 
        
 
-        Task<bool> UploadImage(int id, HttpRequestMessage request);
+        //Task<bool> UploadImage(int id, HttpRequestMessage request);
 
         bool InviteWatcher(int projectId, string userId);
 
@@ -31,35 +31,35 @@ namespace DesignHubSite.Services
 
     
 
-        public async Task<bool> UploadImage(int id, HttpRequestMessage request)
-        {
-            if (!request.Content.IsMimeMultipartContent())
-                return false;
+        //public async Task<bool> UploadImage(int id, HttpRequestMessage request)
+        //{
+        //    if (!request.Content.IsMimeMultipartContent())
+        //        return false;
 
-            using (var db = ApplicationDbContext.Create())
-            {
-                // TODO: check if right owner
-                var node = db.Nodes.Single(x => x.Id == id);
+        //    using (var db = ApplicationDbContext.Create())
+        //    {
+        //        // TODO: check if right owner
+        //        var node = db.Nodes.Single(x => x.Id == id);
 
-                if (node == null)
-                    return false;
+        //        if (node == null)
+        //            return false;
 
-                var provider = new MultipartMemoryStreamProvider();
-                await request.Content.ReadAsMultipartAsync(provider);
-                foreach (var file in provider.Contents)
-                {
-                    var filename = file.Headers.ContentDisposition.FileName.Trim('\"');
-                    var buffer = await file.ReadAsByteArrayAsync();
+        //        var provider = new MultipartMemoryStreamProvider();
+        //        await request.Content.ReadAsMultipartAsync(provider);
+        //        foreach (var file in provider.Contents)
+        //        {
+        //            var filename = file.Headers.ContentDisposition.FileName.Trim('\"');
+        //            var buffer = await file.ReadAsByteArrayAsync();
 
-                    //                project.ImageName = filename;
-                                    node.Image = buffer;
-                }
+        //            //                project.ImageName = filename;
+        //                            node.Image = buffer;
+        //        }
 
-                db.SaveChanges();
-                return true;
+        //        db.SaveChanges();
+        //        return true;
 
-            }
-        }
+        //    }
+        //}
 
         public bool InviteWatcher(int projectId, string userId)
         {

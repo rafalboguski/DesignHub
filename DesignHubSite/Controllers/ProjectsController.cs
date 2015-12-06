@@ -80,15 +80,15 @@ namespace DesignHubSite.Controllers
         }
 
 
-        [HttpPost]
-        [Route("{id}/image")]
-        public async Task<IHttpActionResult> UploadImage(int id)
-        {
-            if (await _serviceProjects.UploadImage(id, Request) == true)
-                return Ok();
-            else
-                return NotFound();
-        }
+        //[HttpPost]
+        //[Route("{id}/image")]
+        //public async Task<IHttpActionResult> UploadImage(int id)
+        //{
+        //    if (await _serviceProjects.UploadImage(id, Request) == true)
+        //        return Ok();
+        //    else
+        //        return NotFound();
+        //}
 
 
         [HttpPost]

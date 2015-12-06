@@ -5,6 +5,8 @@ using DesignHubSite.Models;
 using System.Web;
 using Microsoft.AspNet.Identity;
 using DesignHubSite.ExtensionMethods;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace DesignHubSite.Services
 {
@@ -22,7 +24,7 @@ namespace DesignHubSite.Services
 
         bool Delete(int id);
 
-
+        Task<bool> UploadImage(int id, HttpRequestMessage request);
     }
 
 
@@ -184,7 +186,35 @@ namespace DesignHubSite.Services
             //}
         }
 
+        public async Task<bool> UploadImage(int id, HttpRequestMessage request)
+        {
+            if (!request.Content.IsMimeMultipartContent())
+                return false;
 
+            using (var db = ApplicationDbContext.Create())
+            {
+                // TODO: check if right owner
+                var node = db.Nodes.Single(x => x.Id == id);
+
+                if (node == null)
+                    return false;
+
+                var provider = new MultipartMemoryStreamProvider();
+                await request.Content.ReadAsMultipartAsync(provider);
+                foreach (var file in provider.Contents)
+                {
+                    var filename = file.Headers.ContentDisposition.FileName.Trim('\"');
+                    var buffer = await file.ReadAsByteArrayAsync();
+
+                    //                project.ImageName = filename;
+                    node.Image = buffer;
+                }
+
+                db.SaveChanges();
+                return true;
+
+            }
+        }
     }
 
 
