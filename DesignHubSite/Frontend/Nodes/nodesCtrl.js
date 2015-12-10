@@ -87,7 +87,7 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
 
         $scope.clearSelection = function () {
 
-            
+
             $scope.selectedNode = ''
             $scope.selectedNodesId.forEach(function (element) {
 
@@ -104,7 +104,7 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
 
         }
 
-        
+
 
         $scope.createNode = function (node, file) {
 
@@ -114,7 +114,7 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
             node.ProjectId = $scope.projectId;
             nodesService.createNode(node).then(function (res) {
 
-                
+
 
                 var node = res.data;
 
@@ -163,6 +163,16 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
                 return n.id == $scope.selectedNodesId
             });
 
+            if ($scope.selectedNode.image == undefined) {
+                nodesService.getNodeImage($scope.selectedNodesId).then(function (results) {
+                    $scope.selectedNode.image = (results.data != "null")?results.data.substring(1, results.data.length - 1):null;
+                }, function (error) {
+                    alert('getNodeImage' + error.data.message);
+                });
+            }
+
+
+
         }
 
         // save graph and nodes
@@ -180,8 +190,13 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
 
                     i--;
                     if (i <= 0) {
+                        
+                        Materialize.toast('Saved', 500);
+                        $('.toast').addClass('green');
+
                         $route.reload();
                     }
+                    
                 }, function (error) {
                     alert(error.data.message);
                 });

@@ -21,6 +21,7 @@ namespace DesignHubSite.Models
 
 
         
+        [JsonIgnore]
         public byte[] Image { get; set; }
 
        

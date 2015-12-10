@@ -45,6 +45,14 @@ namespace DesignHubSite.Controllers
             return node;
         }
 
+        [Route("{id}/image")]
+        public byte[] GetNodeImage(int id)
+        {
+            var img = _repo.Single(id).Image;
+
+            return img;
+        }
+
         [Route("project/{projectId}")]
         public ICollection<Node> GetProjectNodes(int projectId)
         {

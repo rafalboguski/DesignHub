@@ -11,6 +11,10 @@ app.service('nodesService', ['$http', function ($http) {
         return $http.get(apiUrl + '/nodes/' + id);
     };
 
+    this.getNodeImage = function (id) {
+        return $http.get(apiUrl + '/nodes/' + id + '/image');
+    };
+
     this.saveNode = function (id, changes) {
 
         // zmiana pozycji na grafie
