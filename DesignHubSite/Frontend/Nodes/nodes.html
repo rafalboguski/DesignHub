@@ -26,7 +26,7 @@
 
                         </div>-->
                         <div class="input-field">
-                            <textarea type="text" class="materialize-textarea" ng-model="node.ChangeInfo" />
+                            <textarea type="text" class="materialize-textarea" style="font-size:26px;" ng-model="node.ChangeInfo" />
                             <label for="icon_prefix">Changes compared to previous node</label>
                         </div>
                     </div>
@@ -51,15 +51,8 @@
 
                     </div>
                 </form>
-
-
             </div>
-
-
-
-
         </div>
-
     </div>
 
 
@@ -96,22 +89,102 @@
 
 
     </div>
+
     <!-- Right panel -->
-    <div class="col-md-5">
+    <div class="col-md-6">
+
         <div class="row dark-panel">
-            <h1>Preview</h1>
 
-            <div class="well">
-                <h5>Made changes</h5>
+            <!-- Help Tutorial -->
+            <div ng-show="selectedNode.image == null">
+                <div class="row">
 
-                <div class="center" ng-show="selectedNode.image != null">
-                    <div class="row">{{selectedNode.id}}  {{selectedNode.changeInfo}}</div>
+                    <br>
+                    <h4>This is graph showing flow and changes mades in your project developement.</h4>
+
+                    <blockquote> Root is starting node, Head is node that you think is most current or fullfills most requrements.</blockquote>
+
+                    <blockquote>You can add and remove nodes.</blockquote>
+
+                    <blockquote>
+                        If you select node preview panel will show up.
+                        Up there you can see node image and changelog.
+                        You can allso ask one of your clients to add markers on it.
+                        He can also accept this node and reject it.
+                    </blockquote>
+
+
+
+
+                </div>
+            </div>
+
+
+            <!-- Selected node preview -->
+            <div ng-show="selectedNode.image != null">
+                <div class="row" style="margin: 0;">
+
+                    <br>
+                    <!-- Image -->
+                    <div class="row center" style="
+                                                background-image: url('data:image/JPEG;base64,{{selectedNode.image}}');
+                                                background-size: contain;
+                                                background-repeat: no-repeat;
+                                                background-position: 50% 50%;
+                                                width:100%;
+                                                height:400px;
+                                                background-color:#0B0B0B;
+                    ">
+                    </div>
+
+                    <!-- Buttons -->
                     <div class="row">
-                        <img style="max-height: 400px;width: 100%; "
-                             ng-src="data:image/JPEG;base64,{{selectedNode.image}}">
+                        <button class="btn waves-effect waves-light  tooltipped" ng-click="saveAll();"
+                                data-position="top" data-delay="50" data-tooltip="Shows full image with markers made by client">
+                            <i class="material-icons white left">open_with</i>
+                            Opinions
+                        </button>
+                        <button class="btn waves-effect waves-light  tooltipped" ng-click="clearSelection();"
+                                data-position="top" data-delay="50" data-tooltip="Sends this node to client for opinion">
+                            <i class="material-icons white left">send</i>
+                            Request opinions
+                        </button>
+                    
+                        <button class="btn waves-effect waves-light right tooltipped" ng-click="clearSelection();"
+                                data-position="top" data-delay="50" data-tooltip="Set this nodea as head">
+                            <i class="material-icons white left">navigation</i>
+                            Head
+                        </button>
+                        
+
+                    </div>
+
+                </div>
+                <br>
+
+                <!-- Changelog and info -->
+                <div class="row well">
+                    <h5>Change log    {{selectedNode.timestamp}}</h5>
+                    <!--<div class="row left">
+                        <ul>
+                            <li class=" left" style="width:100%; margin:5px; padding:5px;" ng-repeat="info in selectedNode.changeInfo">
+                                {{info}}
+                        </ul>
+                    </div>-->
+
+                    <div class="collection">
+                        <div ng-repeat="info in selectedNode.changeInfo" class="collection-item transparent teal-text">
+                            {{info}}
+                        </div>
                     </div>
                 </div>
-
+                <a class="btn modal-trigger waves-effect waves-light grey right" data-target="AddNodeModal">
+                    <i class="material-icons white left"></i>
+                    Remove node
+                </a>
+                <br>
+                <br>
+                <br>
             </div>
 
         </div>
@@ -119,5 +192,3 @@
 
 </div>
 
-
-</div>

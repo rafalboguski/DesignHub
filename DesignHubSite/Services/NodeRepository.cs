@@ -102,6 +102,7 @@ namespace DesignHubSite.Services
                     positionX = nodeDto.positionX,
                     positionY = nodeDto.positionY,
                     Project = project,
+                    Timestamp = nodeDto.date
                     
                 };
 

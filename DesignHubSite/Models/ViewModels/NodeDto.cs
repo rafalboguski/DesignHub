@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using Newtonsoft.Json;
+using System;
 
 namespace DesignHubSite.Models
 {
@@ -20,6 +21,7 @@ namespace DesignHubSite.Models
         public string ChangeInfo { get; set; }
         public byte[] Image { get; set; }
 
+        public DateTime date { get; set; } = DateTime.Now;
 
         public int? ProjectId { get; set; }
 

@@ -22,6 +22,14 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
 
                 // opakowanie dla JointJs, potrzebne do wykresu svg
                 angular.forEach($scope.nodes, function (node) {
+                    node.changeInfo = node.changeInfo.split("\n");
+
+                    var title = '';
+                    if (node.head == true)
+                        title = 'Head: ';
+                    if (node.root == true)
+                        title = 'Root: ';
+
                     node.rect = new joint.shapes.basic.Rect({
                         nodeId: node.id,
                         position: { x: node.positionX, y: node.positionY },
@@ -30,7 +38,7 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
 
                             rect: { class: 'Rect' + node.id, fill: '#B2B2B2', rx: 5, ry: 5, 'stroke-width': 0, stroke: 'black' },
                             text: {
-                                text: node.changeInfo.slice(0, 11) + ' ...', fill: 'black',
+                                text: title + node.id + ' ...', fill: 'black',
                                 'font-size': 21, 'font-weight': 'bold'
                             }
                         }
@@ -99,6 +107,10 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
 
         $scope.init = function () {
 
+            $(document).ready(function () {
+                $('.tooltipped').tooltip({ delay: 50 });
+            });
+
             $scope.getNodes();
 
 
@@ -131,7 +143,8 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
                         $timeout(function () {
                             file.result = response.data;
                             $('#AddNodeModal').closeModal();
-                            alert('ok');
+                            Materialize.toast('Node saved', 500);
+                            $('.toast').addClass('red');
                             $route.reload();
                         });
                     }, function (response) {
@@ -165,7 +178,9 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
 
             if ($scope.selectedNode.image == undefined) {
                 nodesService.getNodeImage($scope.selectedNodesId).then(function (results) {
-                    $scope.selectedNode.image = (results.data != "null")?results.data.substring(1, results.data.length - 1):null;
+                    
+                    $scope.selectedNode.image = (results.data != "null") ? results.data.substring(1, results.data.length - 1) : null;
+                    console.log($('#nodeImagePreview').attr('height'));
                 }, function (error) {
                     alert('getNodeImage' + error.data.message);
                 });
