@@ -416,6 +416,9 @@
     <Content Include="Content\PartialCss\projects.css" />
     <Content Include="Frontend\app.js" />
     <Content Include="Frontend\controllers\indexController.js" />
+    <Content Include="Frontend\Markers\markers.html" />
+    <Content Include="Frontend\Markers\markersCtrl.js" />
+    <Content Include="Frontend\Markers\markersService.js" />
     <Content Include="Frontend\Nodes\nodesCtrl.js" />
     <Content Include="Frontend\Nodes\nodesService.js" />
     <Content Include="Frontend\Projects - Copy\projects.html" />

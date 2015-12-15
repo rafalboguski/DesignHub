@@ -1,0 +1,45 @@
+
+
+
+
+<div ng-show="{{user_logged}}" class="window" id="markers-window">
+    <div data-ng-init="init()" >
+
+
+
+        <div class="row">
+
+                <button class="btn">Id: {{nodeId}}</button>
+                <button class="btn">Place holder</button>
+                <button class="btn">Place holder</button>
+            
+        </div>
+
+
+
+
+
+        <!-- Image -->
+
+        <!--<img id="image" class="row center " style="
+                                                background-image: url('data:image/JPEG;base64,{{image}}');
+                                                background-size: contain;
+                                                background-repeat: no-repeat;
+                                                background-position: 50% 50%;
+                                                width:100%;
+                                                height:700px;
+                                                background-color:#0B0B0B;
+                    ">-->
+
+        <div id="image-container" class="image-container center" >
+            <img id="image" src="data:image/JPEG;base64,{{image}}" ng-click="click()">
+
+        </div>
+
+
+
+        <!-- Top panel -->
+
+    </div>
+
+</div>

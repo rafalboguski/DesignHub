@@ -139,7 +139,7 @@
 
                     <!-- Buttons -->
                     <div class="row">
-                        <button class="btn waves-effect waves-light  tooltipped" ng-click="saveAll();"
+                        <button class="btn waves-effect waves-light  tooltipped" ng-click="href('/project/' + projectId + '/markers/' + selectedNode.id)"
                                 data-position="top" data-delay="50" data-tooltip="Shows full image with markers made by client">
                             <i class="material-icons white left">open_with</i>
                             Opinions
@@ -149,13 +149,13 @@
                             <i class="material-icons white left">send</i>
                             Request opinions
                         </button>
-                    
+
                         <button class="btn waves-effect waves-light right tooltipped" ng-click="clearSelection();"
                                 data-position="top" data-delay="50" data-tooltip="Set this nodea as head">
                             <i class="material-icons white left">navigation</i>
                             Head
                         </button>
-                        
+
 
                     </div>
 

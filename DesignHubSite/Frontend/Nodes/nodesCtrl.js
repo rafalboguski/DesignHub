@@ -180,7 +180,6 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
                 nodesService.getNodeImage($scope.selectedNodesId).then(function (results) {
                     
                     $scope.selectedNode.image = (results.data != "null") ? results.data.substring(1, results.data.length - 1) : null;
-                    console.log($('#nodeImagePreview').attr('height'));
                 }, function (error) {
                     alert('getNodeImage' + error.data.message);
                 });
