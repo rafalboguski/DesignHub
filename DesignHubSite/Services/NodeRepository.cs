@@ -43,6 +43,7 @@ namespace DesignHubSite.Services
                 var node = db.Nodes
                                 .Include("Project")
                                 .Include("Childrens")
+                                .Include("ImageMarkers")
                                 .SingleOrDefault(p => (p.Id == id));
 
                 return node;
@@ -62,6 +63,7 @@ namespace DesignHubSite.Services
                     var nodes = from p in db.Nodes
                                .Include("Project")
                                .Include("Childrens")
+                               .Include("ImageMarkers")
                                 select p;
                     return nodes.ToList();
                 }
@@ -70,6 +72,7 @@ namespace DesignHubSite.Services
                     var nodes = from p in db.Nodes
                                 .Include("Project")
                                 .Include("Childrens")
+                                .Include("ImageMarkers")
                                 where p.Project.Id == projectId
                                 select p;
                     return nodes.ToList();

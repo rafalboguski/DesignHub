@@ -22,20 +22,21 @@ namespace DesignHubSite.Models
 
 
         public DateTime Timestamp { get; set; }
-        
+
         [JsonIgnore]
         public byte[] Image { get; set; }
 
-       
+
         public virtual Project Project { get; set; }
 
         public bool Root { get; set; }
-                                    
+
         public bool Head { get; set; }
 
         public virtual Node Parent { get; set; }
         public virtual ICollection<Node> Childrens { get; set; } = new List<Node>();
 
+        public ICollection<Marker> ImageMarkers { get; set; } = new List<Marker>();
 
         // graph data
 

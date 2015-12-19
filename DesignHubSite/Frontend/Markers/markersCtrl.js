@@ -1,6 +1,6 @@
 ﻿'use strict';
-app.controller('markersCtrl', ['$scope', '$route', '$routeParams', '$location', 'projectsService', 'nodesService',
-    function ($scope, $route, $routeParams, $location, projectsService, nodesService) {
+app.controller('markersCtrl', ['$scope', '$route', '$routeParams', '$location', 'markersService', 'nodesService',
+    function ($scope, $route, $routeParams, $location, markersService, nodesService) {
 
 
 
@@ -9,14 +9,19 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', '$location', 
 
         $scope.image;
 
+        $scope.newMarker = { width: 50, height: 50 };
 
+        $scope.markers;
 
-        $scope.click = function () {
+        $scope.click = function (click) {
             $scope.resizeImage();
             //alert($("#image").offset().left);
 
 
-            
+            $scope.newMarker.x = click.offsetX / $("#image").width();
+            $scope.newMarker.y = click.offsetY / $("#image").height();
+
+
         }
 
 
@@ -39,6 +44,8 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', '$location', 
             $scope.nodeId = $routeParams.nodeId;
             $scope.getNode($scope.nodeId);
             $scope.getNodeImage($scope.nodeId);
+
+            $scope.getMarkers();
 
         }
 
@@ -105,10 +112,39 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', '$location', 
         }
 
 
+        $scope.createMarker = function () {
+
+            $scope.newMarker.nodeId = $scope.nodeId;
+
+            markersService.createMarker($scope.newMarker).then(function (results) {
+
+                Materialize.toast('Saved', 500);
+                $('.toast').addClass('green');
+                newMarker.text = '';
+                $('#AddMarkerModal').closeModal();
+
+
+            }, function (error) {
+                Materialize.toast('Error: '+error.data.message, 1000);
+                $('.toast').addClass('red');
+            });
+
+        }
+
         $scope.getNode = function (id) {
             nodesService.getNode(id).then(function (results) {
 
                 $scope.node = results.data;
+
+            }, function (error) {
+                alert(error.data.message);
+            });
+        }
+
+        $scope.getMarkers = function () {
+            markersService.getMarkers($scope.nodeId).then(function (results) {
+
+                $scope.markers = results.data;
 
             }, function (error) {
                 alert(error.data.message);

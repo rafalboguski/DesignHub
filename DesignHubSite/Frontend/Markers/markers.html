@@ -7,12 +7,14 @@
 
 
 
+        <!-- Buttons -->
         <div class="row">
 
             <button class="btn">Id: {{nodeId}}</button>
             <button class="btn">Place holder</button>
             <button class="btn">Place holder</button>
 
+            markers: {{markers}}
         </div>
 
 
@@ -33,28 +35,45 @@
         <div class="center">
             <div id="image-container" class="image-container tagged">
 
-                <img id="image" src="data:image/JPEG;base64,{{image}}" ng-click="click()">
+                <img id="image"
+                     class="modal-trigger"
+                     src="data:image/JPEG;base64,{{image}}"
+                     ng-click="click($event)"
+                     data-target="AddMarkerModal">
 
-                <div class="tag waves-effect waves-light btn-large" 
-                     style="top:20%;" 
-                     left="0.00" top="0.00" width="50" height="50">
 
-                </div>
-                <div class="tag waves-effect waves-light btn-large" 
-                     style="top:20%;" 
+                <script>
+                    // materialize modal initailizer
+                    $(document).ready(function () {
+                        jQuery.noConflict();
+                        $('.modal-trigger').leanModal();
+                    });
+                </script>
+
+                <a class="tag modal-trigger btn-large waves-effect waves-light"
+                   data-target="AddMarkerModal"
+                   left="0.40" top="0.40" width="50" height="50">
+                    <div>sdfksbdfk jsd fjsndfkj nskf</div>
+
+                </a>
+
+
+
+                <!--<div class="tag waves-effect waves-light btn-large"
+                     style="top:20%;"
                      left="0.25" top="0.25" width="50" height="50">
 
                 </div>
-                <div class="tag waves-effect waves-light btn-large" 
+                <div class="tag waves-effect waves-light btn-large"
                      style="top:20%;"
                      left="0.50" top="0.50" width="50" height="50">
                 </div>
-                <div class="tag waves-effect waves-light btn-large" 
-                     style="top:20%;" 
+                <div class="tag waves-effect waves-light btn-large"
+                     style="top:20%;"
                      left="0.75" top="0.75" width="50" height="50">
 
-                </div>
-                
+                </div>-->
+
 
 
 
@@ -63,6 +82,30 @@
 
 
         <!-- Top panel -->
+        <!-- Modals -->
+        <!-- Add Project Modal Structure -->
+        <div id="AddMarkerModal" class="modal bottom-sheet">
+
+            <div class="container">
+                <form novalidate class="simple-form">
+
+
+
+                    <div class="col-md-9">
+                        <div class="input-field">
+                            <textarea type="text" class="materialize-textarea" ng-model="newMarker.text" />
+                            <label for="icon_prefix">Opinion</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <btn class="btn waves-effect waves-green" ng-click="createMarker()">Add marker</btn>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
 
     </div>
 

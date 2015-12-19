@@ -1,19 +1,12 @@
 ﻿'use strict';
-app.service('nodesService', ['$http', function ($http) {
+app.service('markersService', ['$http', function ($http) {
 
     var apiUrl = 'http://localhost:54520//api';
 
-    this.getNodes = function (projectId) {
-        return $http.get(apiUrl + '/nodes/project/' + projectId);
+    this.getMarkers = function (nodeId) {
+        return $http.get(apiUrl + '/markers/node/' + nodeId);
     };
 
-    this.getNode = function (id) {
-        return $http.get(apiUrl + '/nodes/' + id);
-    };
-
-    this.getNodeImage = function (id) {
-        return $http.get(apiUrl + '/nodes/' + id + '/image');
-    };
 
     this.saveNode = function (id, changes) {
 
@@ -32,26 +25,23 @@ app.service('nodesService', ['$http', function ($http) {
         }
     };
 
-    this.createNode = function (nodeDto) {
+    this.createMarker = function (dto) {
         return $http({
             method: 'POST',
-            url: apiUrl + '/nodes',
+            url: apiUrl + '/markers',
             data: {
-                'ChangeInfo': nodeDto.ChangeInfo,
-                'Image': nodeDto.Image,
-                'Description': nodeDto.description,
-                'ParentId': nodeDto.ParentId,
-                'ProjectId': nodeDto.ProjectId
+                'X': dto.x,
+                'Y': dto.y,
+                'Width': dto.width,
+                'Height': dto.height,
+                'NodeId': dto.nodeId,
+                'Text':dto.text
 
             },
             headers: { 'Content-Type': 'application/json' }
         });
     };
 
-    // wyslanie obrazu tylko do istniejacego noda, tylko do tesow
-    this.uploadImageAdress = function (nodeId) {
-        return apiUrl + '/Nodes/' + nodeId + '/image';
-    };
 
 
 

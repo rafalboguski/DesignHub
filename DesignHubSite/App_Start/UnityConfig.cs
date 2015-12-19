@@ -18,6 +18,7 @@ namespace DesignHubSite
             // e.g. container.RegisterType<ITestService, TestService>();
             container.RegisterType<IRepository<Project>, ProjectRepository>();
             container.RegisterType<INodeRepository, NodeRepository>();
+            container.RegisterType<IMarkerRepository, MarkerRepository>();
 
 
             container.RegisterType<IProjectService, ProjectService>();
