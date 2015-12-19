@@ -1,0 +1,20 @@
+﻿.tagged {
+    position: relative;
+}
+
+.tag {
+    padding: 0 !important;
+    float: left;
+    position: absolute;
+    /*left: 10%;*/
+    /*top: 20%;*/
+    background-color: hotpink;
+    opacity: 0.8;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+}
+
+    .tag:hover {
+        opacity: 0.9;
+    }

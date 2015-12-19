@@ -3,16 +3,16 @@
 
 
 <div ng-show="{{user_logged}}" class="window" id="markers-window">
-    <div data-ng-init="init()" >
+    <div data-ng-init="init()">
 
 
 
         <div class="row">
 
-                <button class="btn">Id: {{nodeId}}</button>
-                <button class="btn">Place holder</button>
-                <button class="btn">Place holder</button>
-            
+            <button class="btn">Id: {{nodeId}}</button>
+            <button class="btn">Place holder</button>
+            <button class="btn">Place holder</button>
+
         </div>
 
 
@@ -20,7 +20,6 @@
 
 
         <!-- Image -->
-
         <!--<img id="image" class="row center " style="
                                                 background-image: url('data:image/JPEG;base64,{{image}}');
                                                 background-size: contain;
@@ -31,11 +30,36 @@
                                                 background-color:#0B0B0B;
                     ">-->
 
-        <div id="image-container" class="image-container center" >
-            <img id="image" src="data:image/JPEG;base64,{{image}}" ng-click="click()">
+        <div class="center">
+            <div id="image-container" class="image-container tagged">
 
+                <img id="image" src="data:image/JPEG;base64,{{image}}" ng-click="click()">
+
+                <div class="tag waves-effect waves-light btn-large" 
+                     style="top:20%;" 
+                     left="0.00" top="0.00" width="50" height="50">
+
+                </div>
+                <div class="tag waves-effect waves-light btn-large" 
+                     style="top:20%;" 
+                     left="0.25" top="0.25" width="50" height="50">
+
+                </div>
+                <div class="tag waves-effect waves-light btn-large" 
+                     style="top:20%;"
+                     left="0.50" top="0.50" width="50" height="50">
+                </div>
+                <div class="tag waves-effect waves-light btn-large" 
+                     style="top:20%;" 
+                     left="0.75" top="0.75" width="50" height="50">
+
+                </div>
+                
+
+
+
+            </div>
         </div>
-
 
 
         <!-- Top panel -->

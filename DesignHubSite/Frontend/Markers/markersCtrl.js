@@ -13,6 +13,10 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', '$location', 
 
         $scope.click = function () {
             $scope.resizeImage();
+            //alert($("#image").offset().left);
+
+
+            
         }
 
 
@@ -29,7 +33,7 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', '$location', 
                 $scope.resizeImage();
             });
 
-            
+
 
 
             $scope.nodeId = $routeParams.nodeId;
@@ -63,16 +67,43 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', '$location', 
                 //tall
                 var newH = $('#image-container').height();
                 var newW = newH * ratio;
-               
+
                 console.log($('#image-container').width());
                 if (newW > $('#image-container').width()) {
                     newW = $('#image-container').width;
-                    newH = newW/ratio;
+                    newH = newW / ratio;
                 }
                 $('#image').width(newW);
                 $('#image').height(newH);
             }
+            $scope.resizeTags();
         }
+
+
+        $scope.resizeTags = function () {
+            var imagePosX = $("#image").position().left;
+            var imageW = $("#image").width();
+
+            var imagePosY = $("#image").position().top;
+            var imageH = $("#image").height();
+
+            //console.log("image x: " + imagePosX);
+            //console.log("image W: " + imageW);
+
+            $(".tag").each(function (index) {
+                var left = parseFloat($(this).attr("left"));
+                var width = parseFloat($(this).attr("width"));
+                $(this).css({ left: (imagePosX + (imageW * left) - width / 2) });
+
+
+                var top = parseFloat($(this).attr("top"));
+                var height = parseFloat($(this).attr("height"));
+                $(this).css({ top: (imagePosY + (imageH * top) - height / 2) });
+
+
+            });
+        }
+
 
         $scope.getNode = function (id) {
             nodesService.getNode(id).then(function (results) {

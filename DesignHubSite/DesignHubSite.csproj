@@ -413,6 +413,7 @@
     <Content Include="Content\bower_components\materialize\tests\helpers\helpers.js" />
     <Content Include="Content\bower_components\materialize\tests\setup.js" />
     <Content Include="Content\img\logo_tmp.png" />
+    <Content Include="Content\PartialCss\markers.css" />
     <Content Include="Content\PartialCss\projects.css" />
     <Content Include="Frontend\app.js" />
     <Content Include="Frontend\controllers\indexController.js" />
