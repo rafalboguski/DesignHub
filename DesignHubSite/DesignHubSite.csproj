@@ -200,6 +200,7 @@
     <Compile Include="Controllers\Auth\ManageController.cs" />
     <Compile Include="Controllers\MarkersController.cs" />
     <Compile Include="Controllers\NodesController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -442,6 +443,7 @@
     <Content Include="Frontend\Projects\projectsService.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Frontend\Users\usersService.js" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\angular-bootstrap-prettify.js" />

@@ -2,7 +2,7 @@
 <div ng-show="{{user_logged}}" class="window">
 
 
-    <div data-ng-init="getProject()">
+    <div data-ng-init="init()">
 
         <div class="col-md-6">
             <div class="row dark-panel">
@@ -50,11 +50,11 @@
             <div class="row dark-panel">
                 <h1>Debug</h1>
 
-                
+
 
 
                 <div class="row well">
-                  
+
                 </div>
 
             </div>
@@ -66,6 +66,28 @@
 
 
             </div>
+
+            <div class="row dark-panel">
+                <h1>People</h1>
+
+                <h3>Owner</h3>
+
+                <h3>Menagers</h3>
+
+                <div class="row" ng-repeat="meneger in users">
+                    {{meneger.name}}
+                </div>
+
+
+                <h3>Watchers</h3>
+
+                <div class="row" ng-repeat="watcher in users">
+                    {{watcher.name}}
+                </div>
+
+
+            </div>
+
         </div>
     </div>
 

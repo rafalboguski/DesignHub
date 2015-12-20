@@ -1,6 +1,6 @@
 ﻿'use strict';
-app.controller('projectsController', ['$scope', '$routeParams', '$location', 'Upload', '$timeout', 'projectsService',
-    function ($scope, $routeParams, $location, Upload, $timeout, projectsService) {
+app.controller('projectsController', ['$scope', '$routeParams', '$location', 'Upload', '$timeout', 'projectsService', 'usersService',
+    function ($scope, $routeParams, $location, Upload, $timeout, projectsService, usersService) {
 
         $scope.current_page = $scope.$parent.current_page;
 
@@ -12,6 +12,16 @@ app.controller('projectsController', ['$scope', '$routeParams', '$location', 'Up
         $scope.projects = [];
 
         $scope.visibleProjectsNum = 8;
+
+        //-- Init --------------------------------------
+
+        $scope.init = function () {
+
+            $scope.getProject();
+
+            $scope.getUsers();
+
+        }
 
 
         $scope.getProject = function () {
@@ -62,9 +72,44 @@ app.controller('projectsController', ['$scope', '$routeParams', '$location', 'Up
             $('.toast').addClass('green');
             $scope.galleryLoadded = true;
 
+        }
+
+        //--Project Details --------------------------------------
+
+        // todo: get from project only
+        $scope.users;
+        $scope.getUsers = function () {
+
+            usersService.getUsers().then(function (results) {
+
+                $scope.users = results.data;
+
+            });
 
         }
 
+
+        $scope.searchedUser = {};
+
+        $scope.findUsers = function (text) {
+
+            usersService.findUsers(text).then(function (results) {
+
+                $scope.searchedUser = results.data;
+
+            });
+
+        }
+
+
+
+
+
+
+
+
+
+        //---------------------------------------------
 
         $scope.inviteWatcher = function (projectId, userId) {
             projectsService.inviteWatcher(projectId, userId).then(function (results) {
