@@ -36,7 +36,7 @@
 
                     <button class="btn btn-danger" disabled ng-click="">sdfsdf</button>
 
-   
+
                     <button class="btn btn-danger" ng-click="deleteProject(project.id)">sfsdf</button>
 
                 </div>
@@ -104,12 +104,26 @@
             <a class="panel-body"
                ng-click="href('/project/'+Project.id);"
                style="padding:0;">
-                <img src="http://www.farhieyecare.com/wp-content/uploads/2012/01/placeholder.png"
+
+                <!--<img src="http://www.farhieyecare.com/wp-content/uploads/2012/01/placeholder.png"
+                     ng-show="Project.headImage == null"
                      style=" border-top-right-radius: 10px;
                                      border-top-left-radius: 10px;
                                      border-color:transparent;
 
-                                     ">
+                                     ">-->
+                <img src="data:image/JPEG;base64,{{Project.headImage}}"
+                     ng-show="Project.headImage != null"
+                     style=" border-top-right-radius: 10px;
+                                border-top-left-radius: 10px;
+                                border-color:transparent;
+                                width:296px;
+                                height:296px;
+                                margin:0
+                                ">
+
+
+
             </a>
             <div class="panel-heading"
                  style="

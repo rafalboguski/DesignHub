@@ -17,6 +17,7 @@ namespace DesignHubSite.Models
         public string Name { get; set; }
         public string Description { get; set; }
 
+        public int HeadNodeId { get; set; }
         public byte[] HeadImage { get; set; }
 
         public int NodesNumber { get; set; }
@@ -40,6 +41,7 @@ namespace DesignHubSite.Models
                     Id = p.Id,
                     Name = p.Name,
                     Description = p.Description,
+                    HeadNodeId = p.nodeHeadId,
                     //HeadImage = p.Head?.Image,
                     Owner = p.Owner,
                     NodesNumber = p.Nodes.Count,

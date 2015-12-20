@@ -33,6 +33,17 @@ app.controller('projectsController', ['$scope', '$routeParams','$location', 'Upl
 
                 $scope.projects = results.data.reverse();
 
+
+                angular.forEach($scope.projects, function (node) {
+
+                    node.headImage = (node.headImage != "null") ? node.headImage.substring(0, node.headImage.length ) : null;
+
+                });
+
+
+
+
+
             }, function (error) {
                 alert(error.data.message);
             });

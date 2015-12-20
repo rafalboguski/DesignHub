@@ -7,15 +7,6 @@
 
 
 
-        <!-- Buttons -->
-        <div class="row">
-
-            <button class="btn">Id: {{nodeId}}</button>
-            <button class="btn">Place holder</button>
-            <button class="btn">Place holder</button>
-
-            markers: {{markers}}
-        </div>
 
 
 
@@ -39,6 +30,7 @@
                      class="modal-trigger"
                      src="data:image/JPEG;base64,{{image}}"
                      ng-click="click($event)"
+                     style="opacity:0;"
                      data-target="AddMarkerModal">
 
 
@@ -50,12 +42,19 @@
                     });
                 </script>
 
-                <a class="tag modal-trigger btn-large waves-effect waves-light"
-                   data-target="AddMarkerModal"
-                   left="0.40" top="0.40" width="50" height="50">
-                    <div>sdfksbdfk jsd fjsndfkj nskf</div>
-
+                <a class="tag modal-trigger btn-large waves-effect waves-light tooltipped"   id="tag{{marker.id}}"
+                   ng-repeat="marker in markers" repeat-done="initModals()"  
+                   ng-click="markerClick(marker.id)"
+                   data-target="MarkerModal"
+                   style="opacity:0;"
+                   data-position="top" data-delay="10" data-tooltip="{{marker.text}}"
+                   ng-show="showMarkers"
+                   
+                   left="{{marker.x}}" top="{{marker.y}}" width="{{marker.width}}" height="{{marker.height}}">
+                       
                 </a>
+
+               
 
 
 
@@ -79,6 +78,25 @@
 
             </div>
         </div>
+        </br>
+
+        <!-- Buttons -->
+        <div  class="row">
+
+       
+            <div class="switch" style="float:left;">
+                <label>Markers</label>
+                <label>
+                    Off
+                    <input type="checkbox" ng-model="showMarkers" checked="checked">
+                    <span class="lever"></span>
+                    On
+                </label>
+            </div>
+       
+            <div id="slider" ng-model="markersOpacity"  style="float:left;width:400px;margin-left:30px;margin-top:5px;"></div>
+
+        </div>
 
 
         <!-- Top panel -->
@@ -88,9 +106,6 @@
 
             <div class="container">
                 <form novalidate class="simple-form">
-
-
-
                     <div class="col-md-9">
                         <div class="input-field">
                             <textarea type="text" class="materialize-textarea" ng-model="newMarker.text" />
@@ -101,10 +116,26 @@
                     <div class="col-md-3">
                         <btn class="btn waves-effect waves-green" ng-click="createMarker()">Add marker</btn>
                     </div>
-
                 </form>
             </div>
+        </div>
 
+        <div id="MarkerModal" class="modal bottom-sheet">
+
+            <div class="container">
+                <form novalidate class="simple-form">
+                    <div class="col-md-9 center">
+                             <br>
+                        <h4>{{selectedMarker.text}}</h4>
+                            
+                        <br>
+                    </div>
+
+                    <div class="col-md-3">
+                        <btn class="btn waves-effect waves-green" ng-click="createMarker()">Remove marker</btn>
+                    </div>
+                </form>
+            </div>
         </div>
 
     </div>

@@ -74,12 +74,21 @@ namespace DesignHubSite.Controllers
             return node;
         }
 
+        [HttpPost]
+        [Route("{id}/head")]
+        public int setHead(int id)
+        {
+            _service.setHead(id);
+            return 200;
+
+        }
+
 
         [HttpPut]
         [Route("{id}")]
         public IHttpActionResult Move(int id, Node data)
         {
-         
+
             _repo.Update(id, data);
 
             return Ok();

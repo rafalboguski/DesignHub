@@ -22,9 +22,15 @@ namespace DesignHubSite.Controllers
         private readonly IRepository<Project> _repoProjects;
         private readonly IProjectService _serviceProjects;
 
-        public ProjectsController(IRepository<Project> repo, IProjectService serviceProjects)
+        private readonly INodeRepository _repoNodes;
+
+        public ProjectsController(
+            IRepository<Project> repo,
+            INodeRepository nodesRepo,
+            IProjectService serviceProjects)
         {
             _repoProjects = repo;
+            _repoNodes = nodesRepo;
             _serviceProjects = serviceProjects;
         }
 
@@ -34,7 +40,12 @@ namespace DesignHubSite.Controllers
         {
             var projects = _repoProjects.All();
 
-            return ProjectListViewModel.Map(projects);
+            var dtoList = ProjectListViewModel.Map(projects);
+
+            if (dtoList.Count > 0)
+                dtoList.ForEach(x => x.HeadImage = _repoNodes.Single(x.HeadNodeId)?.Image);
+
+            return dtoList;
         }
 
         [Route("{id}")]

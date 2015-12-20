@@ -15,6 +15,14 @@ app.service('nodesService', ['$http', function ($http) {
         return $http.get(apiUrl + '/nodes/' + id + '/image');
     };
 
+    this.setNodeHead = function (id) {
+        return $http({
+            method: 'POST',
+            url: apiUrl + '/nodes/' + id + '/head',
+            headers: { 'Content-Type': 'application/json' }
+        });
+    }
+
     this.saveNode = function (id, changes) {
 
         // zmiana pozycji na grafie

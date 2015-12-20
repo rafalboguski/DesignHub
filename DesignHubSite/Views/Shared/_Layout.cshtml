@@ -11,9 +11,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="~/Content/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
+    <!-- Listeners for dom manipulation -->
+    <script src="~/Content/bower_components/arrive/minified/arrive.min.js"></script>
+
+    <link rel="stylesheet" href="~/Content/bower_components/hover/css/hover-min.css">
+
+
+
 
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="~/Content/bower_components/materialize/dist/css/materialize.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="~/Content/bower_components/materialize/extras/noUiSlider/nouislider.css" media="screen,projection" />
+    <script src="~/Content/bower_components/materialize/extras/noUiSlider/nouislider.min.js"></script>
+
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -53,11 +63,11 @@
 
             <img class="center" src="~/Content/img/logo_tmp.png" width="180"
                  style="margin-top:10px;
-						margin-bottom:10px;
-						padding-top:20px;
-						padding-bottom:30px;
+                        margin-bottom:10px;
+                        padding-top:20px;
+                        padding-bottom:30px;
 
-						" />
+                        " />
             <!--@Html.ActionLink("DesignHub", "Index", "Home", null, new { @class = "" })-->
             <!-- Accordions, page navigation -->
             @if (@User.Identity.IsAuthenticated)
@@ -169,7 +179,7 @@
         </div>
 
         <!-- Footer -->
-         <!-- <footer class="page-footer">
+        <!-- <footer class="page-footer">
             <div class="container">
                 <div class="row">
                     <div class="col l6 s12">
@@ -205,6 +215,7 @@
     <script src="~/Scripts/ng-file-upload.min.js"></script>
     <!-- Load app main script -->
     <script src="~/Frontend/app.js"></script>
+    <script src="~/Frontend/Directives.js"></script>
     <!-- Load services -->
     <script src="~/Frontend/Projects/projectsService.js"></script>
     <script src="~/Frontend/Nodes/nodesService.js"></script>

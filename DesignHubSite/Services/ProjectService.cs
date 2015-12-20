@@ -16,12 +16,12 @@ namespace DesignHubSite.Services
     public interface IProjectService
     {
 
-       
+
 
         //Task<bool> UploadImage(int id, HttpRequestMessage request);
 
         bool InviteWatcher(int projectId, string userId);
-
+        void setHead(int id);
     }
 
 
@@ -29,7 +29,7 @@ namespace DesignHubSite.Services
     {
 
 
-    
+
 
         //public async Task<bool> UploadImage(int id, HttpRequestMessage request)
         //{
@@ -82,8 +82,27 @@ namespace DesignHubSite.Services
             }
         }
 
+        public void setHead(int id)
+        {
+
+            using (var db = ApplicationDbContext.Create())
+            {
+                var head = db.Nodes.Include("Project").SingleOrDefault(n => n.Id == id);
+                head.Head = true;
+
+                var projectId = head.Project.Id;
+                head.Project.nodeHeadId = id;
+
+                db.Nodes.Include("Project")
+                    .Where(x => x.Project.Id == projectId && x.Id != head.Id).ToList()
+                    .ForEach(x => x.Head = false);
 
 
+                db.SaveChanges();
+
+            }
+
+        }
     }
 
 

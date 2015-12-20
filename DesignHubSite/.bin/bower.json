@@ -14,8 +14,8 @@
   ],
   "dependencies": {
     "materialize": "*",
-    "bootstrap": "*"
-
-
+    "bootstrap": "*",
+    "arrive": "~2.3.0",
+    "hover": "~2.0.2"
   }
 }

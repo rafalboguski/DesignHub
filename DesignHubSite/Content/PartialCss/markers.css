@@ -17,4 +17,15 @@
 
     .tag:hover {
         opacity: 0.9;
+        background-color: teal !important;
     }
+
+
+    .tag:active {
+        background-color: teal !important;
+    }
+
+
+.backdrop {
+    background-color: teal !important;
+}
