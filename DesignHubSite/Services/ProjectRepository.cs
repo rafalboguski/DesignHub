@@ -75,6 +75,7 @@ namespace DesignHubSite.Services
                 var currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
 
                 project.Owner = currentUser;
+                project.Timestamp = DateTime.Now;
 
                 db.Projects.Add(project);
                 db.SaveChanges();

@@ -26,7 +26,7 @@ namespace DesignHubSite.Models
 
         public int WatchersNumber { get; set; }
 
-        public Byte[] Timestamp { get; set; }
+        public DateTime Timestamp { get; set; }
 
 
 

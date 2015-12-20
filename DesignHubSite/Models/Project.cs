@@ -22,7 +22,7 @@ namespace DesignHubSite.Models
         [MaxLength(40)]
         public string Name { get; set; }
 
-        [MaxLength(400)]
+        [MaxLength(4000)]
         public string Description { get; set; }
 
         //public string ImageName { get; set; }
@@ -39,9 +39,8 @@ namespace DesignHubSite.Models
 
         public virtual ICollection<ApplicationUser> Watchers { get; set; } = new List<ApplicationUser>();
 
-
-        [Timestamp]
-        public Byte[] Timestamp { get; set; }
+                
+        public DateTime Timestamp { get; set; }
 
 
     }

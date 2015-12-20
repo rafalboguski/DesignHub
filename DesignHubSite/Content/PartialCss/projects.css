@@ -22,3 +22,16 @@
   background-image: linear-gradient(to bottom, transparent, #0B0B0B);
 }
 /**/
+
+
+div.fill {
+    
+  
+    justify-content:center;
+    align-items:center;
+    overflow:hidden
+}
+div.fill img {
+    flex-shrink:0;
+   
+}

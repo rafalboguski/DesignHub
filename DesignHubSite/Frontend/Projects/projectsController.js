@@ -1,6 +1,6 @@
 ﻿'use strict';
-app.controller('projectsController', ['$scope', '$routeParams','$location', 'Upload', '$timeout', 'projectsService',
-    function ($scope,$routeParams, $location, Upload, $timeout, projectsService) {
+app.controller('projectsController', ['$scope', '$routeParams', '$location', 'Upload', '$timeout', 'projectsService',
+    function ($scope, $routeParams, $location, Upload, $timeout, projectsService) {
 
         $scope.current_page = $scope.$parent.current_page;
 
@@ -10,15 +10,15 @@ app.controller('projectsController', ['$scope', '$routeParams','$location', 'Upl
 
         // gallery
         $scope.projects = [];
-    
+
         $scope.visibleProjectsNum = 8;
 
 
         $scope.getProject = function () {
             projectsService.getProject($scope.projectId).then(function (results) {
-              
+
                 $scope.project = results.data;
-               
+
                 $scope.$parent.project_name = results.data.name;
                 $scope.$parent.project_id = $scope.projectId;
 
@@ -34,9 +34,14 @@ app.controller('projectsController', ['$scope', '$routeParams','$location', 'Upl
                 $scope.projects = results.data.reverse();
 
 
+                if ($scope.projects.length == 0) {
+
+                    $scope.galleryLoadded = true;
+                }
+
                 angular.forEach($scope.projects, function (node) {
 
-                    node.headImage = (node.headImage != "null") ? node.headImage.substring(0, node.headImage.length ) : null;
+                    node.headImage = (node.headImage != "null") ? node.headImage.substring(0, node.headImage.length) : null;
 
                 });
 
@@ -49,7 +54,17 @@ app.controller('projectsController', ['$scope', '$routeParams','$location', 'Upl
             });
         }
 
-       
+        $scope.galleryLoadded = false;
+
+        $scope.galleryLoaddingFinished = function () {
+
+            Materialize.toast('Projects loadded', 500);
+            $('.toast').addClass('green');
+            $scope.galleryLoadded = true;
+
+
+        }
+
 
         $scope.inviteWatcher = function (projectId, userId) {
             projectsService.inviteWatcher(projectId, userId).then(function (results) {
@@ -89,7 +104,7 @@ app.controller('projectsController', ['$scope', '$routeParams','$location', 'Upl
 
 
         $scope.createProject = function (project) {
-           
+
             projectsService.createProject(project).then(function (results) {
                 $scope.getProjects();
                 project.name = '';
@@ -101,8 +116,8 @@ app.controller('projectsController', ['$scope', '$routeParams','$location', 'Upl
             });
         }
 
-        $scope.deleteProject = function ( id) {
-          
+        $scope.deleteProject = function (id) {
+
             projectsService.deleteProject(id).then(function (results) {
                 if (results.status == 200) {
                     $location.path('/projects');

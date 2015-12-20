@@ -3,21 +3,41 @@ namespace DesignHubSite.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initial : DbMigration
+    public partial class _1 : DbMigration
     {
         public override void Up()
         {
+            CreateTable(
+                "dbo.Markers",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        X = c.Single(nullable: false),
+                        Y = c.Single(nullable: false),
+                        Width = c.Int(nullable: false),
+                        Height = c.Int(nullable: false),
+                        text = c.String(),
+                        Timestamp = c.DateTime(nullable: false),
+                        Node_Id = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Nodes", t => t.Node_Id)
+                .Index(t => t.Node_Id);
+            
             CreateTable(
                 "dbo.Nodes",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
                         ChangeInfo = c.String(nullable: false),
+                        Timestamp = c.DateTime(nullable: false),
                         Image = c.Binary(),
                         Root = c.Boolean(nullable: false),
                         Head = c.Boolean(nullable: false),
+                        positionX = c.Int(nullable: false),
+                        positionY = c.Int(nullable: false),
                         Parent_Id = c.Int(),
-                        Project_Id = c.Int(nullable: false),
+                        Project_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Nodes", t => t.Parent_Id)
@@ -31,8 +51,9 @@ namespace DesignHubSite.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false, maxLength: 40),
-                        Description = c.String(maxLength: 400),
-                        Timestamp = c.Binary(nullable: false, fixedLength: true, timestamp: true, storeType: "rowversion"),
+                        Description = c.String(maxLength: 4000),
+                        nodeHeadId = c.Int(nullable: false),
+                        Timestamp = c.DateTime(nullable: false),
                         Owner_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
@@ -125,13 +146,14 @@ namespace DesignHubSite.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.Nodes", "Project_Id", "dbo.Projects");
             DropForeignKey("dbo.ProjectsAndWatchers", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.ProjectsAndWatchers", "ProjectId", "dbo.Projects");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Projects", "Owner_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Nodes", "Project_Id", "dbo.Projects");
+            DropForeignKey("dbo.Markers", "Node_Id", "dbo.Nodes");
             DropForeignKey("dbo.Nodes", "Parent_Id", "dbo.Nodes");
             DropIndex("dbo.ProjectsAndWatchers", new[] { "UserId" });
             DropIndex("dbo.ProjectsAndWatchers", new[] { "ProjectId" });
@@ -144,6 +166,7 @@ namespace DesignHubSite.Migrations
             DropIndex("dbo.Projects", new[] { "Owner_Id" });
             DropIndex("dbo.Nodes", new[] { "Project_Id" });
             DropIndex("dbo.Nodes", new[] { "Parent_Id" });
+            DropIndex("dbo.Markers", new[] { "Node_Id" });
             DropTable("dbo.ProjectsAndWatchers");
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.AspNetUserRoles");
@@ -152,6 +175,7 @@ namespace DesignHubSite.Migrations
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.Projects");
             DropTable("dbo.Nodes");
+            DropTable("dbo.Markers");
         }
     }
 }
