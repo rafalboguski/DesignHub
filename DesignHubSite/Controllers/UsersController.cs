@@ -42,8 +42,9 @@ namespace DesignHubSite.Controllers
         {
             using (var db = ApplicationDbContext.Create())
             {
-                var list = db.Users.Where(x => x.UserName.Contains(text));
-
+                var list = db.Users
+                    .Where(x => x.UserName.Contains(text) || x.Email.Contains(text))
+                    .Take(9);
 
                 return list.ToList();
             }

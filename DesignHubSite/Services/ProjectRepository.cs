@@ -95,7 +95,10 @@ namespace DesignHubSite.Services
             using (var db = ApplicationDbContext.Create())
             {
                 var currentUserId = db.CurrentUserId();
-                var project = db.Projects.Find(id);
+                var project = db.Projects
+                    .Include("Owner")
+                    .Include("Nodes")
+                    .SingleOrDefault(x => x.Id == id);
 
 
                 if (project == null)
