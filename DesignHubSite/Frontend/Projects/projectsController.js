@@ -21,6 +21,13 @@ app.controller('projectsController', ['$scope', '$routeParams', '$location', 'Up
 
             $scope.getUsers();
 
+            Materialize.toast('INIT', 2000);
+
+
+
+
+
+
         }
 
 
@@ -82,6 +89,7 @@ app.controller('projectsController', ['$scope', '$routeParams', '$location', 'Up
 
             usersService.getUsers().then(function (results) {
 
+
                 $scope.users = results.data;
 
             });
@@ -89,18 +97,28 @@ app.controller('projectsController', ['$scope', '$routeParams', '$location', 'Up
         }
 
 
-        $scope.searchedUser = {};
+        // -- Add new Person 
+        $scope.addPerson = {};
 
-        $scope.findUsers = function (text) {
+        $scope.searchPerson = function (text) {
 
-            usersService.findUsers(text).then(function (results) {
+            usersService.findPersons(text).then(function (results) {
 
-                $scope.searchedUser = results.data;
+                if (text.length < 1) {
+                    $scope.addPerson.selected = null;
+                }
+                else {
+                    $scope.addPerson.searchResult = results.data;
 
+                }
             });
 
         }
 
+        $scope.addPersonSelect = function (person) {
+            $scope.addPerson.selected = person;
+
+        }
 
 
 

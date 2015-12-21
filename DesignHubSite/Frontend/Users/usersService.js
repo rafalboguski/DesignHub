@@ -14,8 +14,9 @@ app.service('usersService', ['$http', function ($http) {
 
 
 
-    this.findUses = function (text) {
-        return $http.get(apiUrl + '/users/find' + text);
+    this.findPersons = function (text) {
+        Materialize.toast(text, 500);
+        return $http.get(apiUrl + '/users/find/' + text);
     };
 
 

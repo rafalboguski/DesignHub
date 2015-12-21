@@ -107,6 +107,8 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
 
         $scope.init = function () {
 
+            $scope.$parent.project_id = $scope.projectId;
+
             $(document).ready(function () {
                 $('.tooltipped').tooltip({ delay: 50 });
             });

@@ -91,15 +91,14 @@ namespace DesignHubSite.Controllers
         }
 
 
-        //[HttpPost]
-        //[Route("{id}/image")]
-        //public async Task<IHttpActionResult> UploadImage(int id)
+           
+        //[Route("{id}")]
+        //public IHttpActionResult getWatchers(int id)
         //{
-        //    if (await _serviceProjects.UploadImage(id, Request) == true)
-        //        return Ok();
-        //    else
-        //        return NotFound();
+        //    return (_repoProjects.Delete(id)) ? (IHttpActionResult)Ok() : NotFound();
         //}
+
+
 
 
         [HttpPost]

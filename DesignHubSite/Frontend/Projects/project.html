@@ -13,34 +13,15 @@
                     {{ project.description}}
                 </div>
                 <div class="row">
-                    {{ project.owner.name}}
+
                 </div>
 
 
                 <div class="row well">
 
-                    <button class="btn btn-danger" disabled ng-click="">Invite Watchers</button>
-
-                    <!-- todo: add modals -->
-
                     <button class="btn btn-danger" ng-click="deleteProject(project.id)">Remove</button>
 
 
-                    <!-- Upload Image section -->
-                    <button class="btn btn-default" type="file" ngf-select="uploadFiles(project.id, $file)"
-                            accept="image/*" ngf-max-height="5000" ngf-max-size="20MB">
-                        Upload Image
-                    </button>
-
-                    <div style="font:smaller">
-                        {{f.name}} {{f.$error}} {{f.$errorParam}}
-                        <span class="progress" ng-show="f.progress >= 0">
-                            <div style="width:{{f.progress}}%"
-                                 ng-bind="f.progress + '%'"></div>
-                        </span>
-                    </div>
-                    <!--Debug: fffff{{f}} {{errorMsg}}-->
-                    <!-- END -->
 
 
                 </div>
@@ -67,28 +48,148 @@
 
             </div>
 
-            <div class="row dark-panel">
-                <h1>People</h1>
+            <div id="projectPeoplePanel" class="row dark-panel">
+                <h3>
+                    People<button class="btn waves-effect waves-light red right modal-trigger" data-target="AddPersonModal">Add person</button>
+                </h3>
 
-                <h3>Owner</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th data-field="id">Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{project.owner.name}}</td>
 
-                <h3>Menagers</h3>
+                        </tr>
+                        <tr ng-repeat="user in users">
+                            <td>{{user.name}}</td>
 
-                <div class="row" ng-repeat="meneger in users">
-                    {{meneger.name}}
-                </div>
-
-
-                <h3>Watchers</h3>
-
-                <div class="row" ng-repeat="watcher in users">
-                    {{watcher.name}}
-                </div>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
 
 
             </div>
 
         </div>
+
+        <script>
+            // materialize modal initailizer
+            $(document).ready(function () {
+                jQuery.noConflict();
+                $('.modal-trigger').leanModal();
+            });
+        </script>
+
+        <!-- Modals-->
+        <!-- Begin: Add Person Modal Structure -->
+        <div id="AddPersonModal" class="modal" style=" background-color: transparent !important; box-shadow: 0 0 0 0 !important;">
+            <div class="modal-content">
+                <div class="row">
+                    <div class="col-sm-10"><h4>Add new person to your project </h4></div>
+                    <div class="col-sm-2"><a class="right modal-action modal-close waves-effect waves-red btn black">X</a></div>
+                </div>
+
+
+                <div class="row" ng-show="addPerson.selected == null">
+                    <!-- Search -->
+                    <form class="col-md-6">
+                        <div class="row">
+                            <div class="input-field col s6" style="width:90%;">
+                                <i class="material-icons prefix">account_circle</i>
+                                <input id="icon_prefix" type="text" class="validate"
+                                       ng-model="addPerson.searchText"
+                                       ng-change="searchPerson(addPerson.searchText)">
+                                <label for="icon_prefix">Search person (name, e-mail)</label>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Generate public link -->
+                    <div class="col-md-6" ng-show="addPerson.selected == null">
+                        <p> Generate link for </p>
+                        list here permissions
+                        <br>
+                        <button class="btn">Generate link</button>
+
+                        <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- Search results -->
+                    <div class="col-md-6" ng-show="addPerson.selected == null">
+                        <div class="row well" ng-repeat="user in addPerson.searchResult" style="cursor:pointer;margin: 10px;padding: 10px;"
+                             ng-click="addPersonSelect(user)">
+                            <h6>{{user.name}}</h6>
+
+                        </div>
+
+                        <br>
+                    </div>
+
+                    <!-- Permisions -->
+                    <div class="col-md-12" ng-show="addPerson.selected">
+                        <h6 class="well">Permisons for {{addPerson.selected.name}} <a class=" right" ng-click="addPerson.selected = null;" style="cursor:pointer;">X</a></h6>
+
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">account_circle</i>
+                                <input id="icon_prefix" type="text" class="validate"
+                                       ng-model="addPerson.selected.role">
+                                <label for="icon_prefix">Role in this project</label>
+                            </div>
+                        </div>
+
+                        <!-- Switches -->
+                        <div class="row">
+
+                            <form action="#">
+                                <div class="col-md-6">
+                                    <p>
+                                        <input type="checkbox" class="filled-in" id="filled-in-box1" checked="checked" />
+                                        <label for="filled-in-box1">Allowed to read-only</label>
+                                    </p>
+
+                                    <p>
+                                        <input type="checkbox" class="filled-in" id="filled-in-box2" checked="checked" />
+                                        <label for="filled-in-box2">Allowed to message you</label>
+                                    </p>
+                                    <p>
+                                        <input type="checkbox" class="filled-in" id="filled-in-box3" />
+                                        <label for="filled-in-box3">Allowed to like or dislike changes</label>
+                                    </p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>
+                                        <input type="checkbox" class="filled-in" id="filled-in-box4" />
+                                        <label for="filled-in-box4">Allowed to add markers</label>
+                                    </p>
+                                    <p>
+                                        <input type="checkbox" class="filled-in" id="filled-in-box5" />
+                                        <label for="filled-in-box5">Allowed to accept nodes</label>
+                                    </p>
+                                    <p>
+                                        <input type="checkbox" class="filled-in" id="filled-in-box6" />
+                                        <label for="filled-in-box6">Allowed to accept whole project</label>
+                                    </p>
+                                </div>
+
+                            </form>
+                        </div>
+                        <br>
+                        <br>
+                        <button class="btn waves-effect waves-light right">Add person</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End -->
+
+
     </div>
 
 </div>

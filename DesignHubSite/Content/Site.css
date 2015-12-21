@@ -120,7 +120,16 @@ footer {
 
 /*  markers -----------------------*/
 
+        .modal{
+            background-color: #0B0B0B !important;
+        }
 
+.modal-content {
+    background-color: #0B0B0B !important;
+    border-color:teal;
+
+
+}
 
 .image-container {
     width: 100%;
