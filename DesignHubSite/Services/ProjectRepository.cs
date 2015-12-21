@@ -35,11 +35,11 @@ namespace DesignHubSite.Services
                 var currentUserId = db.CurrentUserId();
 
                 var pa = db.Projects
-                                .Include("Watchers")
+                                .Include("AssignedUsers")
                                 .Include("Owner")
                                 .Include("Nodes")
                                 .SingleOrDefault(p => (p.Id == id) &&
-                                (p.Owner.Id == currentUserId) || (p.Watchers.Select(c => c.Id).Contains(currentUserId)));
+                                (p.Owner.Id == currentUserId) || (p.AssignedUsers.Select(c => c.Id).Contains(currentUserId)));
 
                 return pa;
             }
@@ -55,10 +55,10 @@ namespace DesignHubSite.Services
 
                 var currentUserId = HttpContext.Current.User.Identity.GetUserId();
                 var projects = from p in db.Projects
-                               .Include("Watchers")
+                               .Include("AssignedUsers")
                                .Include("Owner")
                                .Include("Nodes")
-                               where (p.Owner.Id == currentUserId) || (p.Watchers.Select(c => c.Id).Contains(currentUserId))
+                               where (p.Owner.Id == currentUserId) || (p.AssignedUsers.Select(c => c.Id).Contains(currentUserId))
                                select p;
 
 
@@ -80,7 +80,7 @@ namespace DesignHubSite.Services
                 db.Projects.Add(project);
                 db.SaveChanges();
 
-                currentUser.Projects.Add(project);
+                currentUser.OwnedProjects.Add(project);
                 db.SaveChanges();
 
                 // add initial node
@@ -110,7 +110,7 @@ namespace DesignHubSite.Services
                     return false;
                 }
 
-                project.Watchers.Clear();
+                project.AssignedUsers.Clear();
 
                 foreach (var version in project.Nodes)
                     version.Project = null;

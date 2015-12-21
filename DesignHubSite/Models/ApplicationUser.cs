@@ -20,9 +20,9 @@ namespace DesignHubSite.Models
     public class ApplicationUser : IdentityUser
     {
 
-        public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<Project> OwnedProjects { get; set; }
 
-        public virtual ICollection<Project> WatchedProjects { get; set; } = new List<Project>();
+        public virtual ICollection<Project> AssignedProjects { get; set; } = new List<Project>();
 
 
 

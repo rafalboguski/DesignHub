@@ -24,7 +24,7 @@ namespace DesignHubSite.Models
 
         public virtual ApplicationUser Owner { get; set; }
 
-        public int WatchersNumber { get; set; }
+        public int AssignedUsersCount { get; set; }
 
         public DateTime Timestamp { get; set; }
 
@@ -46,7 +46,7 @@ namespace DesignHubSite.Models
                     Owner = p.Owner,
                     NodesNumber = p.Nodes.Count,
                     Timestamp = p.Timestamp,
-                    WatchersNumber = p.Watchers.Count
+                    AssignedUsersCount = p.AssignedUsers.Count
                 });
 
             }

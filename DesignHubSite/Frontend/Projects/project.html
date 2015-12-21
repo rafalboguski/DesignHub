@@ -103,7 +103,7 @@
                                 <i class="material-icons prefix">account_circle</i>
                                 <input id="icon_prefix" type="text" class="validate"
                                        ng-model="addPerson.searchText"
-                                       ng-change="searchPerson(addPerson.searchText)">
+                                       ng-change="addPersonSearch(addPerson.searchText)">
                                 <label for="icon_prefix">Search person (name, e-mail)</label>
                             </div>
                         </div>
@@ -133,7 +133,7 @@
 
                     <!-- Permisions -->
                     <div class="col-md-12" ng-show="addPerson.selected">
-                        <h6 class="well">Permisons for {{addPerson.selected.name}} <a class=" right" ng-click="addPerson.selected = null;" style="cursor:pointer;">X</a></h6>
+                        <h6 class="well">Permisons for <b class="teal-text">{{addPerson.selected.name}}</b> <a class=" right" ng-click="addPerson.selected = null;" style="cursor:pointer;">X</a></h6>
 
                         <div class="row">
                             <div class="input-field col s6">
@@ -150,30 +150,30 @@
                             <form action="#">
                                 <div class="col-md-6">
                                     <p>
-                                        <input type="checkbox" class="filled-in" id="filled-in-box1" checked="checked" />
+                                        <input type="checkbox" ng-model="addPerson.selected.permissionA" class="filled-in" id="filled-in-box1" checked="checked" />
                                         <label for="filled-in-box1">Allowed to read-only</label>
                                     </p>
 
                                     <p>
-                                        <input type="checkbox" class="filled-in" id="filled-in-box2" checked="checked" />
+                                        <input type="checkbox" ng-model="addPerson.selected.permissionB" class="filled-in" id="filled-in-box2" checked="checked" />
                                         <label for="filled-in-box2">Allowed to message you</label>
                                     </p>
                                     <p>
-                                        <input type="checkbox" class="filled-in" id="filled-in-box3" />
+                                        <input type="checkbox" ng-model="addPerson.selected.permissionC" class="filled-in" id="filled-in-box3" />
                                         <label for="filled-in-box3">Allowed to like or dislike changes</label>
                                     </p>
                                 </div>
                                 <div class="col-md-6">
                                     <p>
-                                        <input type="checkbox" class="filled-in" id="filled-in-box4" />
+                                        <input type="checkbox" ng-model="addPerson.selected.permissionD" class="filled-in" id="filled-in-box4" />
                                         <label for="filled-in-box4">Allowed to add markers</label>
                                     </p>
                                     <p>
-                                        <input type="checkbox" class="filled-in" id="filled-in-box5" />
+                                        <input type="checkbox" ng-model="addPerson.selected.permissionE" class="filled-in" id="filled-in-box5" />
                                         <label for="filled-in-box5">Allowed to accept nodes</label>
                                     </p>
                                     <p>
-                                        <input type="checkbox" class="filled-in" id="filled-in-box6" />
+                                        <input type="checkbox" ng-model="addPerson.selected.permissionF" class="filled-in" id="filled-in-box6" />
                                         <label for="filled-in-box6">Allowed to accept whole project</label>
                                     </p>
                                 </div>
@@ -182,7 +182,7 @@
                         </div>
                         <br>
                         <br>
-                        <button class="btn waves-effect waves-light right">Add person</button>
+                        <button ng-click="addPersonFinalize(addPerson.selected)" class="btn waves-effect waves-light right">Add person</button>
                     </div>
                 </div>
             </div>

@@ -20,11 +20,21 @@ app.service('usersService', ['$http', function ($http) {
     };
 
 
-    this.inviteWatcher = function (projectId, userId) {
+    this.assignToProject = function (data) {
         return $http({
             method: 'POST',
-            url: apiUrl + '/projects/' + projectId + '/inviteWatcher/' + userId,
-            data: {},
+            url: apiUrl + '/users/assignToProject/',
+            data: {
+                UserId: data.number,
+                ProjectId: data.projectId,
+                ProjectRole: data.role,
+                Readonly: data.permissionA,
+                Message: data.permissionB,
+                LikeOrDislikeChanges: data.permissionC,
+                AddMarkers: data.permissionD,
+                AcceptNodes: data.permissionE,
+                AcceptWholeProject: data.permissionF
+            },
             headers: { 'Content-Type': 'application/json' }
         });
     };

@@ -37,7 +37,7 @@ namespace DesignHubSite.Models
 
         public virtual ApplicationUser Owner { get; set; }
 
-        public virtual ICollection<ApplicationUser> Watchers { get; set; } = new List<ApplicationUser>();
+        public virtual ICollection<ApplicationUser> AssignedUsers { get; set; } = new List<ApplicationUser>();
 
                 
         public DateTime Timestamp { get; set; }

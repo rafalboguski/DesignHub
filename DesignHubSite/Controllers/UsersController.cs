@@ -19,11 +19,11 @@ namespace DesignHubSite.Controllers
     {
 
 
+        private IProjectDetailsService _projDetServ;
 
-
-        public UsersController()
+        public UsersController(IProjectDetailsService projectDetailsService)
         {
-
+            _projDetServ = projectDetailsService;
         }
 
 
@@ -33,6 +33,16 @@ namespace DesignHubSite.Controllers
             using (var db = ApplicationDbContext.Create())
             {
                 return db.Users.ToList();
+            }
+
+        }
+
+        [Route("{id}")]
+        public ApplicationUser GetUser(string id)
+        {
+            using (var db = ApplicationDbContext.Create())
+            {
+                return db.Users.SingleOrDefault(x => x.Id == id);
             }
 
         }
@@ -52,19 +62,21 @@ namespace DesignHubSite.Controllers
         }
 
 
-
-        [Route("{id}")]
-        public ApplicationUser GetUser(string id)
+        [HttpPost]
+        [Route("assignToProject")]
+        public IHttpActionResult AssignToProject(PermisionDto dto)
         {
-            using (var db = ApplicationDbContext.Create())
+
+            if (_projDetServ.InviteUserToProject(dto))
             {
-                return db.Users.SingleOrDefault(x => x.Id == id);
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
             }
 
         }
-
-
-
 
     }
 }

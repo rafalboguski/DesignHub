@@ -100,7 +100,7 @@ app.controller('projectsController', ['$scope', '$routeParams', '$location', 'Up
         // -- Add new Person 
         $scope.addPerson = {};
 
-        $scope.searchPerson = function (text) {
+        $scope.addPersonSearch = function (text) {
 
             usersService.findPersons(text).then(function (results) {
 
@@ -116,11 +116,24 @@ app.controller('projectsController', ['$scope', '$routeParams', '$location', 'Up
         }
 
         $scope.addPersonSelect = function (person) {
+
             $scope.addPerson.selected = person;
 
         }
 
+        $scope.addPersonFinalize = function (data) {
 
+            data.projectId = $scope.projectId;
+
+            usersService.assignToProject(data).then(function (results) {
+                Materialize.toast('Saved', 500);
+
+
+            }, function (error) {
+                Materialize.toast(error.data.message,3000);
+            });
+
+        }
 
 
 

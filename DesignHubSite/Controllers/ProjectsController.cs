@@ -98,21 +98,7 @@ namespace DesignHubSite.Controllers
         //    return (_repoProjects.Delete(id)) ? (IHttpActionResult)Ok() : NotFound();
         //}
 
-
-
-
-        [HttpPost]
-        [Route("{projectId}/inviteWatcher/{userId}")]
-        public IHttpActionResult InviteWatcher(int projectId, string userId)
-        {
-            if (_serviceProjects.InviteWatcher(projectId, userId))
-                return Ok();
-            else
-                return NotFound();
-        }
-
-
-
+         
 
     }
 }

@@ -19,8 +19,7 @@ namespace DesignHubSite.Services
 
 
         //Task<bool> UploadImage(int id, HttpRequestMessage request);
-
-        bool InviteWatcher(int projectId, string userId);
+      
         void setHead(int id);
     }
 
@@ -60,27 +59,7 @@ namespace DesignHubSite.Services
 
         //    }
         //}
-
-        public bool InviteWatcher(int projectId, string userId)
-        {
-            using (var db = ApplicationDbContext.Create())
-            {
-                var project = db.Projects.First(p => p.Id == projectId);
-                var user = db.Users.FirstOrDefault(x => x.Id == userId);
-                if (user != null && project != null && project.Owner.Id == db.CurrentUserId())
-                {
-                    project.Watchers.Add(user);
-                    user.WatchedProjects.Add(project);
-
-                    db.SaveChanges();
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
+     
 
         public void setHead(int id)
         {

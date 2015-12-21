@@ -51,8 +51,8 @@ namespace DesignHubSite.Models
             //            .HasForeignKey(s => s.OwnerId);
 
             modelBuilder.Entity<Project>()
-                        .HasMany(x => x.Watchers)
-                        .WithMany(x => x.WatchedProjects)
+                        .HasMany(x => x.AssignedUsers)
+                        .WithMany(x => x.AssignedProjects)
                         .Map(x =>
                         {
                             x.ToTable("ProjectsAndWatchers"); // third table is named Cookbooks
