@@ -48,6 +48,11 @@ app.service('projectsService', ['$http', function ($http) {
         });
     };
 
+
+    this.getPermitedUsers = function (projectId) {
+        return $http.get(apiUrl + '/users/permissions_in_project/' + projectId);
+    }
+
 }]);
 
 //62937
@@ -61,17 +66,6 @@ app.service('projectsService', ['$http', function ($http) {
 //    };
 
 
-//    this.addFile = function(title, content, folder) {
-//        return $http({
-//            method: 'POST',
-//            url: apiUrl + '/push/',
-//            data: {
-//                'filename': title,
-//                'data': content,
-//                'folder': folder
-//            },
-//            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-//        });
-//    };
+
 
 //});

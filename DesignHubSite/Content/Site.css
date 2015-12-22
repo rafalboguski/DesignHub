@@ -97,6 +97,14 @@ footer {
 }
 
 
+table td {
+   text-align: center;   
+}
+table th {
+   text-align: center;   
+}
+
+
 
 .material-icons {
     color: rgb(65,65,65);

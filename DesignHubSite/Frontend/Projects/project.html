@@ -1,4 +1,4 @@
-
+﻿
 <div ng-show="{{user_logged}}" class="window">
 
 
@@ -48,24 +48,64 @@
 
             </div>
 
+            <!-- Users assigned to project -->
             <div id="projectPeoplePanel" class="row dark-panel">
                 <h3>
                     People<button class="btn waves-effect waves-light red right modal-trigger" data-target="AddPersonModal">Add person</button>
                 </h3>
 
-                <table>
+                <table >
                     <thead>
                         <tr>
-                            <th data-field="id">Name</th>
+                            <th style="text-align: left;">User Name</th>
+
+                            <th class="tooltipped center" data-position="top" data-delay="10" data-tooltip="Role in project">
+                                <i class="material-icons">assignment_ind</i>
+                            </th>
+                            <th class="tooltipped" data-position="top" data-delay="10" data-tooltip="Can see project">
+                                <i class="material-icons">visibility</i>
+                            </th>
+                            <th class="tooltipped" data-position="top" data-delay="10" data-tooltip="Can message you">
+                                <i class="material-icons">email</i>
+                            </th>
+                            <th class="tooltipped" data-position="top" data-delay="10" data-tooltip="Can like or dislike changes">
+                                <i class="material-icons">thumbs_up_down</i>
+                            </th>
+                            <th class="tooltipped" data-position="top" data-delay="10" data-tooltip="Can add markers on nodes">
+                                <i class="material-icons">my_location</i>
+                            </th>
+                            <th class="tooltipped" data-position="top" data-delay="10" data-tooltip="Can accept nodes">
+                                <i class="material-icons">call_split</i>
+                            </th>
+                            <th class="tooltipped" data-position="top" data-delay="10" data-tooltip="Can accept whole project">
+                                <i class="material-icons">done</i>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{project.owner.name}}</td>
+                            <td style="text-align: left;">{{project.owner.name}}</td>
+                            <td class="center"> Owner</td>
+
+                            <td>{{x.readonly? 'X' : '' }}</td>
+                            <td>{{x.message? 'X' : '' }}</td>
+                            <td>{{x.likeOrDislikeChanges? 'X' : '' }}</td>
+                            <td>{{x.addMarkers? 'X' : '' }}</td>
+                            <td>{{x.acceptNodes? 'X' : '' }}</td>
+                            <td>{{x.acceptWholeProject? 'X' : '' }}</td>
 
                         </tr>
-                        <tr ng-repeat="user in users">
-                            <td>{{user.name}}</td>
+                        <tr ng-repeat="x in users">
+                            <td style="text-align: left;">{{x.user.name}}</td>
+
+                            <td class="center">{{x.projectRole }}</td>
+
+                            <td>{{x.readonly? 'X' : '' }}</td>
+                            <td>{{x.message? 'X' : '' }}</td>
+                            <td>{{x.likeOrDislikeChanges? 'X' : '' }}</td>
+                            <td>{{x.addMarkers? 'X' : '' }}</td>
+                            <td>{{x.acceptNodes? 'X' : '' }}</td>
+                            <td>{{x.acceptWholeProject? 'X' : '' }}</td>
 
                         </tr>
                     </tbody>

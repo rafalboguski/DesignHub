@@ -87,11 +87,14 @@ app.controller('projectsController', ['$scope', '$routeParams', '$location', 'Up
         $scope.users;
         $scope.getUsers = function () {
 
-            usersService.getUsers().then(function (results) {
-
-
+            projectsService.getPermitedUsers($scope.projectId).then(function (results) {
                 $scope.users = results.data;
+                console.log('getUsers: ', $scope.users);
 
+                $('.tooltipped').tooltip({ delay: 10 });
+
+            }, function (error) {
+                alert(error.data.message);
             });
 
         }
@@ -127,8 +130,8 @@ app.controller('projectsController', ['$scope', '$routeParams', '$location', 'Up
 
             usersService.assignToProject(data).then(function (results) {
                 Materialize.toast('Saved', 500);
-
-
+                data = null;
+                $('#AddPersonModal').closeModal();
             }, function (error) {
                 Materialize.toast(error.data.message,3000);
             });
