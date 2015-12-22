@@ -1,8 +1,9 @@
 using Microsoft.Practices.Unity;
 using System.Web.Http;
-using DesignHubSite.Services;
+using DesignHubSite.Repositories;
 using Unity.WebApi;
 using DesignHubSite.Models;
+using DesignHubSite.Services;
 
 namespace DesignHubSite
 {
@@ -19,7 +20,7 @@ namespace DesignHubSite
             container.RegisterType<IRepository<Project>, ProjectRepository>();
             container.RegisterType<INodeRepository, NodeRepository>();
             container.RegisterType<IMarkerRepository, MarkerRepository>();
-
+            container.RegisterType<IPermissionRepository, PermissionRepository>();
 
             container.RegisterType<IProjectService, ProjectService>();
             container.RegisterType<IProjectDetailsService, ProjectDetailsService>();

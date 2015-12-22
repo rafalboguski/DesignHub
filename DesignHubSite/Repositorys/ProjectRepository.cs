@@ -10,7 +10,7 @@ using System.Web.Http;
 using System.Threading.Tasks;
 using System.Net.Http;
 
-namespace DesignHubSite.Services
+namespace DesignHubSite.Repositories
 {
 
 

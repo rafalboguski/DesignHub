@@ -209,6 +209,10 @@
     <Compile Include="Migrations\201512201728170_1.Designer.cs">
       <DependentUpon>201512201728170_1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512222231332_11.cs" />
+    <Compile Include="Migrations\201512222231332_11.Designer.cs">
+      <DependentUpon>201512222231332_11.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auth\AccountViewModels.cs" />
     <Compile Include="Models\Auth\IdentityModels.cs" />
@@ -223,12 +227,13 @@
     <Compile Include="Models\Dto\ImageViewModel.cs" />
     <Compile Include="Models\Dto\ProjectListViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\IRepository.cs" />
-    <Compile Include="Services\MarkerRepository.cs" />
-    <Compile Include="Services\NodeRepository.cs" />
+    <Compile Include="Repositorys\IRepository.cs" />
+    <Compile Include="Repositorys\MarkerRepository.cs" />
+    <Compile Include="Repositorys\NodeRepository.cs" />
+    <Compile Include="Repositorys\PermissionRepository.cs" />
     <Compile Include="Services\ProjectDetailsService.cs" />
     <Compile Include="Services\ProjectService.cs" />
-    <Compile Include="Services\ProjectRepository.cs" />
+    <Compile Include="Repositorys\ProjectRepository.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -970,6 +975,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201512201728170_1.resx">
       <DependentUpon>201512201728170_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512222231332_11.resx">
+      <DependentUpon>201512222231332_11.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -37,6 +37,7 @@ namespace DesignHubSite.Models
         public DbSet<Project> Projects { get; set; }
         public DbSet<Node> Nodes { get; set; }
         public DbSet<Marker> Markers { get; set; }
+        public DbSet<Permision> Permisions { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

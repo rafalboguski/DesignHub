@@ -1,18 +1,16 @@
 ﻿using DesignHubSite.Models;
+using DesignHubSite.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Web;                 
 
 namespace DesignHubSite.Services
 {
 
-    
-
     public interface IProjectDetailsService
     {
         bool InviteUserToProject(PermisionDto model);
-
 
     }
 
@@ -47,6 +45,7 @@ namespace DesignHubSite.Services
                     Timestamp = DateTime.Now
                 };
 
+                db.Permisions.Add(permision);
                 project.AssignedUsers.Add(user);
                 user.AssignedProjects.Add(project);
                 //

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DesignHubSite.Services
+namespace DesignHubSite.Repositories
 {
 
     public interface IRepository<T>

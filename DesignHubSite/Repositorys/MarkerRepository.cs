@@ -8,7 +8,7 @@ using DesignHubSite.ExtensionMethods;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace DesignHubSite.Services
+namespace DesignHubSite.Repositories
 {
 
     public interface IMarkerRepository

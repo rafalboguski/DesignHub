@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using DesignHubSite.Models;
-using DesignHubSite.Services;
+using DesignHubSite.Repositories;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using DesignHubSite.ExtensionMethods;
+using DesignHubSite.Services;
 
 namespace DesignHubSite.Controllers
 {

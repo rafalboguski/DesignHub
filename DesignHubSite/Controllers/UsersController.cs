@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using DesignHubSite.Models;
-using DesignHubSite.Services;
+using DesignHubSite.Repositories;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using DesignHubSite.ExtensionMethods;
+using DesignHubSite.Services;
 
 namespace DesignHubSite.Controllers
 {
@@ -19,10 +20,12 @@ namespace DesignHubSite.Controllers
     {
 
 
+        private IPermissionRepository _permissionsRepository;
         private IProjectDetailsService _projDetServ;
 
-        public UsersController(IProjectDetailsService projectDetailsService)
+        public UsersController(IPermissionRepository permissionsRepository, IProjectDetailsService projectDetailsService)
         {
+            _permissionsRepository = permissionsRepository;
             _projDetServ = projectDetailsService;
         }
 
@@ -58,6 +61,15 @@ namespace DesignHubSite.Controllers
 
                 return list.ToList();
             }
+
+        }
+
+        [Route("permissions_in_project/{projectId}")]
+        public List<Permision> getPermissionsInProject(int projectId)
+        {
+            var list = _permissionsRepository.Permissions(projectId: projectId);
+
+            return list;
 
         }
 
