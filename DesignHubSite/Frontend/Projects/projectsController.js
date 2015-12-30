@@ -129,9 +129,11 @@ app.controller('projectsController', ['$scope', '$routeParams', '$location', 'Up
             data.projectId = $scope.projectId;
 
             usersService.assignToProject(data).then(function (results) {
-                Materialize.toast('Saved', 500);
+                Materialize.toast('Saved', 1500);
                 data = null;
                 $('#AddPersonModal').closeModal();
+                $scope.addPerson.selected =null;
+                $scope.getUsers();
             }, function (error) {
                 Materialize.toast(error.data.message,3000);
             });

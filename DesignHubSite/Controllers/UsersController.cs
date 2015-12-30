@@ -55,8 +55,13 @@ namespace DesignHubSite.Controllers
         {
             using (var db = ApplicationDbContext.Create())
             {
+                var loggedUserId = db.CurrentUserId();
+
                 var list = db.Users
-                    .Where(x => x.UserName.Contains(text) || x.Email.Contains(text))
+                    .Where(x => 
+                    (x.UserName.Contains(text) || x.Email.Contains(text))
+                    && (x.Id != loggedUserId) 
+                    )
                     .Take(9);
 
                 return list.ToList();

@@ -3,7 +3,8 @@ using DesignHubSite.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;                 
+using System.Web;
+using System.Data.Entity;
 
 namespace DesignHubSite.Services
 {
@@ -45,9 +46,34 @@ namespace DesignHubSite.Services
                     Timestamp = DateTime.Now
                 };
 
-                db.Permisions.Add(permision);
-                project.AssignedUsers.Add(user);
-                user.AssignedProjects.Add(project);
+                var tmp = db.Permisions
+                    .Include(x => x.User)
+                    .Include(x => x.Project)
+                    .Where(x => x.User.Id == model.UserId && x.Project.Id == model.ProjectId)
+                    .ToList();
+                if (tmp.Count() == 0)
+                {
+                    db.Permisions.Add(permision);
+                    project.AssignedUsers.Add(user);
+                    user.AssignedProjects.Add(project);
+
+                }
+                else
+                {
+                    int id = tmp.First().Id;
+                    Permision per = db.Permisions.SingleOrDefault(x => x.Id ==id);
+
+                    per.ProjectRole = model.ProjectRole;
+                    per.AcceptNodes = model.AcceptNodes;
+                    per.AcceptWholeProject = model.AcceptWholeProject;
+                    per.AddMarkers = model.AddMarkers;
+                    per.LikeOrDislikeChanges = model.LikeOrDislikeChanges;
+                    per.Message = model.Message;
+                    per.Readonly = model.Readonly;
+                    per.Timestamp = DateTime.Now;
+
+                }
+
                 //
 
                 db.SaveChanges();
