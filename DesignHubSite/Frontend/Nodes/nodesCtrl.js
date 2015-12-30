@@ -5,13 +5,13 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
 
         $scope.projectId = $routeParams.projectId;
 
-        $scope.selectedNode;
-        $scope.nodes;
+        $scope.selectedNode = [];
+        $scope.nodes =[];
         var links = [];
         var linksId = {};
 
         $scope.selectManyNodes = false;
-        $scope.selectedNodesId = [];
+        $scope.selectedNodesId = [$routeParams.selectedNodeId];
 
 
         $scope.getNodes = function () {
@@ -73,7 +73,7 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
 
 
                 $scope.drawGraph();
-
+                $scope.graphClick();
 
             }, function (error) {
                 alert(error.data.message);
@@ -106,7 +106,7 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
 
 
         $scope.init = function () {
-
+            $routeParams.selectedNodeId = 22;
             $scope.$parent.project_id = $scope.projectId;
 
             $(document).ready(function () {
@@ -114,6 +114,7 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
             });
 
             $scope.getNodes();
+            
 
 
         }
@@ -147,7 +148,7 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
                             $('#AddNodeModal').closeModal();
                             Materialize.toast('Node saved', 500);
                             $('.toast').addClass('red');
-                            $route.reload();
+                            $location.path('/project/' + $scope.projectId + '/graph/' + $scope.selectedNodesId[0]);
                         });
                     }, function (response) {
                         if (response.status > 0)
@@ -173,7 +174,7 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
             nodesService.setNodeHead($scope.selectedNode.id).then(function (res) {
                 Materialize.toast('Saved as Head', 1500);
                 $('.toast').addClass('green');
-                $route.reload();
+                $location.path('/project/' + $scope.projectId + '/graph/' + $scope.selectedNodesId[0]);
             }, function (error) {
                 Materialize.toast(error.data.message, 1000);
                 $('.toast').addClass('red');
@@ -182,17 +183,13 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
 
 
         $scope.graphClick = function () {
+            console.log('function graphClick');
 
-            console.log($scope.selectedNodesId);
 
-            $('g').click(function (event) {
-                console.log('rect click');
-
-            })
-
+            console.log(parseInt($scope.selectedNodesId));
             console.log($scope.nodes);
             $scope.selectedNode = _.find($scope.nodes, function (n) {
-                return n.id == $scope.selectedNodesId
+                return n.id == parseInt($scope.selectedNodesId);
             });
 
             if ($scope.selectedNode.image == undefined) {
@@ -227,7 +224,7 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
                         Materialize.toast('Saved', 500);
                         $('.toast').addClass('green');
 
-                        $route.reload();
+                        $location.path('/project/' + $scope.projectId + '/graph/' + $scope.selectedNodesId[0]);
                     }
 
                 }, function (error) {
@@ -245,7 +242,7 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
             paper = new joint.dia.Paper({
                 el: $('#myholder'),
                 width: 800,
-                height: 500,
+                height: 580,
                 model: graph,
                 gridSize: 1
             });
@@ -270,7 +267,7 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
             graph.addCells(links);
 
             //graph.addCells([rect, rect2, link]);
-
+            $('.Rect' + $scope.selectedNodesId[0]).attr('fill', '#F44336');
             paper.on('cell:pointerdown',
                 function (cellView, evt, x, y) {
                     var cell = cellView.model;
@@ -282,6 +279,7 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
                         $scope.selectedNodesId = [];
                         $scope.selectedNodesId.push(currentId);
                         $('.Rect' + $scope.selectedNodesId[0]).attr('fill', '#F44336');
+                        console.log($scope.selectedNodesId[0]);
                     }
                         // Zaznaczam kilka
                     else {

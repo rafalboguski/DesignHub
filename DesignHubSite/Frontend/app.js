@@ -15,7 +15,7 @@ app.config(function ($routeProvider) {
         controller: "projectsController",
         templateUrl: "/FrontEnd/Projects/project.html"
     });
-    $routeProvider.when("/project/:projectId/graph", {
+    $routeProvider.when("/project/:projectId/graph/:selectedNodeId", {
         controller: "nodesCtrl",
         templateUrl: "/FrontEnd/Nodes/nodes.html"
     });

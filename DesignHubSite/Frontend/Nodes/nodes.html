@@ -60,7 +60,7 @@
     <!-- Left Panel -->
     <div class="col-md-6">
         <div class="row dark-panel">
-            <h1>Versions Graph</h1>
+            <h3>Versions Graph</h3>
             <div class="row">
                 <!-- Modal trigger -->
                 <button class="btn waves-effect waves-light" ng-click="saveAll();">
@@ -76,7 +76,7 @@
                     Add Node
                 </a>
 
-                <form class="right">
+                <form class="">
                     <input type="checkbox" class="filled-in" id="filled-in-box" ng-model="selectManyNodes" />
                     <label for="filled-in-box">Select multiple</label>
                 </form>
@@ -148,8 +148,8 @@
                             Request opinions
                         </button>
 
-                        <button class="btn waves-effect waves-light left " ng-click="setNodeHead();">
-                            <i class="material-icons white left">navigation</i>
+                        <button class="btn waves-effect waves-light " ng-click="setNodeHead();">
+                            <i class="material-icons white right">navigation</i>
                             Head
                         </button>
 
@@ -160,18 +160,14 @@
                 <br>
 
                 <!-- Changelog and info -->
-                <div class="row well">
-                    <h5>Change log    {{selectedNode.timestamp}}</h5>
-                    <!--<div class="row left">
-                        <ul>
-                            <li class=" left" style="width:100%; margin:5px; padding:5px;" ng-repeat="info in selectedNode.changeInfo">
-                                {{info}}
-                        </ul>
-                    </div>-->
+                <div class="row panel" style="padding:20px;background-color:rgb(20, 20, 20)">
+                    <h5>Change log    <span class="right">{{selectedNode.timestamp}}</span></h5>
+  
 
                     <div class="collection">
-                        <div ng-repeat="info in selectedNode.changeInfo" class="collection-item transparent teal-text">
-                            {{info}}
+                        <div ng-repeat="info in selectedNode.changeInfo" class="collection-item transparent teal-text" style="font-size: 22px;">
+
+                            <i class="material-icons">add</i> {{info}}
                         </div>
                     </div>
                 </div>

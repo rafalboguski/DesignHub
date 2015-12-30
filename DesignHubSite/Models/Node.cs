@@ -38,6 +38,13 @@ namespace DesignHubSite.Models
 
         public ICollection<Marker> ImageMarkers { get; set; } = new List<Marker>();
 
+        public bool Accepted { get; set; }
+        public bool Rejected { get; set; }
+
+        public int Likes { get; set; }
+        public int Dislikes { get; set; }
+
+
         // graph data
 
         public int positionX { get; set; } = 100;

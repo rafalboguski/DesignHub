@@ -87,7 +87,7 @@
 
     <div ng-show="galleryLoadded">
         <div ng-repeat="Project in projects | limitTo:visibleProjectsNum" repeat-Done="galleryLoaddingFinished();">
-            <div class="panel panel-default fill"
+            <div class="panel panel-default fill "
                  style="
                             width: 300px;
                             height:500px;
@@ -99,7 +99,7 @@
                             overflow: hidden;
                             ">
 
-                <a class="panel-body"
+                <a class="panel-body hoverable"
                    ng-click="href('/project/'+Project.id);"
                    style="padding:0;">
 
@@ -123,7 +123,7 @@
 
 
                 </a>
-                <div class="panel-heading"
+                <div class="panel-heading hoverable"
                      style="
                             background-color:#0B0B0B;
                              border-bottom-right-radius: 10px;

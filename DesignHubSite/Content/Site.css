@@ -37,7 +37,7 @@ a {
 
 .btn {
     /*border-radius: 0 !important;*/
-    margin-top: 4px !important;
+    margin-bottom: 4px !important;
 }
 
 .row {
@@ -141,7 +141,6 @@ table th {
 
 .image-container {
     width: 100%;
-    height: 700px;
     background: #444;
     margin: 0 auto;
 }
