@@ -185,6 +185,11 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
 
             console.log($scope.selectedNodesId);
 
+            $('g').click(function (event) {
+                console.log('rect click');
+
+            })
+
             console.log($scope.nodes);
             $scope.selectedNode = _.find($scope.nodes, function (n) {
                 return n.id == $scope.selectedNodesId
@@ -266,10 +271,10 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
 
             //graph.addCells([rect, rect2, link]);
 
-            graph.on('all', function (eventName, cell) {
+            paper.on('cell:pointerdown',
+                function (cellView, evt, x, y) {
+                    var cell = cellView.model;
 
-
-                if (eventName == 'change:position') {
                     var currentId = cell.attributes.nodeId;
                     // Zaznacz jeden node
                     if ($scope.selectManyNodes == false) {
@@ -288,7 +293,8 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
                         }
                     }
                 }
-            });
+            );
+
 
         }
 

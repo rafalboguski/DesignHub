@@ -36,7 +36,8 @@ a {
 }
 
 .btn {
-    /*border-radius: 0 !important;*/ \;
+    /*border-radius: 0 !important;*/
+    margin-top: 4px !important;
 }
 
 .row {
@@ -98,10 +99,11 @@ footer {
 
 
 table td {
-   text-align: center;   
+    text-align: center;
 }
+
 table th {
-   text-align: center;   
+    text-align: center;
 }
 
 
@@ -128,15 +130,13 @@ table th {
 
 /*  markers -----------------------*/
 
-        .modal{
-            background-color: #0B0B0B !important;
-        }
+.modal {
+    background-color: #0B0B0B !important;
+}
 
 .modal-content {
     background-color: #0B0B0B !important;
-    border-color:teal;
-
-
+    border-color: teal;
 }
 
 .image-container {
