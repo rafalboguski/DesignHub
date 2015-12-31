@@ -76,6 +76,8 @@ namespace DesignHubSite.ExtensionMethods
             return HttpContext.Current.User.Identity.GetUserId();
         }
 
+
+
     }
 
 }

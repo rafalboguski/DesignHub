@@ -34,7 +34,7 @@
                     <div class="col-md-3">
                         <!-- Upload Image section -->
                         <button class="btn waves-effect waves-green" type="file" ngf-select="createNode(node, $file)"
-                                accept="image/*" ngf-max-height="5000" ngf-max-size="20MB">
+                                accept="image/*" ngf-max-height="95000" ngf-max-size="60MB">
                             Add new Node {{(f.progress >= 0)? ' '+f.progress+'%':''}}
                         </button>
 
@@ -96,7 +96,7 @@
         <div class="row dark-panel">
 
             <!-- Help Tutorial -->
-            <div ng-show="selectedNode.image == null">
+            <div ng-show="selectedNode == null">
                 <div class="row">
 
                     <br>
@@ -121,12 +121,12 @@
 
 
             <!-- Selected node preview -->
-            <div ng-show="selectedNode.image != null">
+            <div ng-show="selectedNode != null">
                 <div class="row" style="margin: 0;">
 
                     <br>
                     <!-- Image -->
-                    <div class="row center" style="
+                    <div class="row center" ng-show="selectedNode.image != null" style="
                                                 background-image: url('data:image/JPEG;base64,{{selectedNode.image}}');
                                                 background-size: contain;
                                                 background-repeat: no-repeat;
@@ -139,16 +139,18 @@
 
                     <!-- Buttons -->
                     <div class="row">
-                        <button class="btn waves-effect waves-light " ng-click="href('/project/' + projectId + '/markers/' + selectedNode.id)">
-                            <i class="material-icons white left">open_with</i>
-                            Opinions
-                        </button>
-                        <button class="btn waves-effect waves-light" ng-click="clearSelection();">
-                            <i class="material-icons white left">send</i>
-                            Request opinions
-                        </button>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button class="btn waves-effect waves-light " ng-click="href('/project/' + projectId + '/markers/' + selectedNode.id)">
+                                <i class="material-icons white left">open_with</i>
+                                Opinions
+                            </button>
+                            <button class="btn waves-effect waves-light" ng-click="clearSelection();" ng-show="selectedNode.imageMarkers.length == 0">
+                                <i class="material-icons white left">send</i>
+                                Request opinions
+                            </button>
+                        </div>
 
-                        <button class="btn waves-effect waves-light " ng-click="setNodeHead();">
+                        <button class="btn waves-effect waves-light " ng-click="setNodeHead();" ng-hide="selectedNode.rejected">
                             <i class="material-icons white right">navigation</i>
                             Head
                         </button>
@@ -162,7 +164,7 @@
                 <!-- Changelog and info -->
                 <div class="row panel" style="padding:20px;background-color:rgb(20, 20, 20)">
                     <h5>Change log    <span class="right">{{selectedNode.timestamp}}</span></h5>
-  
+
 
                     <div class="collection">
                         <div ng-repeat="info in selectedNode.changeInfo" class="collection-item transparent teal-text" style="font-size: 22px;">

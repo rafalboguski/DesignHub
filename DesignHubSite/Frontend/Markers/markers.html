@@ -24,9 +24,8 @@
                     ">-->
 
         <div class="center">
-            <div id="image-container" class="image-container tagged" 
-                 style="background-color:#0B0B0B;  height: {{imageContainerHeight}}px;"
-                 >
+            <div id="image-container" class="image-container tagged"
+                 style="background-color:#0B0B0B;  height: {{imageContainerHeight}}px;">
 
                 <a class="left waves-effect waves-light" ng-click="imageContainerBiger();" style="margin-right:10px;">Bigger</a>
                 <a class="left waves-effect waves-light" ng-click="imageContainerSmaller();">Smaller</a>
@@ -58,6 +57,29 @@
                 </a>
 
 
+                <div class="row" ng-show="node.rejected" style="padding:8px;padding-bottom:0;background-color:rgb(84, 7, 7) ;position: absolute;z-index: 10;top:10%;font-size:20px;">
+                    <div class="row white-text">
+                        <b>Node Rejected</b>  {{'by ' + node.whoRejected.name}}
+                    </div>
+                    <div class="row" style="padding:0;margin:0;">
+                        <button class="btn transparent waves-effect waves-light right" ng-click="rejectNode();" style="margin:0;">
+                            <i class="material-icons left white">replay</i>
+                            Undo
+                        </button>
+                    </div>
+                </div>
+                <div class="row" ng-show="node.accepted" style="padding:8px;padding-bottom:0;background-color:rgb(23, 79, 0) ;position: absolute;z-index: 10;top:10%;font-size:20px;">
+                    <div class="row white-text">
+                        <b>Node Accepted</b> by {{'by ' + node.whoRejected.name}}
+                    </div>
+                    <div class="row" style="padding:0;margin:0;">
+                        <button class="btn transparent waves-effect waves-light right" ng-click="acceptNode();" style="margin:0;">
+                            <i class="material-icons left white">replay</i>
+                            Undo
+                        </button>
+                    </div>
+                </div>
+
 
 
 
@@ -81,32 +103,44 @@
 
             </div>
         </div>
-        </br>
+        <br>
 
         <!-- Buttons -->
-        <div class="row">
+        <div class="row" style="background-color:rgb(20,20,20); padding:25px; border-radius:15px;">
 
-            <button class="btn waves-effect waves-light " ng-click="setNodeHead();">
-                <i class="material-icons white right">spellcheck</i>
-                Accept
-            </button>
-            <button class="btn waves-effect waves-light " ng-click="setNodeHead();">
-                <i class="material-icons white right">not_interested</i>
-                Reject
-            </button>
-            <button class="btn waves-effect waves-light " ng-click="setNodeHead();">
-                <i class="material-icons white right">thumb_up</i>
-                Like
-            </button>
-            <button class="btn waves-effect waves-light " ng-click="setNodeHead();">
-                <i class="material-icons white right">thumb_down</i>
-                Dislike
-            </button>
+            <div class="col-md-4">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button class="btn transparent" ng-click="likeNode();" style="width:150px;">
+                        <i class="material-icons left white">thumb_up</i>
+                        Like      {{node.likes}}
+                    </button>
+                    <button class="btn transparent" ng-click="dislikeNode();" style="width:150px;">
+                        <i class="material-icons left white">thumb_down</i>
+                        Dislike {{node.dislikes}}
+                    </button>
+                </div>
 
+                <div class="transparent" style="width:300px;height:30px;border-radius:15px; border-color:teal; border-width:1px;border-style: solid;">
+                    <div class="teal" style="width: {{node.likes/(node.likes+node.dislikes)*100}}%; height:100%;border-radius:15px;">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button class="btn waves-effect waves-light" ng-click="acceptNode();" ng-hide="node.rejected || node.accepted">
+                        <i class="material-icons white left">spellcheck</i>
+                        Accept
+                    </button>
+                    <button class="btn waves-effect waves-light" ng-click="rejectNode();" ng-hide="node.rejected || node.accepted">
+                        <i class="material-icons left white">not_interested</i>
+                        Reject
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-4">
 
-
-
-            <div class="right">
+            </div>
+            <div class="col-md-4">
                 <div class="switch" style="float:left;">
                     <label>Markers</label>
                     <label>
@@ -116,10 +150,13 @@
                         On
                     </label>
                 </div>
-
-                <div id="slider" ng-model="markersOpacity" style="float:left;width:200px;margin-left:30px;margin-top:5px;margin-right:30px;"></div>
+                <div id="slider" ng-model="markersOpacity" style="float:left;width:90%;margin-left:30px;margin-top:5px;margin-right:30px;"></div>
 
             </div>
+
+
+
+
 
 
         </div>

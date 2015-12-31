@@ -39,7 +39,9 @@ namespace DesignHubSite.Models
         public ICollection<Marker> ImageMarkers { get; set; } = new List<Marker>();
 
         public bool Accepted { get; set; }
+        public ApplicationUser whoAccepted { get; set; }
         public bool Rejected { get; set; }
+        public ApplicationUser whoRejected { get; set; }
 
         public int Likes { get; set; }
         public int Dislikes { get; set; }

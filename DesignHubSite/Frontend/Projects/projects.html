@@ -51,12 +51,12 @@
                 <div class="container">
                     <form novalidate class="simple-form">
 
-                     
+
 
                         <div class="col-md-9">
                             <div class="input-field">
                                 <input type="text" ng-model="project.name" style="font-size: 22px;" />
-                                <label for="icon_prefix" font-size: 18px;>Project name</label>
+                                <label for="icon_prefix" font-size 18px;>Project name</label>
 
                             </div>
                             <div class="input-field">
@@ -87,25 +87,27 @@
 
     <div ng-show="galleryLoadded">
         <div ng-repeat="Project in projects | limitTo:visibleProjectsNum" repeat-Done="galleryLoaddingFinished();">
-            <div class="panel panel-default fill "
+            <div class="panel panel-default fill"
                  style="
                             width: 300px;
-                            height:500px;
+                            /*height:500px;*/
                             background-color:transparent;
                             border-radius: 10px;
-                            border-color:transparent;
+                            border-color:transparent; /*teal*/
                             float:left;
+
                             margin:10px;
                             overflow: hidden;
                             ">
 
-                <a class="panel-body hoverable"
+                <a class="panel-body"
                    ng-click="href('/project/'+Project.id);"
                    style="padding:0;">
 
                     <img src="http://www.farhieyecare.com/wp-content/uploads/2012/01/placeholder.png"
                          ng-show="Project.headImage == null"
                          style=" border-top-right-radius: 10px;
+                                         cursor:pointer;
                                          border-top-left-radius: 10px;
                                          border-color:transparent;
 
@@ -113,18 +115,20 @@
                     <img src="data:image/JPEG;base64,{{Project.headImage}}"
                          ng-show="Project.headImage != null"
                          style=" border-top-right-radius: 10px;
+                                cursor:pointer;
                                 border-top-left-radius: 10px;
                                 border-color:transparent;
-                                width:296px;
-                                height:296px;
+                                width:300px;
+                                height:300px;
                                 margin:0
                                 ">
 
 
 
                 </a>
-                <div class="panel-heading hoverable"
+                <div class="panel-heading"
                      style="
+                            cursor:pointer;
                             background-color:#0B0B0B;
                              border-bottom-right-radius: 10px;
                              border-bottom-left-radius: 10px;

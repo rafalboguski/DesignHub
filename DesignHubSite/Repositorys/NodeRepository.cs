@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using DesignHubSite.ExtensionMethods;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace DesignHubSite.Repositories
 {
@@ -25,6 +26,15 @@ namespace DesignHubSite.Repositories
         bool Delete(int id);
 
         Task<bool> UploadImage(int id, HttpRequestMessage request);
+
+
+        int Like(int nodeID);
+        int Dislike(int nodeID);
+
+        void Accept(int nodeID);
+        void Reject(int nodeID);
+
+
     }
 
 
@@ -41,9 +51,11 @@ namespace DesignHubSite.Repositories
                 var currentUserId = db.CurrentUserId();
 
                 var node = db.Nodes
-                                .Include("Project")
-                                .Include("Childrens")
-                                .Include("ImageMarkers")
+                                .Include(x => x.Project)
+                                .Include(x => x.Childrens)
+                                .Include(x => x.ImageMarkers)
+                                .Include(x => x.whoRejected)
+                                .Include(x => x.whoAccepted)
                                 .SingleOrDefault(p => (p.Id == id));
 
                 return node;
@@ -61,18 +73,18 @@ namespace DesignHubSite.Repositories
                 if (projectId == null)
                 {
                     var nodes = from p in db.Nodes
-                               .Include("Project")
-                               .Include("Childrens")
-                               .Include("ImageMarkers")
+                               .Include(x => x.Project)
+                                .Include(x => x.Childrens)
+                                .Include(x => x.ImageMarkers)
                                 select p;
                     return nodes.ToList();
                 }
                 else
                 {
                     var nodes = from p in db.Nodes
-                                .Include("Project")
-                                .Include("Childrens")
-                                .Include("ImageMarkers")
+                              .Include(x => x.Project)
+                                .Include(x => x.Childrens)
+                                .Include(x => x.ImageMarkers)
                                 where p.Project.Id == projectId
                                 select p;
                     return nodes.ToList();
@@ -221,6 +233,63 @@ namespace DesignHubSite.Repositories
 
                 db.SaveChanges();
                 return true;
+
+            }
+        }
+
+        public int Like(int nodeID)
+        {
+            using (var db = ApplicationDbContext.Create())
+            {
+                var node = db.Nodes.Single(x => x.Id == nodeID);
+                node.Likes++;
+
+                db.SaveChanges();
+                return node.Likes;
+
+            }
+
+        }
+
+        public int Dislike(int nodeID)
+        {
+            using (var db = ApplicationDbContext.Create())
+            {
+                var node = db.Nodes.Single(x => x.Id == nodeID);
+                node.Dislikes++;
+
+                db.SaveChanges();
+                return node.Dislikes;
+
+            }
+        }
+
+        public void Accept(int nodeID)
+        {
+            using (var db = ApplicationDbContext.Create())
+            {
+                var loggedUserId = db.CurrentUserId();
+                var loggedUser = db.Users.Single(x => x.Id == loggedUserId);
+
+                var node = db.Nodes.Single(x => x.Id == nodeID);
+                node.Accepted = !node.Accepted;
+                node.whoAccepted = loggedUser;
+                db.SaveChanges();
+
+            }
+        }
+
+        public void Reject(int nodeID)
+        {
+            using (var db = ApplicationDbContext.Create())
+            {
+                var loggedUserId = db.CurrentUserId();
+                var loggedUser = db.Users.Single(x => x.Id == loggedUserId);
+
+                var node = db.Nodes.Single(x => x.Id == nodeID);
+                node.Rejected = !node.Rejected;
+                node.whoRejected = loggedUser;
+                db.SaveChanges();
 
             }
         }

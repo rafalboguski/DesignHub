@@ -258,6 +258,54 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', '$location', 
         }
 
 
+        // project
+
+        $scope.likeNode = function () {
+            var id = $scope.nodeId;
+            console.log('function $scope.likeNode ' + id);
+            nodesService.like(id).then(function (results) {
+                $scope.node.likes = parseInt(results.data);
+            }, function (error) {
+                alert(error.data.message);
+            });
+        };
+        $scope.dislikeNode = function () {
+            var id = $scope.nodeId;
+            console.log('function $scope.dislikeNode ' + id);
+            nodesService.dislike(id).then(function (results) {
+                console.log(results);
+                $scope.node.dislikes = parseInt(results.data);
+            }, function (error) {
+                alert(error.data.message);
+            });
+        };
+
+        $scope.acceptNode = function () {
+            var id = $scope.nodeId;
+            console.log('function $scope.acceptNode ' + id);
+            nodesService.accept(id).then(function (results) {
+                $scope.node.accepted = !$scope.node.accepted;
+                materialize.toast('Node Accepted', 2000);
+            }, function (error) {
+                alert(error.data.message);
+            });
+        };
+
+        $scope.rejectNode = function () {
+            var id = $scope.nodeId;
+            console.log('function $scope.rejectNode ' + id);
+            nodesService.reject(id).then(function (results) {
+                $scope.node.rejected = !$scope.node.rejected;
+                console.log($scope.node.rejected);
+                materialize.toast('Node Accepted', 2000);
+            }, function (error) {
+                alert(error.data.message);
+            });
+        };
+
+
+        //
+
 
     }]);
 

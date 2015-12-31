@@ -117,6 +117,35 @@ namespace DesignHubSite.Controllers
         }
 
 
+        [HttpPost]
+        [Route("{id}/like")]
+        public int Like(int id)
+        {
+            return _repo.Like(id);
+        }
+        [HttpPost]
+        [Route("{id}/dislike")]
+        public int Dislike(int id)
+        {
+            return _repo.Dislike(id);
+        }
+        [HttpPost]
+        [Route("{id}/accept")]
+        public IHttpActionResult Acceept(int id)
+        {
+            _repo.Accept(id);
+            return Ok();
+        }
+        [HttpPost]
+        [Route("{id}/reject")]
+        public IHttpActionResult Reject(int id)
+        {
+            _repo.Reject(id);
+            return Ok();
+        }
+
+
+
 
 
     }

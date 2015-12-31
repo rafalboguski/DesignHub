@@ -48,9 +48,17 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
                     console.log(node.rect.id);
                 });
 
+                // toto: likes persons, add new nodes only if parent accepted
+
                 angular.forEach($scope.nodes, function (node) {
 
                     // use map hash
+
+                    var color = '#B2B2B2';
+                    if (node.rejected)
+                        color = '#540707';
+                    if (node.accepted)
+                        color = '#26A69A';
 
                     node.parents.forEach(function(parent) {
                         if (parent != null) {
@@ -58,8 +66,8 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
                                 target: { id: linksId[node.id] },
                                 source: { id: linksId[parent.id] },
                                 attrs: {
-                                    '.connection': { stroke: '#26A69A', 'stroke-width': 3 },
-                                    '.marker-target': { fill: '#26A69A', stroke: '#26A69A', d: 'M 10 0 L 0 5 L 10 10 z', 'stroke-width': 5 }
+                                    '.connection': { stroke: color, 'stroke-width': 3 },
+                                    '.marker-target': { fill: color, stroke: color, d: 'M 10 0 L 0 5 L 10 10 z', 'stroke-width': 5 }
                                    
                                 }
                             });
@@ -153,12 +161,11 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
                             $('#AddNodeModal').closeModal();
                             Materialize.toast('Node saved', 1500);
                             $('.toast').addClass('green');
-                            console.log('/project/' + $scope.projectId + '/graph/' + $scope.selectedNodesId[0]);
-                            $location.path('/project/' + $scope.projectId + '/graph/' + $scope.selectedNodesId[0]);
+                            $route.reload();
                         });
                     }, function (response) {
                         if (response.status > 0)
-                            $scope.errorMsg = response.status + ': ' + response.data;
+                            alert(response.status + ': ' + response.data);
                     });
 
                     file.upload.progress(function (evt) {

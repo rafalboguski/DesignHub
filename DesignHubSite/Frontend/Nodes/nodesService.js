@@ -62,6 +62,24 @@ app.service('nodesService', ['$http', function ($http) {
     };
 
 
+    this.like = function (id) {
+        return $http.post(apiUrl + '/nodes/' + id + '/like');
+    };
+    this.dislike = function (id) {
+        console.log('nodesService dislike '+id);
+        return $http.post(apiUrl + '/nodes/' + id + '/dislike');
+    };
+
+    this.accept = function (id) {
+        return $http.post(apiUrl + '/nodes/' + id + '/accept');
+    };
+
+    this.reject = function (id) {
+        return $http.post(apiUrl + '/nodes/' + id + '/reject');
+    };
+
+
+
 
 }]);
 
