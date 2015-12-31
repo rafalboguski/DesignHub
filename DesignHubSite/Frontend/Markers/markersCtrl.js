@@ -264,7 +264,7 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', '$location', 
             var id = $scope.nodeId;
             console.log('function $scope.likeNode ' + id);
             nodesService.like(id).then(function (results) {
-                $scope.node.likes = parseInt(results.data);
+                $scope.getNode($scope.nodeId);
             }, function (error) {
                 alert(error.data.message);
             });
@@ -274,7 +274,7 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', '$location', 
             console.log('function $scope.dislikeNode ' + id);
             nodesService.dislike(id).then(function (results) {
                 console.log(results);
-                $scope.node.dislikes = parseInt(results.data);
+                $scope.getNode($scope.nodeId);
             }, function (error) {
                 alert(error.data.message);
             });

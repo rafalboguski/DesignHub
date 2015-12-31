@@ -119,13 +119,13 @@ namespace DesignHubSite.Controllers
 
         [HttpPost]
         [Route("{id}/like")]
-        public int Like(int id)
+        public ICollection<ApplicationUser> Like(int id)
         {
             return _repo.Like(id);
         }
         [HttpPost]
         [Route("{id}/dislike")]
-        public int Dislike(int id)
+        public ICollection<ApplicationUser> Dislike(int id)
         {
             return _repo.Dislike(id);
         }

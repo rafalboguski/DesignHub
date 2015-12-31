@@ -28,8 +28,8 @@ namespace DesignHubSite.Repositories
         Task<bool> UploadImage(int id, HttpRequestMessage request);
 
 
-        int Like(int nodeID);
-        int Dislike(int nodeID);
+        List<ApplicationUser> Like(int nodeID);
+        List<ApplicationUser> Dislike(int nodeID);
 
         void Accept(int nodeID);
         void Reject(int nodeID);
@@ -56,6 +56,8 @@ namespace DesignHubSite.Repositories
                                 .Include(x => x.ImageMarkers)
                                 .Include(x => x.whoRejected)
                                 .Include(x => x.whoAccepted)
+                                .Include(x => x.Likes)
+                                .Include(x => x.Dislikes)
                                 .SingleOrDefault(p => (p.Id == id));
 
                 return node;
@@ -237,29 +239,52 @@ namespace DesignHubSite.Repositories
             }
         }
 
-        public int Like(int nodeID)
+        public List<ApplicationUser> Like(int nodeID)
         {
             using (var db = ApplicationDbContext.Create())
             {
                 var node = db.Nodes.Single(x => x.Id == nodeID);
-                node.Likes++;
+
+                var userId = db.CurrentUserId();
+                var user = db.Users.Single(x => x.Id == userId);
+
+                if (node.Likes.Contains(user))
+                {
+                    node.Likes.Remove(user);
+                }
+                else
+                {
+                    node.Dislikes.Remove(user);
+                    node.Likes.Add(user);
+                }
 
                 db.SaveChanges();
-                return node.Likes;
-
+                return node.Likes.ToList();
             }
 
         }
 
-        public int Dislike(int nodeID)
+        public List<ApplicationUser> Dislike(int nodeID)
         {
             using (var db = ApplicationDbContext.Create())
             {
                 var node = db.Nodes.Single(x => x.Id == nodeID);
-                node.Dislikes++;
+
+                var userId = db.CurrentUserId();
+                var user = db.Users.Single(x => x.Id == userId);
+
+                if (node.Dislikes.Contains(user))
+                {
+                    node.Dislikes.Remove(user);
+                }
+                else
+                {
+                    node.Likes.Remove(user);
+                    node.Dislikes.Add(user);
+                }
 
                 db.SaveChanges();
-                return node.Dislikes;
+                return node.Dislikes.ToList();
 
             }
         }
