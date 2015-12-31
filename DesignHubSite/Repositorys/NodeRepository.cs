@@ -106,22 +106,27 @@ namespace DesignHubSite.Repositories
                     positionY = nodeDto.positionY,
                     Project = project,
                     Timestamp = nodeDto.date
-                    
+
                 };
 
                 project.Nodes.Add(node);
                 node.Project = project;
 
                 // is root
-                if (nodeDto.ParentId == null)
+                if (nodeDto.ParentsId.Count() == 0)
                 {
                     node.Root = true;
                 }
                 else
                 {
-                    var parent = db.Nodes.SingleOrDefault(n => n.Id == nodeDto.ParentId);
-                    parent.Childrens.Add(node);
-                    node.Parent = parent;
+                    foreach (var id in nodeDto.ParentsId)
+                    {
+                        var parent = db.Nodes.Single(x => x.Id == id);
+                        node.Parents.Add(parent);
+                        parent.Childrens.Add(node);
+
+                    }
+
                 }
 
 

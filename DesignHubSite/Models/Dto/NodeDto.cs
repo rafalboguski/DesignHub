@@ -29,7 +29,7 @@ namespace DesignHubSite.Models
 
         public bool? Head { get; set; }
 
-        public virtual int? ParentId { get; set; }
+        public virtual ICollection<int> ParentsId { get; set; } = new List<int>();
         public virtual ICollection<int> ChildrensId { get; set; } = new List<int>();
 
 

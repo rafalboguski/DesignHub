@@ -33,7 +33,7 @@ namespace DesignHubSite.Models
 
         public bool Head { get; set; }
 
-        public virtual Node Parent { get; set; }
+        public virtual ICollection<Node> Parents { get; set; } = new List<Node>();
         public virtual ICollection<Node> Childrens { get; set; } = new List<Node>();
 
         public ICollection<Marker> ImageMarkers { get; set; } = new List<Marker>();
