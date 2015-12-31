@@ -52,18 +52,23 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
 
                     // use map hash
 
-                    if (node.parent != null) {
-                        var link = new joint.dia.Link({
-                            source: { id: linksId[node.id] },
-                            target: { id: linksId[node.parent.id] },
-                            attrs: {
-                                '.connection': { stroke: '#26A69A', 'stroke-width': 3 },
-                                '.marker-source': { fill: '#26A69A', stroke: '#26A69A', d: 'M 10 0 L 0 5 L 10 10 z', 'stroke-width': 5 },
-                                '.marker-target': { fill: '#26A69A', stroke: '#26A69A', d: 'M 10 0 L 0 5 L 10 10 z', 'stroke-width': 5 }
-                            }
-                        });
-                        links.push(link);
-                    }
+                    node.parents.forEach(function(parent) {
+                        if (parent != null) {
+                            var link = new joint.dia.Link({
+                                target: { id: linksId[node.id] },
+                                source: { id: linksId[parent.id] },
+                                attrs: {
+                                    '.connection': { stroke: '#26A69A', 'stroke-width': 3 },
+                                    '.marker-target': { fill: '#26A69A', stroke: '#26A69A', d: 'M 10 0 L 0 5 L 10 10 z', 'stroke-width': 5 }
+                                   
+                                }
+                            });
+                            links.push(link);
+                        }
+                    });
+
+
+                    
 
 
                 });
@@ -125,7 +130,7 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
 
             console.log('create');
             console.log($scope.selectedNodesId[0]);
-            node.ParentId = $scope.selectedNodesId[0];
+            node.ParentsId = $scope.selectedNodesId;
             node.ProjectId = $scope.projectId;
             nodesService.createNode(node).then(function (res) {
 
@@ -146,8 +151,9 @@ app.controller('nodesCtrl', ['$scope', '$route', '$routeParams', '$location', 'U
                         $timeout(function () {
                             file.result = response.data;
                             $('#AddNodeModal').closeModal();
-                            Materialize.toast('Node saved', 500);
-                            $('.toast').addClass('red');
+                            Materialize.toast('Node saved', 1500);
+                            $('.toast').addClass('green');
+                            console.log('/project/' + $scope.projectId + '/graph/' + $scope.selectedNodesId[0]);
                             $location.path('/project/' + $scope.projectId + '/graph/' + $scope.selectedNodesId[0]);
                         });
                     }, function (response) {

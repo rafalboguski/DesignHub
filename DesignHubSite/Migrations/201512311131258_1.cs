@@ -34,15 +34,16 @@ namespace DesignHubSite.Migrations
                         Image = c.Binary(),
                         Root = c.Boolean(nullable: false),
                         Head = c.Boolean(nullable: false),
+                        Accepted = c.Boolean(nullable: false),
+                        Rejected = c.Boolean(nullable: false),
+                        Likes = c.Int(nullable: false),
+                        Dislikes = c.Int(nullable: false),
                         positionX = c.Int(nullable: false),
                         positionY = c.Int(nullable: false),
-                        Parent_Id = c.Int(),
                         Project_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Nodes", t => t.Parent_Id)
                 .ForeignKey("dbo.Projects", t => t.Project_Id)
-                .Index(t => t.Parent_Id)
                 .Index(t => t.Project_Id);
             
             CreateTable(
@@ -119,6 +120,28 @@ namespace DesignHubSite.Migrations
                 .Index(t => t.RoleId);
             
             CreateTable(
+                "dbo.Permisions",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ProjectRole = c.String(),
+                        Readonly = c.Boolean(nullable: false),
+                        Message = c.Boolean(nullable: false),
+                        LikeOrDislikeChanges = c.Boolean(nullable: false),
+                        AddMarkers = c.Boolean(nullable: false),
+                        AcceptNodes = c.Boolean(nullable: false),
+                        AcceptWholeProject = c.Boolean(nullable: false),
+                        Timestamp = c.DateTime(nullable: false),
+                        Project_Id = c.Int(nullable: false),
+                        User_Id = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Projects", t => t.Project_Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.User_Id)
+                .Index(t => t.Project_Id)
+                .Index(t => t.User_Id);
+            
+            CreateTable(
                 "dbo.AspNetRoles",
                 c => new
                     {
@@ -127,6 +150,19 @@ namespace DesignHubSite.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
+            
+            CreateTable(
+                "dbo.NodeNodes",
+                c => new
+                    {
+                        Node_Id = c.Int(nullable: false),
+                        Node_Id1 = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.Node_Id, t.Node_Id1 })
+                .ForeignKey("dbo.Nodes", t => t.Node_Id)
+                .ForeignKey("dbo.Nodes", t => t.Node_Id1)
+                .Index(t => t.Node_Id)
+                .Index(t => t.Node_Id1);
             
             CreateTable(
                 "dbo.ProjectsAndWatchers",
@@ -146,18 +182,25 @@ namespace DesignHubSite.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.Permisions", "User_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Permisions", "Project_Id", "dbo.Projects");
+            DropForeignKey("dbo.Nodes", "Project_Id", "dbo.Projects");
             DropForeignKey("dbo.ProjectsAndWatchers", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.ProjectsAndWatchers", "ProjectId", "dbo.Projects");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Projects", "Owner_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Nodes", "Project_Id", "dbo.Projects");
             DropForeignKey("dbo.Markers", "Node_Id", "dbo.Nodes");
-            DropForeignKey("dbo.Nodes", "Parent_Id", "dbo.Nodes");
+            DropForeignKey("dbo.NodeNodes", "Node_Id1", "dbo.Nodes");
+            DropForeignKey("dbo.NodeNodes", "Node_Id", "dbo.Nodes");
             DropIndex("dbo.ProjectsAndWatchers", new[] { "UserId" });
             DropIndex("dbo.ProjectsAndWatchers", new[] { "ProjectId" });
+            DropIndex("dbo.NodeNodes", new[] { "Node_Id1" });
+            DropIndex("dbo.NodeNodes", new[] { "Node_Id" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.Permisions", new[] { "User_Id" });
+            DropIndex("dbo.Permisions", new[] { "Project_Id" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
@@ -165,10 +208,11 @@ namespace DesignHubSite.Migrations
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.Projects", new[] { "Owner_Id" });
             DropIndex("dbo.Nodes", new[] { "Project_Id" });
-            DropIndex("dbo.Nodes", new[] { "Parent_Id" });
             DropIndex("dbo.Markers", new[] { "Node_Id" });
             DropTable("dbo.ProjectsAndWatchers");
+            DropTable("dbo.NodeNodes");
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.Permisions");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");

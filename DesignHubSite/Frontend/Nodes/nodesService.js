@@ -48,7 +48,7 @@ app.service('nodesService', ['$http', function ($http) {
                 'ChangeInfo': nodeDto.ChangeInfo,
                 'Image': nodeDto.Image,
                 'Description': nodeDto.description,
-                'ParentId': nodeDto.ParentId,
+                'ParentsId': nodeDto.ParentsId,
                 'ProjectId': nodeDto.ProjectId
 
             },
