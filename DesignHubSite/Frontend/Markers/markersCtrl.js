@@ -59,19 +59,19 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', '$location', 
             console.log('function $scope.imageContainerBiger ');
             $scope.imageContainerHeight += 90;
             $scope.resizeImage();
-           
+
 
         }
         $scope.imageContainerSmaller = function () {
             console.log('function $scope.imageContainerSmaller ');
             $scope.imageContainerHeight -= 90;
             $scope.resizeImage();
-             
+
         }
 
 
         $scope.init = function () {
-            console.log('function $scope.init ' );
+            console.log('function $scope.init ');
             $("#image").load(function () {
                 $scope.resizeImage();
                 Materialize.fadeInImage('#image');
@@ -117,11 +117,8 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', '$location', 
             });
             slider.noUiSlider.on('slide', function () {
                 $('.tag').css('opacity', slider.noUiSlider.get() / 100);
-                
+
             });
-
-
-
 
             $scope.nodeId = $routeParams.nodeId;
             $scope.getNode($scope.nodeId);
@@ -170,7 +167,6 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', '$location', 
             $scope.resizeTags();
         }
 
-
         $scope.resizeTags = function () {
             console.log('function $scope.resizeTags');
             var imagePosX = $("#image").position().left;
@@ -197,17 +193,18 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', '$location', 
         }
 
 
-        $scope.createMarker = function () {
+        $scope.createMarker = function (updateId) {
             console.log('function $scope.createMarker');
             $scope.newMarker.nodeId = $scope.nodeId;
-
+            $scope.newMarker.Id = updateId;
             markersService.createMarker($scope.newMarker).then(function (results) {
 
-                Materialize.toast('Saved', 500);
+                Materialize.toast('Saved', 2500);
                 $('.toast').addClass('green');
                 $scope.newMarker.text = '';
                 $('#AddMarkerModal').closeModal();
                 $scope.getMarkers();
+                $scope.newMarker.Id = null;
 
 
             }, function (error) {
@@ -224,7 +221,7 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', '$location', 
         }
 
         $scope.getNode = function (id) {
-            console.log('function $scope.getNode '+id);
+            console.log('function $scope.getNode ' + id);
             nodesService.getNode(id).then(function (results) {
 
                 $scope.node = results.data;
@@ -239,7 +236,32 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', '$location', 
             markersService.getMarkers($scope.nodeId).then(function (results) {
 
                 $scope.markers = results.data;
-                Materialize.toast('Data loadded', 500);
+
+                angular.forEach($scope.markers, function (value, key) {
+                    console.log(value);
+                    if (value.opinions.length == 1) {
+                        value.text = value.opinions[0].opinion;
+                    }
+                    else {
+                        value.text = value.opinions.length + ' opinions, click to see them';
+                    }
+
+
+                });
+
+
+
+
+
+
+
+
+                Materialize.toast('Data loadded', 1500);
+
+
+
+
+
 
             }, function (error) {
                 alert(error.data.message);
@@ -247,7 +269,7 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', '$location', 
         }
 
         $scope.getNodeImage = function (id) {
-            console.log('function $scope.getNodeImage '+id);
+            console.log('function $scope.getNodeImage ' + id);
             nodesService.getNodeImage(id).then(function (results) {
 
                 $scope.image = (results.data != "null") ? results.data.substring(1, results.data.length - 1) : null;

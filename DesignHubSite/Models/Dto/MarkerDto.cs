@@ -14,8 +14,8 @@ namespace DesignHubSite.Models
     public class MarkerDto
     {
 
-      
-        public int Id { get; set; }
+
+        public int? Id { get; set; } = null;
 
         [Range(0, 1)]
         public float X { get; set; } = 0.5f;

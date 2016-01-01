@@ -27,8 +27,8 @@
             <div id="image-container" class="image-container tagged"
                  style="background-color:#0B0B0B;  height: {{imageContainerHeight}}px;">
 
-                <a class="left waves-effect waves-light" ng-click="imageContainerBiger();" style="margin-right:10px;">Bigger</a>
-                <a class="left waves-effect waves-light" ng-click="imageContainerSmaller();">Smaller</a>
+                <a class="btn-sm left waves-effect waves-light" ng-click="imageContainerBiger();" style="margin-right:10px;">Bigger</a>
+                <a class="btn-sm left waves-effect waves-light" ng-click="imageContainerSmaller();">Smaller</a>
                 <img id="image"
                      class="modal-trigger"
                      src="data:image/JPEG;base64,{{image}}"
@@ -53,7 +53,7 @@
                    data-position="top" data-delay="10" data-tooltip="{{marker.text}}"
                    ng-show="showMarkers"
                    left="{{marker.x}}" top="{{marker.y}}" width="{{marker.width}}" height="{{marker.height}}">
-
+                   {{marker.number}}
                 </a>
 
 
@@ -177,27 +177,52 @@
                     </div>
 
                     <div class="col-md-3">
-                        <btn class="btn waves-effect waves-green" ng-click="createMarker()">Add marker</btn>
+                        <btn class="btn waves-effect waves-green" ng-click="createMarker(null)">Add marker</btn>
                     </div>
                 </form>
             </div>
         </div>
 
         <div id="MarkerModal" class="modal bottom-sheet">
-
+            <br />
             <div class="container">
-                <form novalidate class="simple-form">
-                    <div class="col-md-9 center">
-                        <br>
-                        <h4>{{selectedMarker.text}}</h4>
+                <div class="row" ng-repeat="opinion in selectedMarker.opinions" style="margin-bottom: 0;">
+                    <div class="col-md-12 well" style="border-color:rgb(20,20,20);border-width:5px;border-radius:15px;padding:15px;">
 
-                        <br>
-                    </div>
+                        <div class="col-md-2">
+                            <div class="chip"
+                                 style="background-color:transparent;">
+                                <img src="http://czasdzieci.pl/pliki/wydarzenia/2012/f_w_41138_5aa44.jpg" width="150" alt="Contact Person" style="width:60px;height:60px;">
+                            </div>
+                        </div>
 
-                    <div class="col-md-3">
-                        <btn class="btn waves-effect waves-green" ng-click="createMarker()">Remove marker</btn>
+                        <div class="col-md-8">
+                            {{opinion.author.name}}
+                            <br>
+                            <h5>{{opinion.opinion}}</h5>
+                            
+                        </div>
+                        <div class="col-md-2">
+                            <i class="right">{{opinion.timestamp}}</i><a class="right" ng-click="creatker()" style="cursor:pointer;">Remove</a>
+                        </div>
                     </div>
-                </form>
+                </div>
+                <div class="row">
+                    <form novalidate class="simple-form">
+                        <div class="col-md-12">
+                            <div class="input-field">
+                                <i class="material-icons prefix">subject</i>
+                                <textarea type="text" class="materialize-textarea" ng-model="newMarker.text" style="font-size:20px !important;"/>
+                                <label for="icon_prefix">Opinion</label>
+                            </div>
+
+                            <btn class="btn waves-effect waves-green right" ng-click="createMarker(selectedMarker.id)">
+                                <i class="right white-text material-icons">send</i>
+                                Add opinion
+                            </btn>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 

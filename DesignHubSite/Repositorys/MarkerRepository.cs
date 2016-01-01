@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using DesignHubSite.ExtensionMethods;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace DesignHubSite.Repositories
 {
@@ -34,7 +35,10 @@ namespace DesignHubSite.Repositories
             {
                 db.Configuration.LazyLoadingEnabled = false;
 
-                var marker = db.Markers.SingleOrDefault(m => (m.Id == id));
+                var marker = db.Markers
+                    .Include(x => x.Opinions)
+                    .Include(x => x.Opinions.Select(o => o.Author))
+                    .SingleOrDefault(m => (m.Id == id));
 
                 return marker;
             }
@@ -45,31 +49,73 @@ namespace DesignHubSite.Repositories
         {
             using (var db = ApplicationDbContext.Create())
             {
-                var markers = db.Markers.Where(m => m.Node.Id == nodeId);
+                var markers = db.Markers
+                    .Include(x => x.Opinions)
+                    .Include(x => x.Opinions.Select(o => o.Author))
+                    .Where(m => m.Node.Id == nodeId);
                 return markers.ToList();
             }
         }
 
-    
-        public Marker Create(MarkerDto model)
+
+        public Marker Create(MarkerDto dto)
         {
             using (var db = ApplicationDbContext.Create())
             {
-                var marker = new Marker
+
+                var userId = db.CurrentUserId();
+                var user = db.Users.Single(x => x.Id == userId);
+
+                if (dto.Id == null)
                 {
-                    Height = model.Height,
-                    Width = model.Width,
-                    X = model.X,
-                    Y = model.Y,
-                    text = model.Text,
-                    Timestamp = DateTime.Now,
-                    Node = db.Nodes.SingleOrDefault(n => n.Id == model.NodeId)
-                };
+                    var marker = new Marker
+                    {
+                        Height = dto.Height,
+                        Width = dto.Width,
+                        X = dto.X,
+                        Y = dto.Y,
+                        Number = db.Markers
+                                        .Include(x => x.Node)
+                                        .Where(x => x.Node.Id == dto.NodeId)
+                                        .Count() + 1,
+                        Node = db.Nodes.SingleOrDefault(n => n.Id == dto.NodeId)
+                    };
 
-                db.Markers.Add(marker);
-                db.SaveChanges();
+                    var opinion = new MarkerOpinion
+                    {
+                        Marker = marker,
+                        Author = user,
+                        Opinion = dto.Text,
+                        Timestamp = DateTime.Now
+                    };
 
-                return marker;
+                    marker.Opinions.Add(opinion);
+
+                    db.MarkersOpinions.Add(opinion);
+                    db.Markers.Add(marker);
+                    db.SaveChanges();
+
+                    return marker;
+                }
+                else
+                {
+                    var marker = db.Markers.Single(x => x.Id == dto.Id);
+
+                    var opinion = new MarkerOpinion
+                    {
+                        Marker = marker,
+                        Author = user,
+                        Opinion = dto.Text,
+                        Timestamp = DateTime.Now
+                    };
+
+                    marker.Opinions.Add(opinion);
+
+                    db.MarkersOpinions.Add(opinion);
+                    db.SaveChanges();
+                    return marker;
+
+                }
             }
         }
 

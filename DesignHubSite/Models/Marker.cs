@@ -26,14 +26,30 @@ namespace DesignHubSite.Models
         public int Width { get; set; } = 50;
         public int Height { get; set; } = 50;
 
-        public string text { get; set; }
 
-        public DateTime Timestamp { get; set; }
+        public int Number { get; set; }
 
+        public ICollection<MarkerOpinion> Opinions { get; set; } = new List<MarkerOpinion>();
 
         public Node Node { get; set; }
 
 
+
+    }
+
+    public class MarkerOpinion
+    {
+
+        [Required]
+        public int Id { get; set; }
+      
+        public Marker Marker { get; set; }
+
+       
+        public ApplicationUser Author { get; set; }
+        public string Opinion { get; set; }
+
+        public DateTime Timestamp { get; set; }
 
     }
 

@@ -35,7 +35,8 @@ app.service('markersService', ['$http', function ($http) {
                 'Width': dto.width,
                 'Height': dto.height,
                 'NodeId': dto.nodeId,
-                'Text':dto.text
+                'Text':dto.text,
+                'Id':dto.Id
 
             },
             headers: { 'Content-Type': 'application/json' }
