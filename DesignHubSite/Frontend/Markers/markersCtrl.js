@@ -254,10 +254,11 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams','$timeout', '$
                 $timeout(function () {
                     $scope.resizeImage();
                     $('.tag').css('opacity', slider.noUiSlider.get() / 100);
+                    $scope.selectedMarker = _.find($scope.markers, function (rw) { return rw.id == $scope.selectedMarker.id });
                 }, 200);
 
                 Materialize.toast('Data loadded', 1500);
-
+                                                   
             }, function (error) {
                 alert(error.data.message);
             });
