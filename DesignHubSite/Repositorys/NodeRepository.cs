@@ -15,7 +15,7 @@ namespace DesignHubSite.Repositories
     public interface INodeRepository
     {
 
-        Node Single(int id);
+        Node Single(int? id);
 
         List<Node> All(int? projectId = null);
 
@@ -42,7 +42,7 @@ namespace DesignHubSite.Repositories
     {
 
 
-        public Node Single(int id)
+        public Node Single(int? id)
         {
             using (var db = ApplicationDbContext.Create())
             {

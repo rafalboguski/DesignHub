@@ -33,7 +33,7 @@ namespace DesignHubSite.Models
         public virtual ICollection<Node> Nodes { get; set; } = new List<Node>();
 
 
-        public int nodeHeadId { get; set; }
+        public int? nodeHeadId { get; set; } = null;
 
         public virtual ApplicationUser Owner { get; set; }
 

@@ -5,6 +5,7 @@ app.controller('indexController', ['$scope', '$location', function ($scope, $loc
     $scope.current_page = 'projects';
     $scope.project_name = '';
     $scope.project_id = '';
+    $scope.project = [];
 
     $scope.init = function (isLogged) {
         

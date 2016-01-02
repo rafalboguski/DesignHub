@@ -38,6 +38,7 @@ app.controller('projectsController', ['$scope', '$routeParams', '$location', 'Up
 
                 $scope.$parent.project_name = results.data.name;
                 $scope.$parent.project_id = $scope.projectId;
+                $scope.$parent.project = results.data;
 
 
             }, function (error) {

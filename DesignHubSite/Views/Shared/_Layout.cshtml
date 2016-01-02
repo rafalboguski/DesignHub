@@ -84,8 +84,8 @@
                             <ul ng-show="current_page.indexOf('project/') > -1" class="collapsible" data-collapsible="accordion" style="box-shadow: 0px 0px 0px 0px;">
 
                                 <p>Project {{project_name}}</p>
-                                <li>
-                                    <div href="#/project/{{project_id}}"
+                                <li ng-hide="project.nodeHeadId == null">
+                                    <div ng-click="href('/project/'+project_id+'/markers/'+project.nodeHeadId)"
                                          class="waves-effect waves-light collapsible-header">
                                         <i class="material-icons">perm_media</i>
                                         Actual Image

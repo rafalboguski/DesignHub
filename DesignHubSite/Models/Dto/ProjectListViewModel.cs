@@ -17,7 +17,7 @@ namespace DesignHubSite.Models
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public int HeadNodeId { get; set; }
+        public int? HeadNodeId { get; set; }
         public byte[] HeadImage { get; set; }
 
         public int NodesNumber { get; set; }
