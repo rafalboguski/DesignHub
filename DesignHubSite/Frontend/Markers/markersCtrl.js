@@ -249,10 +249,10 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams','$timeout', '$
                     }
                    
                 });
-                $scope.resizeImage();
+
                 console.log('--end function getMarkers');
                 $timeout(function () {
-                    $scope.resizeImage();
+                    $scope.resizeTags();
                     $('.tag').css('opacity', slider.noUiSlider.get() / 100);
                     $scope.selectedMarker = _.find($scope.markers, function (rw) { return rw.id == $scope.selectedMarker.id });
                 }, 200);
