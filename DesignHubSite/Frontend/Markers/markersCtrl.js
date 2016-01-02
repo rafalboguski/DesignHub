@@ -1,6 +1,6 @@
 ﻿'use strict';
-app.controller('markersCtrl', ['$scope', '$route', '$routeParams', '$location', 'markersService', 'nodesService',
-    function ($scope, $route, $routeParams, $location, markersService, nodesService) {
+app.controller('markersCtrl', ['$scope', '$route', '$routeParams','$timeout', '$location', 'markersService', 'nodesService',
+    function ($scope, $route, $routeParams,$timeout, $location, markersService, nodesService) {
 
 
 
@@ -168,7 +168,7 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', '$location', 
         }
 
         $scope.resizeTags = function () {
-            console.log('function $scope.resizeTags');
+            console.log('function resizeTags');
             var imagePosX = $("#image").position().left;
             var imageW = $("#image").width();
 
@@ -179,6 +179,8 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', '$location', 
             //console.log("image W: " + imageW);
 
             $(".tag").each(function (index) {
+
+                console.log('.tag resized');
                 var left = parseFloat($(this).attr("left"));
                 var width = parseFloat($(this).attr("width"));
                 $(this).css({ left: (imagePosX + (imageW * left) - width / 2) });
@@ -194,7 +196,7 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', '$location', 
 
 
         $scope.createMarker = function (updateId) {
-            console.log('function $scope.createMarker');
+            console.log('------function createMarker');
             $scope.newMarker.nodeId = $scope.nodeId;
             $scope.newMarker.Id = updateId;
             markersService.createMarker($scope.newMarker).then(function (results) {
@@ -205,7 +207,7 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', '$location', 
                 $('#AddMarkerModal').closeModal();
                 $scope.getMarkers();
                 $scope.newMarker.Id = null;
-
+                console.log('------end function createMarker');
 
             }, function (error) {
                 Materialize.toast('Error: ' + error.data.message, 1000);
@@ -232,7 +234,7 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', '$location', 
         }
 
         $scope.getMarkers = function () {
-            console.log('function $scope.getMarkers ');
+            console.log('--function getMarkers ');
             markersService.getMarkers($scope.nodeId).then(function (results) {
 
                 $scope.markers = results.data;
@@ -245,23 +247,16 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', '$location', 
                     else {
                         value.text = value.opinions.length + ' opinions, click to see them';
                     }
-
-
+                   
                 });
-
-
-
-
-
-
-
+                $scope.resizeImage();
+                console.log('--end function getMarkers');
+                $timeout(function () {
+                    $scope.resizeImage();
+                    $('.tag').css('opacity', slider.noUiSlider.get() / 100);
+                }, 200);
 
                 Materialize.toast('Data loadded', 1500);
-
-
-
-
-
 
             }, function (error) {
                 alert(error.data.message);
