@@ -7,43 +7,37 @@
         <div class="col-md-6">
             <div class="row dark-panel hoverable">
                 <div class="row">
-                    <div class="col-md-9">
+                    <div class="col-md-8">
                         <h1>Project {{project.name}}</h1>
                     </div>
-                    <div class="col-md-3">
-                        <label style="margin-top:35px;">Created</label>
-                        <p class="flow-text">{{ project.timestamp.slice(0,10)}}</p>
+
+                    <div class="col-md-2" >
+                        <label ng-show="project.rejected || project.accepted" style="margin-top:40px;">Finished</label>
+                        <p style="font-size:22px;" ng-show="project.rejected || project.accepted" class="flow-text">{{ project.endDate.slice(0,10)}}</p>
+                    </div>
+                    <div class="col-md-2">
+                        <label style="margin-top:40px;">Created</label>
+                        <p style="font-size:22px;" class="flow-text">{{ project.timestamp.slice(0,10)}}</p>
                     </div>
                 </div>
 
                 <label>Status</label>
-                <div ng-show="project.accepted" style="width:100%;height:30px;border-radius:15px;font-size:20px;background-color:rgb(35, 141, 69);">
-                    <b class="center" style="color:rgb(20,20,20)">
-                        {{ project.endDate.slice(0,10)}} {{ project.endDate.slice(11,16)}}  Project accepted
-                    </b>
-                </div>
-                <div ng-show="project.rejected" style="width:100%;height:30px;border-radius:15px;font-size:20px;background-color:red;">
-                    <b class="center" style="color:rgb(20,20,20)">
-                        {{ project.endDate.slice(0,10)}} {{ project.endDate.slice(11,16)}}  Project rejected
-                    </b>
-                </div>
-                <div class="teal" ng-hide="project.rejected || project.accepted" style="width:100%;height:30px;border-radius:15px;font-size:20px;">
-                    <b class="center" style="color:rgb(20,20,20)">
-                        In progress
-                    </b>
-                </div>
-
-                <br>
                 <div class="row">
-                    <label>Description</label>
-                    <p class="flow-text">{{ project.description}}</p>
-                </div>
-
-
-                <div class="row">
-
-
-
+                    <div ng-show="project.accepted" style="width:100%;height:30px;border-radius:15px;font-size:20px;background-color:rgb(35, 141, 69);">
+                        <b class="center" style="color:rgb(20,20,20)">
+                            Project accepted
+                        </b>
+                    </div>
+                    <div class="red" ng-show="project.rejected" style="width:100%;height:30px;border-radius:15px;font-size:20px;">
+                        <b class="center" style="color:rgb(20,20,20)">
+                            Project rejected
+                        </b>
+                    </div>
+                    <div class="teal" ng-hide="project.rejected || project.accepted" style="width:100%;height:30px;border-radius:15px;font-size:20px;">
+                        <b class="center" style="color:rgb(20,20,20)">
+                            In progress
+                        </b>
+                    </div>
                     <button class="btn transparent btn-danger right" ng-click="deleteProject(project.id)" style="border-style:solid;border-width:1px;border-color:rgb(40,40,40);">
                         Remove
                     </button>
@@ -53,10 +47,8 @@
                     <button class="btn transparent waves-effect waves-green right" ng-hide="project.rejected" ng-click="acceptProject(project.id)" style="border-style:solid;border-width:1px;border-color:rgb(40,40,40);">
                         {{(project.accepted)?"Cancel acceptance":"Accept project"}}
                     </button>
-
-
-
                 </div>
+
 
             </div>
 
@@ -78,7 +70,7 @@
                                     <label for="icon_prefix">Content</label>
                                 </div>
 
-                                <button class="btn orange darken-4 waves-effect waves-green right" ng-click="createMarker(selectedMarker.id)">
+                                <button class="btn transparent waves-effect waves-teal right" ng-click="createMarker(selectedMarker.id)">
                                     <i class="right white-text material-icons">send</i>
                                     Add note
                                 </button>
@@ -93,6 +85,10 @@
             <div class="row dark-panel hoverable">
                 <h3>Requirements</h3>
 
+                <div class="row">
+                    <label>Description</label>
+                    <p class="flow-text">{{ project.description}}</p>
+                </div>
 
             </div>
 
