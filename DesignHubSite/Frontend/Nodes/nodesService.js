@@ -22,6 +22,13 @@ app.service('nodesService', ['$http', function ($http) {
             headers: { 'Content-Type': 'application/json' }
         });
     }
+    this.acceptProject = function (id) {
+
+        return $http.post(apiUrl + '/projects/' + id + '/status/accept');
+    };
+    this.rejectProject = function (id) {
+        return $http.post(apiUrl + '/projects/' + id + '/status/reject');
+    };
 
     this.saveNode = function (id, changes) {
 

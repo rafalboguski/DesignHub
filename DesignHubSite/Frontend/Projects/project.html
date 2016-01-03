@@ -5,7 +5,7 @@
     <div data-ng-init="init()">
 
         <div class="col-md-6">
-            <div class="row dark-panel">
+            <div class="row dark-panel hoverable">
                 <div class="row">
                     <div class="col-md-9">
                         <h1>Project {{project.name}}</h1>
@@ -15,29 +15,44 @@
                         <p class="flow-text">{{ project.timestamp.slice(0,10)}}</p>
                     </div>
                 </div>
+
+                <label>Status</label>
+                <div ng-show="project.accepted" style="width:100%;height:30px;border-radius:15px;font-size:20px;background-color:rgb(35, 141, 69);">
+                    <b class="center" style="color:rgb(20,20,20)">
+                        {{ project.endDate.slice(0,10)}} {{ project.endDate.slice(11,16)}}  Project accepted
+                    </b>
+                </div>
+                <div ng-show="project.rejected" style="width:100%;height:30px;border-radius:15px;font-size:20px;background-color:red;">
+                    <b class="center" style="color:rgb(20,20,20)">
+                        {{ project.endDate.slice(0,10)}} {{ project.endDate.slice(11,16)}}  Project rejected
+                    </b>
+                </div>
+                <div class="teal" ng-hide="project.rejected || project.accepted" style="width:100%;height:30px;border-radius:15px;font-size:20px;">
+                    <b class="center" style="color:rgb(20,20,20)">
+                        In progress
+                    </b>
+                </div>
+
+                <br>
                 <div class="row">
                     <label>Description</label>
                     <p class="flow-text">{{ project.description}}</p>
                 </div>
 
 
-                <div class="teal white-text" style="width:100%;height:30px;">
-                                 <p>
-                                  
-                                 </p>
-                </div>
-
-
                 <div class="row">
 
-                </div>
 
-
-                <div class="row">
 
                     <button class="btn transparent btn-danger right" ng-click="deleteProject(project.id)" style="border-style:solid;border-width:1px;border-color:rgb(40,40,40);">
-                    Remove</button>
-
+                        Remove
+                    </button>
+                    <button class="btn transparent waves-effect waves-red right" ng-hide="project.accepted" ng-click="rejectProject(project.id)" style="border-style:solid;border-width:1px;border-color:rgb(40,40,40);">
+                        {{(project.rejected)?"Cancel rejection":"Reject project"}}
+                    </button>
+                    <button class="btn transparent waves-effect waves-green right" ng-hide="project.rejected" ng-click="acceptProject(project.id)" style="border-style:solid;border-width:1px;border-color:rgb(40,40,40);">
+                        {{(project.accepted)?"Cancel acceptance":"Accept project"}}
+                    </button>
 
 
 
@@ -45,101 +60,107 @@
 
             </div>
 
-            <div class="row dark-panel">
-                
-                <h4><i class="material-icons big-icon">description</i> Notes <small class="right" style="font-size:18px;">visible only to project developer</small></h4>
-                <div class="row well" style="min-height:200px;">
-                    todo
-                </div>
-                <div class="row">
-                    <form novalidate class="simple-form">
-                        <div class="col-md-12">
-                            <div class="input-field">
-                                <i class="material-icons prefix">subject</i>
-                                <textarea type="text" class="materialize-textarea" ng-model="newMarker.text" style="font-size:20px !important;" />
-                                <label for="icon_prefix">Content</label>
-                            </div>
+            <div class="row dark-panel hoverable">
 
-                            <button class="btn orange darken-4 waves-effect waves-green right" ng-click="createMarker(selectedMarker.id)">
-                                <i class="right white-text material-icons">send</i>
-                                Add note
-                            </button>
-                        </div>
-                    </form>
+                <h4 data-toggle="collapse" data-target="#notesContent" style="cursor:pointer;">
+                    <i class="material-icons big-icon">description</i> Notes <small class="right" style="font-size:18px;">visible only to project developer</small>
+                </h4>
+                <div id="notesContent" class="collapse in">
+                    <div class="row well" style="min-height:200px;">
+                        todo
+                    </div>
+                    <div class="row">
+                        <form novalidate class="simple-form">
+                            <div class="col-md-12">
+                                <div class="input-field">
+                                    <i class="material-icons prefix">subject</i>
+                                    <textarea type="text" class="materialize-textarea" ng-model="newMarker.text" style="font-size:20px !important;" />
+                                    <label for="icon_prefix">Content</label>
+                                </div>
+
+                                <button class="btn orange darken-4 waves-effect waves-green right" ng-click="createMarker(selectedMarker.id)">
+                                    <i class="right white-text material-icons">send</i>
+                                    Add note
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div><br><br><br><br><br><br><br><br><br><br><br>
 
         </div>
         <div class="col-md-5">
-            <div class="row dark-panel">
+            <div class="row dark-panel hoverable">
                 <h3>Requirements</h3>
 
 
             </div>
 
             <!-- Users assigned to project -->
-            <div id="projectPeoplePanel" class="row dark-panel">
-                <h4>
+            <div id="projectPeoplePanel" class="row dark-panel hoverable" style="cursor:pointer;">
+                <h4 data-toggle="collapse" data-target="#usersContent">
                     <i class="material-icons big-icon">perm_identity</i>
                     Assigned users<button class="btn waves-effect waves-light right modal-trigger" data-target="AddPersonModal">Manage</button>
                 </h4>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="text-align: left;">User Name</th>
+                <div id="usersContent" class="collapse in">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="text-align: left;">User Name</th>
 
-                            <th class="tooltipped center" data-position="top" data-delay="10" data-tooltip="Role in project">
-                                <i class="material-icons">assignment_ind</i>
-                            </th>
-                            <th class="tooltipped" data-position="top" data-delay="10" data-tooltip="Can see project">
-                                <i class="material-icons">visibility</i>
-                            </th>
-                            <th class="tooltipped" data-position="top" data-delay="10" data-tooltip="Can message you">
-                                <i class="material-icons">email</i>
-                            </th>
-                            <th class="tooltipped" data-position="top" data-delay="10" data-tooltip="Can like or dislike changes">
-                                <i class="material-icons">thumbs_up_down</i>
-                            </th>
-                            <th class="tooltipped" data-position="top" data-delay="10" data-tooltip="Can add markers on nodes">
-                                <i class="material-icons">my_location</i>
-                            </th>
-                            <th class="tooltipped" data-position="top" data-delay="10" data-tooltip="Can accept nodes">
-                                <i class="material-icons">call_split</i>
-                            </th>
-                            <th class="tooltipped" data-position="top" data-delay="10" data-tooltip="Can accept whole project">
-                                <i class="material-icons">done</i>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="text-align: left;">{{project.owner.name}}</td>
-                            <td class="center"> Owner</td>
+                                <th class="tooltipped center" data-position="top" data-delay="10" data-tooltip="Role in project">
+                                    <i class="material-icons">assignment_ind</i>
+                                </th>
+                                <th class="tooltipped" data-position="top" data-delay="10" data-tooltip="Can see project">
+                                    <i class="material-icons">visibility</i>
+                                </th>
+                                <th class="tooltipped" data-position="top" data-delay="10" data-tooltip="Can message you">
+                                    <i class="material-icons">email</i>
+                                </th>
+                                <th class="tooltipped" data-position="top" data-delay="10" data-tooltip="Can like or dislike changes">
+                                    <i class="material-icons">thumbs_up_down</i>
+                                </th>
+                                <th class="tooltipped" data-position="top" data-delay="10" data-tooltip="Can add markers on nodes">
+                                    <i class="material-icons">my_location</i>
+                                </th>
+                                <th class="tooltipped" data-position="top" data-delay="10" data-tooltip="Can accept nodes">
+                                    <i class="material-icons">call_split</i>
+                                </th>
+                                <th class="tooltipped" data-position="top" data-delay="10" data-tooltip="Can accept whole project">
+                                    <i class="material-icons">done</i>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="text-align: left;">{{project.owner.name}}</td>
+                                <td class="center"> Owner</td>
 
-                            <td>{{x.readonly? 'X' : '' }}</td>
-                            <td>{{x.message? 'X' : '' }}</td>
-                            <td>{{x.likeOrDislikeChanges? 'X' : '' }}</td>
-                            <td>{{x.addMarkers? 'X' : '' }}</td>
-                            <td>{{x.acceptNodes? 'X' : '' }}</td>
-                            <td>{{x.acceptWholeProject? 'X' : '' }}</td>
+                                <td>{{x.readonly? 'X' : '' }}</td>
+                                <td>{{x.message? 'X' : '' }}</td>
+                                <td>{{x.likeOrDislikeChanges? 'X' : '' }}</td>
+                                <td>{{x.addMarkers? 'X' : '' }}</td>
+                                <td>{{x.acceptNodes? 'X' : '' }}</td>
+                                <td>{{x.acceptWholeProject? 'X' : '' }}</td>
 
-                        </tr>
-                        <tr ng-repeat="x in users">
-                            <td style="text-align: left;">{{x.user.name}}</td>
+                            </tr>
+                            <tr ng-repeat="x in users">
+                                <td style="text-align: left;">{{x.user.name}}</td>
 
-                            <td class="center">{{x.projectRole }}</td>
+                                <td class="center">{{x.projectRole }}</td>
 
-                            <td>{{x.readonly? 'X' : '' }}</td>
-                            <td>{{x.message? 'X' : '' }}</td>
-                            <td>{{x.likeOrDislikeChanges? 'X' : '' }}</td>
-                            <td>{{x.addMarkers? 'X' : '' }}</td>
-                            <td>{{x.acceptNodes? 'X' : '' }}</td>
-                            <td>{{x.acceptWholeProject? 'X' : '' }}</td>
+                                <td>{{x.readonly? 'X' : '' }}</td>
+                                <td>{{x.message? 'X' : '' }}</td>
+                                <td>{{x.likeOrDislikeChanges? 'X' : '' }}</td>
+                                <td>{{x.addMarkers? 'X' : '' }}</td>
+                                <td>{{x.acceptNodes? 'X' : '' }}</td>
+                                <td>{{x.acceptWholeProject? 'X' : '' }}</td>
 
-                        </tr>
-                    </tbody>
-                </table>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <br>
 
 

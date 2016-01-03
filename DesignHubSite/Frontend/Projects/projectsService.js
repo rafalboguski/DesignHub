@@ -33,11 +33,6 @@ app.service('projectsService', ['$http', function ($http) {
         });
     };
 
-
-    //this.uploadImageAdress = function (projectId) {
-    //    return apiUrl + '/projects/' + projectId + '/image';
-    //};
-
     this.deleteProject = function (id) {
         return $http({
             method: 'DELETE',
@@ -51,7 +46,15 @@ app.service('projectsService', ['$http', function ($http) {
 
     this.getPermitedUsers = function (projectId) {
         return $http.get(apiUrl + '/users/permissions_in_project/' + projectId);
-    }
+    };
+
+
+    this.acceptProject = function (projectId) {
+        return $http.post(apiUrl + '/projects/' + projectId + '/status/accept');
+    };
+    this.rejectProject = function (projectId) {
+        return $http.post(apiUrl + '/projects/' + projectId + '/status/reject');
+    };
 
 }]);
 

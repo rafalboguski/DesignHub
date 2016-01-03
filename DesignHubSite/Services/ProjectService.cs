@@ -16,54 +16,82 @@ namespace DesignHubSite.Services
     public interface IProjectService
     {
 
-
-
-        //Task<bool> UploadImage(int id, HttpRequestMessage request);
-      
         void setHead(int id);
+
+        void AcceptProject(int projectId, out List<string> errors);
+        void RejectProject(int projectId, out List<string> errors);
+
     }
 
 
     public class ProjectService : IProjectService
     {
 
+        private ApplicationDbContext _db = ApplicationDbContext.Create();
 
 
 
-        //public async Task<bool> UploadImage(int id, HttpRequestMessage request)
-        //{
-        //    if (!request.Content.IsMimeMultipartContent())
-        //        return false;
+        public void AcceptProject(int projectId, out List<string> errors)
+        {
+            errors = new List<string>();
 
-        //    using (var db = ApplicationDbContext.Create())
-        //    {
-        //        // TODO: check if right owner
-        //        var node = db.Nodes.Single(x => x.Id == id);
+            var loggedUserId = _db.CurrentUserId();
+            var loggedUser = _db.Users.Single(x => x.Id == loggedUserId);
 
-        //        if (node == null)
-        //            return false;
+            var project = _db.Projects.Single(x => x.Id == projectId);
 
-        //        var provider = new MultipartMemoryStreamProvider();
-        //        await request.Content.ReadAsMultipartAsync(provider);
-        //        foreach (var file in provider.Contents)
-        //        {
-        //            var filename = file.Headers.ContentDisposition.FileName.Trim('\"');
-        //            var buffer = await file.ReadAsByteArrayAsync();
+            if (project.Rejected)
+            {
+                errors.Add("ERROR: You can't accept rejected project");
+                return;
+            }
 
-        //            //                project.ImageName = filename;
-        //                            node.Image = buffer;
-        //        }
+            if (project.Accepted == false)
+            {
+                project.Accepted = true;
+                project.WhoAccepted = loggedUser;
+                project.EndDate = DateTime.Now;
+            }
+            else
+            {
+                project.Accepted = false;
+                project.WhoAccepted = null;
+            }
+            _db.SaveChanges();
+        }
 
-        //        db.SaveChanges();
-        //        return true;
+        public void RejectProject(int projectId, out List<string> errors)
+        {
+            errors = new List<string>();
 
-        //    }
-        //}
-     
+            var loggedUserId = _db.CurrentUserId();
+            var loggedUser = _db.Users.Single(x => x.Id == loggedUserId);
+
+            var project = _db.Projects.Single(x => x.Id == projectId);
+
+            if (project.Accepted)
+            {
+                errors.Add("ERROR: You can't reject accepted project");
+                return;
+            }
+
+            if (project.Rejected == false)
+            {
+                project.Rejected = true;
+                project.WhoRejected = loggedUser;
+                project.EndDate = DateTime.Now;
+            }
+            else
+            {
+                project.Rejected = false;
+                project.WhoRejected = null;
+                project.EndDate = null;
+            }
+            _db.SaveChanges();
+        }
 
         public void setHead(int id)
         {
-
             using (var db = ApplicationDbContext.Create())
             {
                 var head = db.Nodes.Include("Project").SingleOrDefault(n => n.Id == id);
@@ -78,10 +106,10 @@ namespace DesignHubSite.Services
 
 
                 db.SaveChanges();
-
             }
-
         }
+
+
     }
 
 

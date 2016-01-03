@@ -26,6 +26,9 @@ namespace DesignHubSite.Models
 
         public int AssignedUsersCount { get; set; }
 
+        public bool Accepted { get; set; }
+        public bool Rejected { get; set; }
+
         public DateTime Timestamp { get; set; }
 
 
@@ -45,6 +48,8 @@ namespace DesignHubSite.Models
                     //HeadImage = p.Head?.Image,
                     Owner = p.Owner,
                     NodesNumber = p.Nodes.Count,
+                    Accepted = p.Accepted,
+                    Rejected = p.Rejected,
                     Timestamp = p.Timestamp,
                     AssignedUsersCount = p.AssignedUsers.Count
                 });

@@ -100,6 +100,26 @@ app.controller('projectsController', ['$scope', '$routeParams', '$location', 'Up
 
         }
 
+        $scope.rejectProject = function (id) {
+
+            projectsService.rejectProject(id).then(function (results) {
+                $scope.getProject();
+                Materialize.toast('Scope rejected', 2000);
+            }, function (error) {
+                console.log(error);
+                alert(error.data);
+            });
+        }
+        $scope.acceptProject = function (id) {
+
+            projectsService.acceptProject(id).then(function (results) {
+                $scope.getProject();
+                Materialize.toast('Scope rejected', 2000);
+            }, function (error) {
+                console.log(error);
+                alert(error.data);
+            });
+        }
 
         // -- Add new Person 
         $scope.addPerson = {};

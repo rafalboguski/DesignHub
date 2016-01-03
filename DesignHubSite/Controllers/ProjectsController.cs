@@ -91,15 +91,43 @@ namespace DesignHubSite.Controllers
             return (_repoProjects.Delete(id)) ? (IHttpActionResult)Ok() : NotFound();
         }
 
+        [HttpPost]
+        [Route("{id}/status/{status}")]
+        public HttpResponseMessage ChangeStatus(int id, string status)
+        {
+            List<string> errors;
+            if (status == "accept")
+            {
+                _serviceProjects.AcceptProject(id, out errors);
+            }
+            else if (status == "reject")
+            {
+                _serviceProjects.RejectProject(id, out errors);
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
 
-           
+            if (errors.Count > 0)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, errors);
+            }
+
+
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+
+
         //[Route("{id}")]
         //public IHttpActionResult getWatchers(int id)
         //{
         //    return (_repoProjects.Delete(id)) ? (IHttpActionResult)Ok() : NotFound();
         //}
 
-         
+
 
     }
 }

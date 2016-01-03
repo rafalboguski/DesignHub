@@ -4,6 +4,17 @@
 }
 
 
+.hoverable {
+    border-style: solid !important;
+    border-color: transparent !important;
+    border-width: 1px !important;
+}
+
+    .hoverable:hover {
+        border-style: solid !important;
+        border-color: teal !important;
+        border-width: 1px !important;       
+    }
 
 
 .material-icons {

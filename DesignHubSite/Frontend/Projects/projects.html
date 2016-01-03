@@ -87,7 +87,7 @@
 
     <div ng-show="galleryLoadded">
         <div ng-repeat="Project in projects | limitTo:visibleProjectsNum" repeat-Done="galleryLoaddingFinished();">
-            <div class="panel panel-default fill"
+            <div class="panel panel-default fill hoverable"
                  style="
                             width: 300px;
                             /*height:500px;*/
@@ -135,11 +135,14 @@
                              border-color:transparent;
                             ">
 
-                    <h5 class="white-text text-darken-4">{{Project.name}}</h5>
+                    <h5 class="white-text text-darken-4">
+                        {{Project.name}} <i ng-show="Project.accepted" class="material-icons big-icon right" style="background-color: rgb(35, 141, 69) !important;padding: 3px;">done</i> <i ng-show="Project.rejected" class="material-icons big-icon right" style="background-color: red !important;padding: 3px;">error</i>
+                    </h5>
 
-                    <div class="projects-panel-details">
-                        <p>{{Project.description}}</p>
-                        <p class="fade-overlay"></p>
+
+                    <div class="projects-panel-details" style="padding-top:4px">
+                        <row>{{Project.description}}</row>
+                        <row class="fade-overlay"></row>
                     </div>
 
                 </div>

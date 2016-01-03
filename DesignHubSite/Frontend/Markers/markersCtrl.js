@@ -1,6 +1,6 @@
 ﻿'use strict';
-app.controller('markersCtrl', ['$scope', '$route', '$routeParams','$timeout', '$location', 'markersService', 'nodesService',
-    function ($scope, $route, $routeParams,$timeout, $location, markersService, nodesService) {
+app.controller('markersCtrl', ['$scope', '$route', '$routeParams','projectsService', '$timeout', '$location', 'markersService', 'nodesService',
+    function ($scope, $route, $routeParams, $timeout, $location, projectsService, markersService, nodesService) {
 
 
 
@@ -261,7 +261,7 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams','$timeout', '$
                     else {
                         value.text = value.opinions.length + ' opinions, click to see them';
                     }
-                   
+
                 });
 
                 console.log('--end function getMarkers');
@@ -272,7 +272,7 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams','$timeout', '$
                 }, 200);
 
                 Materialize.toast('Data loadded', 1500);
-                                                   
+
             }, function (error) {
                 alert(error.data.message);
             });
@@ -289,6 +289,16 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams','$timeout', '$
             });
         }
 
+        $scope.acceptProject = function () { 
+            var id = $scope.node.project.id;
+            console.log('function acceptProject ' +id);
+            nodesService.acceptProject(id).then(function (results) {
+                $scope.acceptNode();
+            }, function(error) {
+                alert(error.data.message);
+            });
+
+        }
 
         // project
 
@@ -300,7 +310,7 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams','$timeout', '$
             }, function (error) {
                 alert(error.data.message);
             });
-        };
+        }
         $scope.dislikeNode = function () {
             var id = $scope.nodeId;
             console.log('function $scope.dislikeNode ' + id);
@@ -310,7 +320,7 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams','$timeout', '$
             }, function (error) {
                 alert(error.data.message);
             });
-        };
+        }
 
         $scope.acceptNode = function () {
             var id = $scope.nodeId;
@@ -322,7 +332,7 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams','$timeout', '$
             }, function (error) {
                 alert(error.data.message);
             });
-        };
+        }
 
         $scope.rejectNode = function () {
             var id = $scope.nodeId;
@@ -334,7 +344,7 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams','$timeout', '$
             }, function (error) {
                 alert(error.data.message);
             });
-        };
+        }
 
 
         //

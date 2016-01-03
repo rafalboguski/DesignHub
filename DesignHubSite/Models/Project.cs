@@ -30,7 +30,9 @@ namespace DesignHubSite.Models
 
 
         public bool Accepted { get; set; } = false;
+        public ApplicationUser WhoAccepted { get; set; }
         public bool Rejected { get; set; } = false;
+        public ApplicationUser WhoRejected { get; set; }
 
 
         public int DurationDays { get; set; }
@@ -47,7 +49,7 @@ namespace DesignHubSite.Models
 
                 
         public DateTime Timestamp { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; } = DateTime.Now;
 
     }
 
