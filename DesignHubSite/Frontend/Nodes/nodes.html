@@ -142,7 +142,7 @@
                         <div class="btn-group" role="group" aria-label="Basic example">
                             <button class="btn waves-effect waves-light " ng-click="href('/project/' + projectId + '/markers/' + selectedNode.id)">
                                 <i class="material-icons white left">open_with</i>
-                                Opinions
+                                Opinions ( {{selectedNode.imageMarkers.length}} )
                             </button>
                             <button class="btn waves-effect waves-light" ng-click="clearSelection();" ng-show="selectedNode.imageMarkers.length == 0">
                                 <i class="material-icons white left">send</i>
@@ -150,7 +150,7 @@
                             </button>
                         </div>
 
-                        <button class="btn waves-effect waves-light " ng-click="setNodeHead();" ng-hide="selectedNode.rejected">
+                        <button class="btn waves-effect waves-light " ng-click="setNodeHead();" ng-hide="selectedNode.rejected || selectedNode.head">
                             <i class="material-icons white right">navigation</i>
                             Head
                         </button>
