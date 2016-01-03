@@ -24,6 +24,13 @@ input {
     }
 
 
+.big-icon {
+    color:white !important;
+    background-color: #008080 !important;
+    border-radius: 5px;
+    padding: 5px;
+}
+
 
 #content h2 {
     color: rgb(178, 178, 178);

@@ -29,6 +29,12 @@ namespace DesignHubSite.Models
         //public byte[] Image { get; set; }
 
 
+        public bool Accepted { get; set; } = false;
+        public bool Rejected { get; set; } = false;
+
+
+        public int DurationDays { get; set; }
+
 
         public virtual ICollection<Node> Nodes { get; set; } = new List<Node>();
 
@@ -41,7 +47,7 @@ namespace DesignHubSite.Models
 
                 
         public DateTime Timestamp { get; set; }
-
+        public DateTime EndDate { get; set; }
 
     }
 
