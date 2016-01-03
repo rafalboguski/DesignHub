@@ -71,7 +71,9 @@
                     <i class="material-icons white left">location_off</i>
                     Unselect
                 </button>
-                <a class="btn modal-trigger waves-effect waves-light red" data-target="AddNodeModal" ng-show="selectedNodesId.length > 0">
+                <a class="btn modal-trigger waves-effect waves-light red" 
+                   data-target="AddNodeModal" 
+                   ng-show="selectedNodesId.length > 0 && selectedNode.accepted == true">
                     <i class="material-icons white left">note_add</i>
                     Add Node
                 </a>
@@ -96,7 +98,7 @@
         <div class="row dark-panel">
 
             <!-- Help Tutorial -->
-            <div ng-show="selectedNode == null">
+            <div ng-show="selectedNode == null || selectedNode.root == true">
                 <div class="row">
 
                     <br>
@@ -121,7 +123,7 @@
 
 
             <!-- Selected node preview -->
-            <div ng-show="selectedNode != null">
+            <div ng-show="selectedNode != null && selectedNode.root == false">
                 <div class="row" style="margin: 0;">
 
                     <br>
@@ -173,10 +175,10 @@
                         </div>
                     </div>
                 </div>
-                <a class="btn modal-trigger waves-effect waves-light grey right" data-target="AddNodeModal">
-                    <i class="material-icons white left"></i>
+                <button class="btn black waves-effect waves-red right">
+                    <i class="material-icons white left">error_outline</i>
                     Remove node
-                </a>
+                </button>
                 <br>
                 <br>
                 <br>

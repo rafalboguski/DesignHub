@@ -130,6 +130,7 @@ namespace DesignHubSite.Repositories
                 if (nodeDto.ParentsId.Count() == 0)
                 {
                     node.Root = true;
+                    node.Accepted = true;
                 }
                 else
                 {
