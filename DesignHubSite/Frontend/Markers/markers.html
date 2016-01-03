@@ -184,7 +184,7 @@
             </div>
         </div>
 
-        <div id="MarkerModal" class="modal bottom-sheet">
+        <div id="MarkerModal" class="modal bottom-sheet" style="max-height:90%">
             <br />
             <div class="container">
                 <div class="row" ng-repeat="opinion in selectedMarker.opinions" style="margin-bottom: 0;">
@@ -207,9 +207,11 @@
                             <!-- Replies -->
                             <div class="row well" ng-repeat="reply in opinion.replies" style="margin-left:40px !important; margin-bottom:0;border-color:rgb(20,20,20);">
 
-                                <b>{{reply.author.name}}</b>
+                                <b>{{reply.author.name}}</b> <i class="right">{{reply.timestamp}}</i>
                                 
                                 <h6>{{reply.text}}</h6>
+
+                                
                             </div>
 
 
@@ -224,7 +226,7 @@
 
                             <button class="btn transparent waves-effect waves-teal right" ng-click="opinion.showReply = true" style="width:150px" ng-show="opinion.showReply!=true">
                                 <i class="material-icons left">replay</i>
-                                Replay
+                                Reply 
                             </button>
                         </div>
                         <div class="col-md-2">
