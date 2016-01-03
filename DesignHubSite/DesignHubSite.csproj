@@ -214,6 +214,7 @@
     <Compile Include="Models\Auth\IdentityModels.cs" />
     <Compile Include="Models\Dto\PermisionDto.cs" />
     <Compile Include="Models\Marker.cs" />
+    <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Node.cs" />
     <Compile Include="Models\Permision.cs" />
     <Compile Include="Models\Project.cs" />

@@ -120,7 +120,8 @@
                     </button>
                 </div>
 
-                <div class="transparent" style="width:300px;height:30px;border-radius:15px; border-color:teal; border-width:1px;border-style: solid;">
+                <div class="transparent modal-trigger" style="width:300px;height:30px;border-radius:15px; border-color:teal; border-width:1px;border-style: solid;cursor:pointer;"
+                     data-target="LikesModal">
                     <div class="teal" style="width: {{node.likes.length/(node.likes.length+node.dislikes.length)*100}}%; height:100%;border-radius:15px;">
                     </div>
                 </div>
@@ -208,10 +209,10 @@
                             <div class="row well" ng-repeat="reply in opinion.replies" style="margin-left:40px !important; margin-bottom:0;border-color:rgb(20,20,20);">
 
                                 <b>{{reply.author.name}}</b> <i class="right">{{reply.timestamp}}</i>
-                                
+
                                 <h6>{{reply.text}}</h6>
 
-                                
+
                             </div>
 
 
@@ -226,7 +227,7 @@
 
                             <button class="btn transparent waves-effect waves-teal right" ng-click="opinion.showReply = true" style="width:150px" ng-show="opinion.showReply!=true">
                                 <i class="material-icons left">replay</i>
-                                Reply 
+                                Reply
                             </button>
                         </div>
                         <div class="col-md-2">
@@ -258,11 +259,30 @@
         </div>
 
         <!-- Begin: Reply to opinion modal -->
-        <div id="ReplyToOpinionModal" class="modal" style=" background-color: transparent !important; box-shadow: 0 0 0 0 !important;">
+        <div id="LikesModal" class="modal" style=" background-color: transparent !important; box-shadow: 0 0 0 0 !important;">
             <div class="modal-content">
                 <div class="row">
-                    <div class="col-sm-10"><h4>Add new person to your project </h4></div>
-                    <div class="col-sm-2"><a class="right modal-action modal-close waves-effect waves-red btn black">X</a></div>
+                    <div class="col-md-6 center">
+
+                        <h4>Likes {{node.likes.length}} <i class="material-icons left white">thumb_up</i></h4>
+
+                        <p ng-repeat="like in node.likes">
+                            {{like.name}}
+                        </p>
+
+                    </div>
+                    <div class="col-md-6 center">
+                        <a class="right modal-action modal-close waves-effect waves-red btn black">X</a>
+
+                        <div class="col-sm-10"><h4>Dislikes {{node.dislikes.length}} <i class="material-icons left white">thumb_down</i></h4></div>
+                        <p ng-repeat="dislike in node.dislikes">
+                            {{dislike.name}}
+                        </p>
+
+                    </div>
+
+
+
                 </div>
             </div>
         </div>
