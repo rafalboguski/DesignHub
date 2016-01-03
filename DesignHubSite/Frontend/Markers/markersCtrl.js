@@ -317,7 +317,8 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams','$timeout', '$
             console.log('function $scope.acceptNode ' + id);
             nodesService.accept(id).then(function (results) {
                 $scope.node.accepted = !$scope.node.accepted;
-                materialize.toast('Node Accepted', 2000);
+                $('#AcceptModal').closeModal();
+                Materialize.toast('Node Accepted', 2000);
             }, function (error) {
                 alert(error.data.message);
             });
@@ -329,7 +330,7 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams','$timeout', '$
             nodesService.reject(id).then(function (results) {
                 $scope.node.rejected = !$scope.node.rejected;
                 console.log($scope.node.rejected);
-                materialize.toast('Node Accepted', 2000);
+                Materialize.toast('Node Accepted', 2000);
             }, function (error) {
                 alert(error.data.message);
             });

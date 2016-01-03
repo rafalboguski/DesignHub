@@ -128,7 +128,7 @@
             </div>
             <div class="col-md-4">
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <button class="btn waves-effect waves-light" ng-click="acceptNode();" ng-hide="node.rejected || node.accepted"
+                    <button class="btn modal-trigger waves-effect waves-light" data-target="AcceptModal" ng-hide="node.rejected || node.accepted"
                             style="margin-right:4px;">
                         <i class="material-icons white left">spellcheck</i>
                         Accept
@@ -258,7 +258,7 @@
             </div>
         </div>
 
-        <!-- Begin: Reply to opinion modal -->
+        <!-- Reply to opinion modal -->
         <div id="LikesModal" class="modal" style=" background-color: transparent !important; box-shadow: 0 0 0 0 !important;">
             <div class="modal-content">
                 <div class="row">
@@ -283,6 +283,27 @@
 
 
 
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirmation modal -->
+        <div id="AcceptModal" class="modal" style="width:500px;background-color: transparent !important; box-shadow: 0 0 0 0 !important;">
+            <div class="modal-content">
+                <div class="row">
+                    <h4>Accept <a class="right modal-action modal-close waves-effect waves-red btn black">X</a></h4>
+                    
+                </div>
+
+                <div class="row">
+                    <button class="btn waves-effect waves-light" style="width:220px;">
+                        <i class="left white-text material-icons">done_all</i>
+                        Whole project
+                    </button>
+                    <button class="btn waves-effect waves-light" ng-click="acceptNode();" style="width:220px;">
+                        <i class="left white-text material-icons">done</i>
+                        Single node
+                    </button>
                 </div>
             </div>
         </div>
