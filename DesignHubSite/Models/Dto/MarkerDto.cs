@@ -37,4 +37,11 @@ namespace DesignHubSite.Models
 
     }
 
+    public class OpinionReplyDto
+    {
+        public int OpinionId { get; set; }
+        public string Text { get; set; }
+
+    }
+
 }

@@ -21,6 +21,8 @@ namespace DesignHubSite.Repositories
 
         Marker Create(MarkerDto model);
 
+        void ReplyToOpinion(int MarkerOpinionId, string text);
+
         bool Delete(int id);
 
     }
@@ -38,6 +40,7 @@ namespace DesignHubSite.Repositories
                 var marker = db.Markers
                     .Include(x => x.Opinions)
                     .Include(x => x.Opinions.Select(o => o.Author))
+                    .Include(x => x.Opinions.Select(o => o.Replies))
                     .SingleOrDefault(m => (m.Id == id));
 
                 return marker;
@@ -52,6 +55,7 @@ namespace DesignHubSite.Repositories
                 var markers = db.Markers
                     .Include(x => x.Opinions)
                     .Include(x => x.Opinions.Select(o => o.Author))
+                    .Include(x => x.Opinions.Select(o => o.Replies))
                     .Where(m => m.Node.Id == nodeId);
                 return markers.ToList();
             }
@@ -131,6 +135,29 @@ namespace DesignHubSite.Repositories
             }
         }
 
+
+        public void ReplyToOpinion(int MarkerOpinionId, string text)
+        {
+            using (var db = ApplicationDbContext.Create())
+            {
+                var loggedUserId = db.CurrentUserId();
+                var loggedUser = db.Users.Single(x => x.Id == loggedUserId);
+
+                var opinion = db.MarkersOpinions.Single(x => x.Id == MarkerOpinionId);
+
+                var reply = new MarkerOpinionReply
+                {
+                    Opinion = opinion,
+                    Text = text,
+                    Author = loggedUser,
+                    Timestamp = DateTime.Now
+                };
+
+                opinion.Replies.Add(reply);
+                db.MarkersOpinionsReplies.Add(reply);
+                db.SaveChanges();
+            }
+        }
 
     }
 

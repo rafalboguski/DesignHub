@@ -42,14 +42,32 @@ namespace DesignHubSite.Models
 
         [Required]
         public int Id { get; set; }
-      
+
         public Marker Marker { get; set; }
 
-       
+
         public ApplicationUser Author { get; set; }
         public string Opinion { get; set; }
 
+        public ICollection<MarkerOpinionReply> Replies { get; set; } = new LinkedList<MarkerOpinionReply>();
+
         public DateTime Timestamp { get; set; }
+
+    }
+
+    public class MarkerOpinionReply
+    {
+        [Required]
+        public int Id { get; set; }
+
+        public MarkerOpinion Opinion { get; set; }
+
+        public string Text { get; set; }
+
+        public ApplicationUser Author { get; set; }
+
+        public DateTime Timestamp { get; set; }
+
 
     }
 

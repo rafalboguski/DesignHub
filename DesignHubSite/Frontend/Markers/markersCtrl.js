@@ -233,6 +233,20 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams','$timeout', '$
             });
         }
 
+        $scope.replyToOpinion = function (opinionId, text) {
+            console.log('function replyToOpinion ' + opinionId + '  ' + text);
+            markersService.replyToOpinion(opinionId, text).then(function (results) {
+
+                Materialize.toast('Reply', 1200);
+                $scope.getMarkers();
+
+            }, function (error) {
+                alert(error.data.message);
+            });
+
+        }
+
+
         $scope.getMarkers = function () {
             console.log('--function getMarkers ');
             markersService.getMarkers($scope.nodeId).then(function (results) {

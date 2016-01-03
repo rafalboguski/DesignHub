@@ -205,33 +205,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201512311131258_1.cs" />
-    <Compile Include="Migrations\201512311131258_1.Designer.cs">
-      <DependentUpon>201512311131258_1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512311300081_2.cs" />
-    <Compile Include="Migrations\201512311300081_2.Designer.cs">
-      <DependentUpon>201512311300081_2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512311734505_3.cs" />
-    <Compile Include="Migrations\201512311734505_3.Designer.cs">
-      <DependentUpon>201512311734505_3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512311758202_4.cs" />
-    <Compile Include="Migrations\201512311758202_4.Designer.cs">
-      <DependentUpon>201512311758202_4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512311814117_5.cs" />
-    <Compile Include="Migrations\201512311814117_5.Designer.cs">
-      <DependentUpon>201512311814117_5.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201601011619043_6.cs" />
-    <Compile Include="Migrations\201601011619043_6.Designer.cs">
-      <DependentUpon>201601011619043_6.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201601021507171_7.cs" />
-    <Compile Include="Migrations\201601021507171_7.Designer.cs">
-      <DependentUpon>201601021507171_7.cs</DependentUpon>
+    <Compile Include="Migrations\201601031515138_1.cs" />
+    <Compile Include="Migrations\201601031515138_1.Designer.cs">
+      <DependentUpon>201601031515138_1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auth\AccountViewModels.cs" />
@@ -993,26 +969,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201512311131258_1.resx">
-      <DependentUpon>201512311131258_1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512311300081_2.resx">
-      <DependentUpon>201512311300081_2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512311734505_3.resx">
-      <DependentUpon>201512311734505_3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512311758202_4.resx">
-      <DependentUpon>201512311758202_4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512311814117_5.resx">
-      <DependentUpon>201512311814117_5.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601011619043_6.resx">
-      <DependentUpon>201601011619043_6.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601021507171_7.resx">
-      <DependentUpon>201601021507171_7.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201601031515138_1.resx">
+      <DependentUpon>201601031515138_1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

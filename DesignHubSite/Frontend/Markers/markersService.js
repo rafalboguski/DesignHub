@@ -43,6 +43,18 @@ app.service('markersService', ['$http', function ($http) {
         });
     };
 
+    this.replyToOpinion = function (opinionId, text) {
+        return $http({
+            method: 'POST',
+            url: apiUrl + '/markers/reply',
+            data: {
+                'OpinionId': opinionId,
+                'Text': text
+            },
+            headers: { 'Content-Type': 'application/json' }
+        });
+    };
+
 
 
 

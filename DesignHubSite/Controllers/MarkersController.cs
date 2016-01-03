@@ -57,6 +57,17 @@ namespace DesignHubSite.Controllers
             return marker;
         }
 
+        [HttpPost]                                          
+        [Route("reply")]
+        public IHttpActionResult ReplyToOpinion(OpinionReplyDto data)
+        {
+            _repo.ReplyToOpinion(data.OpinionId, data.Text);
+
+            return Ok();
+        }
+
+
+
 
         [HttpDelete]
         [Route("{id}")]
