@@ -137,8 +137,7 @@ namespace DesignHubSite.Services
                 _notyfication.Create(new Notification
                 {
                     Author = db.Users.Single(x => x.Id == userId),
-                    Header = "Project has new default image",
-                    Content = null,
+                    Header = "New node: head",
                     Priority = 5,
                     CreateDate = DateTime.Now,
                     ProjectId = head.Project.Id,

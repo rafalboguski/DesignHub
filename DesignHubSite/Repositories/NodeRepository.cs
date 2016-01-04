@@ -154,8 +154,7 @@ namespace DesignHubSite.Repositories
                     _notyfication.Create(new Notification
                     {
                         Author = currentUser,
-                        Header = "New node(image) was added",
-                        Content = null,
+                        Header = "New node",
                         Priority = 4,
                         ProjectId = project.Id,
                         Link = "/project/" + project.Id + "/graph/" + node.Id
@@ -283,7 +282,6 @@ namespace DesignHubSite.Repositories
                 {
                     Author = user,
                     Header = "User " + user.UserName + " likes node(image): " + node.Id,
-                    Content = null,
                     Priority = 2,
                     ProjectId = node.Project.Id,
                     Link = "/project/" + node.Project.Id + "/graph/" + node.Id
@@ -319,7 +317,6 @@ namespace DesignHubSite.Repositories
                 {
                     Author = user,
                     Header = "User " + user.UserName + " dislikes node(image): " + node.Id,
-                    Content = null,
                     Priority = 2,
                     ProjectId = node.Project.Id,
                     Link = "/project/" + node.Project.Id + "/graph/" + node.Id
@@ -336,7 +333,7 @@ namespace DesignHubSite.Repositories
                 var loggedUserId = db.CurrentUserId();
                 var loggedUser = db.Users.Single(x => x.Id == loggedUserId);
 
-                var node = db.Nodes.Single(x => x.Id == nodeID);
+                var node = db.Nodes.Include(x => x.Project).Single(x => x.Id == nodeID);
                 node.Accepted = !node.Accepted;
                 node.whoAccepted = loggedUser;
                 db.SaveChanges();
@@ -345,7 +342,6 @@ namespace DesignHubSite.Repositories
                 {
                     Author = loggedUser,
                     Header = "User " + loggedUser.UserName + " accepted node(image): " + node.Id,
-                    Content = "",
                     Priority = 5,
                     ProjectId = node.Project.Id,
                     Link = "/project/" + node.Project.Id + "/graph/" + node.Id
@@ -369,7 +365,6 @@ namespace DesignHubSite.Repositories
                 {
                     Author = loggedUser,
                     Header = "User " + loggedUser.UserName + " rejected node(image): " + node.Id,
-                    Content = "",
                     Priority = 5,
                     ProjectId = node.Project.Id,
                     Link = "/project/" + node.Project.Id + "/graph/" + node.Id

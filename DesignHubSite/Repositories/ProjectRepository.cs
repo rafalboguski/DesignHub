@@ -93,7 +93,6 @@ namespace DesignHubSite.Repositories
                 {
                     Author = currentUser,
                     Header = "Project created",
-                    Content = project.Description,
                     Priority = 1,
                     ProjectId = project.Id,
                     Link = null
@@ -135,7 +134,6 @@ namespace DesignHubSite.Repositories
                 {
                     Author = db.Users.Single(x => x.Id == currentUserId),
                     Header = "Project deleted",
-                    Content = null,
                     Priority = 1,
                     ProjectId = project.Id,
                     Link = null

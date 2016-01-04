@@ -49,7 +49,6 @@ namespace DesignHubSite.Repositories
             {
                 Author = _db.Users.Single(x => x.Id == userId),
                 Header = model.Header,
-                Content = model.Content,
                 Priority = model.Priority,
                 visited = false,
                 CreateDate = DateTime.Now,

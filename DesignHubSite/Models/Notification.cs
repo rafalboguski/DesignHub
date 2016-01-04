@@ -20,7 +20,6 @@ namespace DesignHubSite.Models
         public int Priority { get; set; }
         public bool visited { get; set; } = false;
         public string Header { get; set; }
-        public string Content { get; set; }
         public string Link { get; set; }
         public ApplicationUser Author { get; set; }
         public DateTime CreateDate {get; set; }

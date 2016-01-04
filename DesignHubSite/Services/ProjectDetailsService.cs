@@ -93,7 +93,6 @@ namespace DesignHubSite.Services
                 {
                     Author = db.Users.Single(x => x.Id == userId),
                     Header = "User "+ user.UserName + " has his rights to this project changed",
-                    Content = "Those can be added or removed in Project Details view, panel on the right",
                     CreateDate = DateTime.Now,
                     Priority = 1,
                     ProjectId = model.ProjectId.Value,

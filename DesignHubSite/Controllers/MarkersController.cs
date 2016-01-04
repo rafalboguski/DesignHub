@@ -52,7 +52,9 @@ namespace DesignHubSite.Controllers
             if (!ModelState.IsValid && dto == null)
                 return null;
 
-            var marker = _repo.Create(dto);
+            string errors = null;
+            var marker = _repo.Create(dto, out errors);
+            // todo: should return generic dto with object entity and errors
 
             return marker;
         }

@@ -19,7 +19,7 @@ namespace DesignHubSite.Repositories
 
         List<Marker> All(int nodeId);
 
-        Marker Create(MarkerDto model);
+        Marker Create(MarkerDto model, out string error);
 
         void ReplyToOpinion(int MarkerOpinionId, string text);
 
@@ -31,94 +31,98 @@ namespace DesignHubSite.Repositories
     public class MarkerRepository : IMarkerRepository
     {
 
+        private ApplicationDbContext _db = ApplicationDbContext.Create();
+        private INotificationReposotory _notyfication;
+
+        public MarkerRepository(INotificationReposotory notyfication)
+        {
+            _notyfication = notyfication;
+        }
+
         public Marker Single(int id)
         {
-            using (var db = ApplicationDbContext.Create())
-            {
-                db.Configuration.LazyLoadingEnabled = false;
+            var marker = _db.Markers
+                .Include(x => x.Opinions)
+                .Include(x => x.Opinions.Select(o => o.Author))
+                .Include(x => x.Opinions.Select(o => o.Replies))
+                .SingleOrDefault(m => (m.Id == id));
 
-                var marker = db.Markers
-                    .Include(x => x.Opinions)
-                    .Include(x => x.Opinions.Select(o => o.Author))
-                    .Include(x => x.Opinions.Select(o => o.Replies))
-                    .SingleOrDefault(m => (m.Id == id));
-
-                return marker;
-            }
+            return marker;
         }
 
 
         public List<Marker> All(int nodeId)
         {
-            using (var db = ApplicationDbContext.Create())
-            {
-                var markers = db.Markers
-                    .Include(x => x.Opinions)
-                    .Include(x => x.Opinions.Select(o => o.Author))
-                    .Include(x => x.Opinions.Select(o => o.Replies))
-                    .Where(m => m.Node.Id == nodeId);
-                return markers.ToList();
-            }
+            var markers = _db.Markers
+                .Include(x => x.Opinions)
+                .Include(x => x.Opinions.Select(o => o.Author))
+                .Include(x => x.Opinions.Select(o => o.Replies))
+                .Where(m => m.Node.Id == nodeId);
+            return markers.ToList();
         }
 
 
-        public Marker Create(MarkerDto dto)
+        public Marker Create(MarkerDto dto, out string error)
         {
-            using (var db = ApplicationDbContext.Create())
+            error = null;
+            using (var tr = _db.Database.BeginTransaction())
             {
-
-                var userId = db.CurrentUserId();
-                var user = db.Users.Single(x => x.Id == userId);
-
-                if (dto.Id == null)
+                try
                 {
-                    var marker = new Marker
-                    {
-                        Height = dto.Height,
-                        Width = dto.Width,
-                        X = dto.X,
-                        Y = dto.Y,
-                        Number = db.Markers
-                                        .Include(x => x.Node)
-                                        .Where(x => x.Node.Id == dto.NodeId)
-                                        .Count() + 1,
-                        Node = db.Nodes.SingleOrDefault(n => n.Id == dto.NodeId)
-                    };
+                    var userId = _db.CurrentUserId();
+                    var user = _db.Users.Single(x => x.Id == userId);
 
                     var opinion = new MarkerOpinion
                     {
-                        Marker = marker,
                         Author = user,
                         Opinion = dto.Text,
                         Timestamp = DateTime.Now
                     };
 
+                    Marker marker;
+
+                    if (dto.Id == null) // new marker
+                    {
+                        marker = new Marker
+                        {
+                            Height = dto.Height,
+                            Width = dto.Width,
+                            X = dto.X,
+                            Y = dto.Y,
+                            Number = _db.Markers.Include(x => x.Node)
+                                               .Where(x => x.Node.Id == dto.NodeId)
+                                               .Count() + 1,
+                            Node = _db.Nodes.Include(n => n.Project).SingleOrDefault(n => n.Id == dto.NodeId)
+                        };
+                        _db.Markers.Add(marker);
+                    }
+                    else  // adding opinion to existing marker
+                    {
+                        marker = _db.Markers.Include("Node").Include("Node.Project").Single(x => x.Id == dto.Id);
+                    }
+
+                    opinion.Marker = marker;
                     marker.Opinions.Add(opinion);
+                    _db.MarkersOpinions.Add(opinion);
+                    _db.SaveChanges();
 
-                    db.MarkersOpinions.Add(opinion);
-                    db.Markers.Add(marker);
-                    db.SaveChanges();
+                    _notyfication.Create(new Notification
+                    {
+                        Author = user,
+                        Header = "Node: new opinion",
+                        Priority = 4,
+                        ProjectId = marker.Node.Project.Id,
+                        Link = "/project/" + marker.Node.Project.Id + "/markers/" + marker.Node.Id
+                    });
 
+                    tr.Commit();
                     return marker;
                 }
-                else
+                catch (Exception e)
                 {
-                    var marker = db.Markers.Single(x => x.Id == dto.Id);
-
-                    var opinion = new MarkerOpinion
-                    {
-                        Marker = marker,
-                        Author = user,
-                        Opinion = dto.Text,
-                        Timestamp = DateTime.Now
-                    };
-
-                    marker.Opinions.Add(opinion);
-
-                    db.MarkersOpinions.Add(opinion);
-                    db.SaveChanges();
-                    return marker;
-
+                    tr.Rollback();
+                    error = "DB_ERROR :" + e.Message;
+                    return null;
                 }
             }
         }
@@ -126,37 +130,40 @@ namespace DesignHubSite.Repositories
 
         public bool Delete(int id)
         {
-            using (var db = ApplicationDbContext.Create())
-            {
-                var marker = db.Markers.SingleOrDefault(m => m.Id == id);
-                db.Markers.Remove(marker);
-                return db.SaveChanges() == 0;
-
-            }
+            var marker = _db.Markers.SingleOrDefault(m => m.Id == id);
+            _db.Markers.Remove(marker);
+            return _db.SaveChanges() == 0;
         }
 
 
         public void ReplyToOpinion(int MarkerOpinionId, string text)
         {
-            using (var db = ApplicationDbContext.Create())
+            var loggedUserId = _db.CurrentUserId();
+            var loggedUser = _db.Users.Single(x => x.Id == loggedUserId);
+
+            var opinion = _db.MarkersOpinions.Include("Marker.Node.Project")
+                                             .Single(x => x.Id == MarkerOpinionId);
+
+            var reply = new MarkerOpinionReply
             {
-                var loggedUserId = db.CurrentUserId();
-                var loggedUser = db.Users.Single(x => x.Id == loggedUserId);
+                Opinion = opinion,
+                Text = text,
+                Author = loggedUser,
+                Timestamp = DateTime.Now
+            };
 
-                var opinion = db.MarkersOpinions.Single(x => x.Id == MarkerOpinionId);
+            opinion.Replies.Add(reply);
+            _db.MarkersOpinionsReplies.Add(reply);
+            _db.SaveChanges();
 
-                var reply = new MarkerOpinionReply
-                {
-                    Opinion = opinion,
-                    Text = text,
-                    Author = loggedUser,
-                    Timestamp = DateTime.Now
-                };
-
-                opinion.Replies.Add(reply);
-                db.MarkersOpinionsReplies.Add(reply);
-                db.SaveChanges();
-            }
+            _notyfication.Create(new Notification
+            {
+                Author = loggedUser,
+                Header = "Reply to node opinion",          
+                Priority = 4,
+                ProjectId = reply.Opinion.Marker.Node.Project.Id,
+                Link = "/project/" + reply.Opinion.Marker.Node.Project.Id + "/markers/" + reply.Opinion.Marker.Node.Id
+            });
         }
 
     }

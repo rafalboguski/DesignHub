@@ -27,10 +27,12 @@
                             </div>
 
                             <div class="col-md-9" style="padding:10px;">
+
                                 <i>from {{noti.author.name}}</i><i class="right">{{noti.createDate.slice(11,16)}} {{noti.createDate.slice(0,10)}}</i>
-                                <h5 style="{{noti.link!=null?'cursor:pointer':''}}"
-                                    ng-click="goToDestination(noti);">
-                                    {{noti.header}}
+                                <h5>
+                                    <span ng-click="goToDestination(noti);" style="{{noti.link!=null?'cursor:pointer':''}}">
+                                        {{noti.header}}
+                                    </span>
                                 </h5>
 
                             </div>

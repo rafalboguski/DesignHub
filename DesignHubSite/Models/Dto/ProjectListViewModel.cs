@@ -45,7 +45,6 @@ namespace DesignHubSite.Models
                     Name = p.Name,
                     Description = p.Description,
                     HeadNodeId = p.nodeHeadId,
-                    //HeadImage = p.Head?.Image,
                     Owner = p.Owner,
                     NodesNumber = p.Nodes.Count,
                     Accepted = p.Accepted,
