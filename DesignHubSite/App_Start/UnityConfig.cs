@@ -21,9 +21,11 @@ namespace DesignHubSite
             container.RegisterType<INodeRepository, NodeRepository>();
             container.RegisterType<IMarkerRepository, MarkerRepository>();
             container.RegisterType<IPermissionRepository, PermissionRepository>();
+            container.RegisterType<INotificationReposotory, NotificationReposotory>();
 
             container.RegisterType<IProjectService, ProjectService>();
             container.RegisterType<IProjectDetailsService, ProjectDetailsService>();
+
             
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

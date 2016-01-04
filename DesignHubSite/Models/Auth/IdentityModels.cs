@@ -39,7 +39,7 @@ namespace DesignHubSite.Models
         public DbSet<Marker> Markers { get; set; }
         public DbSet<MarkerOpinion> MarkersOpinions { get; set; }
         public DbSet<MarkerOpinionReply> MarkersOpinionsReplies { get; set; }
-
+        public DbSet<Notification> Notifications { get; set; }
         public DbSet<Permision> Permisions { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

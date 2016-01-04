@@ -40,6 +40,12 @@ namespace DesignHubSite.Repositories
 
     public class NodeRepository : INodeRepository
     {
+        private INotificationReposotory _notyfication;
+
+        public NodeRepository(INotificationReposotory notyfication)
+        {
+            _notyfication = notyfication;
+        }
 
 
         public Node Single(int? id)
@@ -144,9 +150,21 @@ namespace DesignHubSite.Repositories
 
                 }
 
+                if (!node.Root)
+                    _notyfication.Create(new Notification
+                    {
+                        Author = currentUser,
+                        Header = "New node(image) was added",
+                        Content = null,
+                        Priority = 4,
+                        ProjectId = project.Id,
+                        Link = null
+                    });
+
 
                 db.Nodes.Add(node);
                 db.SaveChanges();
+
                 return node;
             }
         }
@@ -244,7 +262,7 @@ namespace DesignHubSite.Repositories
         {
             using (var db = ApplicationDbContext.Create())
             {
-                var node = db.Nodes.Single(x => x.Id == nodeID);
+                var node = db.Nodes.Include(x => x.Project).Single(x => x.Id == nodeID);
 
                 var userId = db.CurrentUserId();
                 var user = db.Users.Single(x => x.Id == userId);
@@ -260,6 +278,17 @@ namespace DesignHubSite.Repositories
                 }
 
                 db.SaveChanges();
+
+                _notyfication.Create(new Notification
+                {
+                    Author = user,
+                    Header = "User " + user.UserName + " likes node(image): " + node.Id,
+                    Content = null,
+                    Priority = 2,
+                    ProjectId = node.Project.Id,
+                    Link = null
+                });
+
                 return node.Likes.ToList();
             }
 
@@ -285,6 +314,16 @@ namespace DesignHubSite.Repositories
                 }
 
                 db.SaveChanges();
+
+                _notyfication.Create(new Notification
+                {
+                    Author = user,
+                    Header = "User " + user.UserName + " dislikes node(image): " + node.Id,
+                    Content = null,
+                    Priority = 2,
+                    ProjectId = node.Project.Id,
+                    Link = null
+                });
                 return node.Dislikes.ToList();
 
             }
@@ -302,6 +341,15 @@ namespace DesignHubSite.Repositories
                 node.whoAccepted = loggedUser;
                 db.SaveChanges();
 
+                _notyfication.Create(new Notification
+                {
+                    Author = loggedUser,
+                    Header = "User " + loggedUser.UserName + " accepted node(image): " + node.Id,
+                    Content = "",
+                    Priority = 5,
+                    ProjectId = node.Project.Id,
+                    Link = null
+                });
             }
         }
 
@@ -316,6 +364,16 @@ namespace DesignHubSite.Repositories
                 node.Rejected = !node.Rejected;
                 node.whoRejected = loggedUser;
                 db.SaveChanges();
+
+                _notyfication.Create(new Notification
+                {
+                    Author = loggedUser,
+                    Header = "User " + loggedUser.UserName + " rejected node(image): " + node.Id,
+                    Content = "",
+                    Priority = 5,
+                    ProjectId = node.Project.Id,
+                    Link = null
+                });
 
             }
         }

@@ -9,6 +9,7 @@ using DesignHubSite.ExtensionMethods;
 using System.Web.Http;
 using System.Threading.Tasks;
 using System.Net.Http;
+using DesignHubSite.Repositories;
 
 namespace DesignHubSite.Services
 {
@@ -28,8 +29,12 @@ namespace DesignHubSite.Services
     {
 
         private ApplicationDbContext _db = ApplicationDbContext.Create();
-
-
+        private INotificationReposotory _notyfication;
+               
+        public ProjectService(INotificationReposotory notyfication)
+        {
+            _notyfication = notyfication;
+        }
 
         public void AcceptProject(int projectId, out List<string> errors)
         {
@@ -57,6 +62,16 @@ namespace DesignHubSite.Services
                 project.Accepted = false;
                 project.WhoAccepted = null;
             }
+
+            _notyfication.Create(new Notification
+            {
+                Author = project.WhoAccepted,
+                Header = "Project Accepted",
+                Priority = 10,
+                CreateDate = DateTime.Now,
+                ProjectId = project.Id,
+            });
+
             _db.SaveChanges();
         }
 
@@ -87,6 +102,16 @@ namespace DesignHubSite.Services
                 project.WhoRejected = null;
                 project.EndDate = null;
             }
+
+            _notyfication.Create(new Notification
+            {
+                Author = project.WhoAccepted,
+                Header = "Project Rejected",
+                Priority = 10,
+                CreateDate = DateTime.Now,
+                ProjectId = project.Id,
+                Link = null
+            });
             _db.SaveChanges();
         }
 
@@ -106,6 +131,18 @@ namespace DesignHubSite.Services
 
 
                 db.SaveChanges();
+
+                var userId = _db.CurrentUserId();
+                _notyfication.Create(new Notification
+                {
+                    Author = db.Users.Single(x => x.Id == userId),
+                    Header = "Project has new default image",
+                    Content = null,
+                    Priority = 5,
+                    CreateDate = DateTime.Now,
+                    ProjectId = head.Project.Id,
+                    Link = null
+                });
             }
         }
 

@@ -11,6 +11,10 @@ app.config(function ($routeProvider) {
         templateUrl: "/FrontEnd/Projects/projects.html"
     });
 
+    $routeProvider.when("/project/:projectId/notifications", {
+        controller: "notificationsCtrl",
+        templateUrl: "/FrontEnd/Notifications/notifications.html"
+    });
     $routeProvider.when("/project/:projectId", {
         controller: "projectsController",
         templateUrl: "/FrontEnd/Projects/project.html"

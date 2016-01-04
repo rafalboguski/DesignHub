@@ -199,6 +199,7 @@
     <Compile Include="Controllers\Auth\HomeController.cs" />
     <Compile Include="Controllers\Auth\ManageController.cs" />
     <Compile Include="Controllers\MarkersController.cs" />
+    <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\NodesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
@@ -217,6 +218,14 @@
     <Compile Include="Migrations\201601032222154_3.Designer.cs">
       <DependentUpon>201601032222154_3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201601041653061_4.cs" />
+    <Compile Include="Migrations\201601041653061_4.Designer.cs">
+      <DependentUpon>201601041653061_4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201601041703520_5.cs" />
+    <Compile Include="Migrations\201601041703520_5.Designer.cs">
+      <DependentUpon>201601041703520_5.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auth\AccountViewModels.cs" />
     <Compile Include="Models\Auth\IdentityModels.cs" />
@@ -232,13 +241,14 @@
     <Compile Include="Models\Dto\ImageViewModel.cs" />
     <Compile Include="Models\Dto\ProjectListViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositorys\IRepository.cs" />
-    <Compile Include="Repositorys\MarkerRepository.cs" />
-    <Compile Include="Repositorys\NodeRepository.cs" />
-    <Compile Include="Repositorys\PermissionRepository.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\MarkerRepository.cs" />
+    <Compile Include="Repositories\NodeRepository.cs" />
+    <Compile Include="Repositories\NotificationReposotory.cs" />
+    <Compile Include="Repositories\PermissionRepository.cs" />
     <Compile Include="Services\ProjectDetailsService.cs" />
     <Compile Include="Services\ProjectService.cs" />
-    <Compile Include="Repositorys\ProjectRepository.cs" />
+    <Compile Include="Repositories\ProjectRepository.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -446,6 +456,7 @@
     <Content Include="Frontend\Markers\markersService.js" />
     <Content Include="Frontend\Nodes\nodesCtrl.js" />
     <Content Include="Frontend\Nodes\nodesService.js" />
+    <Content Include="Frontend\Notifications\notifications.html" />
     <Content Include="Frontend\Projects - Copy\projects.html" />
     <Content Include="Frontend\Projects - Copy\projectsController.js" />
     <Content Include="Frontend\Projects - Copy\projectsService.js" />
@@ -900,6 +911,8 @@
     <Content Include="Content\bower_components\hover\scss\_hacks.scss" />
     <Content Include="Content\bower_components\hover\scss\_mixins.scss" />
     <Content Include="Content\bower_components\hover\scss\_options.scss" />
+    <Content Include="Frontend\Notifications\notificationsCtrl.js" />
+    <Content Include="Frontend\Notifications\notificationsService.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\FileAPI.flash.swf" />
     <Content Include="Scripts\FileAPI.js" />
@@ -986,6 +999,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201601032222154_3.resx">
       <DependentUpon>201601032222154_3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601041653061_4.resx">
+      <DependentUpon>201601041653061_4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601041703520_5.resx">
+      <DependentUpon>201601041703520_5.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

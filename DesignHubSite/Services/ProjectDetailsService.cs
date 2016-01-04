@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
+using DesignHubSite.ExtensionMethods;
 
 namespace DesignHubSite.Services
 {
@@ -19,6 +20,15 @@ namespace DesignHubSite.Services
 
     public class ProjectDetailsService : IProjectDetailsService
     {
+        private INotificationReposotory _notyfication;
+
+
+        public ProjectDetailsService(INotificationReposotory notyfication)
+        {
+            _notyfication = notyfication;
+        }
+
+
         public bool InviteUserToProject(PermisionDto model)
         {
             using (var db = ApplicationDbContext.Create())
@@ -77,6 +87,18 @@ namespace DesignHubSite.Services
                 //
 
                 db.SaveChanges();
+
+                var userId = db.CurrentUserId();
+                _notyfication.Create(new Notification
+                {
+                    Author = db.Users.Single(x => x.Id == userId),
+                    Header = "User "+ user.UserName + " has his rights to this project changed",
+                    Content = "Those can be added or removed in Project Details view, panel on the right",
+                    CreateDate = DateTime.Now,
+                    Priority = 1,
+                    ProjectId = model.ProjectId.Value,
+                });
+
                 return true;
             }
 

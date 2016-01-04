@@ -18,10 +18,12 @@ namespace DesignHubSite.Repositories
     {
 
         private readonly INodeRepository _nodeRepo;
+        private readonly INotificationReposotory _notyfication;
 
-        public ProjectRepository(INodeRepository nodeRepository)
+        public ProjectRepository(INodeRepository nodeRepository, INotificationReposotory notyfication)
         {
             _nodeRepo = nodeRepository;
+            _notyfication = notyfication;
 
         }
 
@@ -84,9 +86,18 @@ namespace DesignHubSite.Repositories
                 db.SaveChanges();
 
                 // add initial node
-                var rootNodeId = _nodeRepo.Create(new NodeDTO() { ChangeInfo = "init",ProjectId = project.Id });
+                var rootNodeId = _nodeRepo.Create(new NodeDTO() { ChangeInfo = "init", ProjectId = project.Id });
 
 
+                _notyfication.Create(new Notification
+                {
+                    Author = currentUser,
+                    Header = "Project created",
+                    Content = project.Description,
+                    Priority = 1,
+                    ProjectId = project.Id,
+                    Link = null
+                });
             }
         }
 
@@ -120,6 +131,15 @@ namespace DesignHubSite.Repositories
                 db.Projects.Remove(project);
                 db.SaveChanges();
 
+                _notyfication.Create(new Notification
+                {
+                    Author = db.Users.Single(x => x.Id == currentUserId),
+                    Header = "Project deleted",
+                    Content = null,
+                    Priority = 1,
+                    ProjectId = project.Id,
+                    Link = null
+                });
                 return true;
             }
         }

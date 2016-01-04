@@ -101,7 +101,7 @@
 
                                 </li>
                                 <li>
-                                    <div href="#/project/{{project_id}}"
+                                    <div ng-click="href('/project/'+project_id+'/notifications')"
                                          class="waves-effect waves-light collapsible-header">
                                         <i class="material-icons">add_alert</i>
                                         Notifications
@@ -221,9 +221,10 @@
     <script src="~/Frontend/Nodes/nodesService.js"></script>
     <script src="~/Frontend/Markers/markersService.js"></script>
     <script src="~/Frontend/Users/usersService.js"></script>
+    <script src="~/Frontend/Notifications/notificationsService.js"></script>
     <!-- Load controllers -->
     <script src="~/Frontend/controllers/indexController.js"></script>
-
+    <script src="~/Frontend/Notifications/notificationsCtrl.js"></script>
     <script src="~/Frontend/Projects/projectsController.js"></script>
     <script src="~/Frontend/Nodes/nodesCtrl.js"></script>
     <script src="~/Frontend/Markers/markersCtrl.js"></script>
