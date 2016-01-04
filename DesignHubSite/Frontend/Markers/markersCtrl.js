@@ -225,7 +225,12 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', 'projectsServ
                 angular.forEach($scope.markers, function (value, key) {
                     console.log(value);
                     if (value.opinions.length == 1) {
-                        value.text = value.opinions[0].opinion;
+                        if (value.opinions[0].opinion.length < 80) {
+                            value.text = value.opinions[0].opinion;
+                        }
+                        else {
+                            value.text = value.opinions[0].opinion.slice(0, 80) + '..., click to see full opinion';
+                        }
                     }
                     else {
                         value.text = value.opinions.length + ' opinions, click to see them';
