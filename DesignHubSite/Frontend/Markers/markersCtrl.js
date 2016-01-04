@@ -1,6 +1,6 @@
 ﻿'use strict';
-app.controller('markersCtrl', ['$scope', '$route', '$routeParams','projectsService', '$timeout', '$location', 'markersService', 'nodesService',
-    function ($scope, $route, $routeParams, $timeout, $location, projectsService, markersService, nodesService) {
+app.controller('markersCtrl', ['$scope', '$route', '$routeParams', 'projectsService', '$location', 'markersService', 'nodesService', '$timeout',
+    function ($scope, $route, $routeParams, $location, projectsService, markersService, nodesService, $timeout) {
 
 
 
@@ -216,37 +216,6 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams','projectsServi
 
         }
 
-        $scope.initModals = function () {
-            console.log('function $scope.initModals');
-            $('.tag').leanModal(); // Initialize the modals
-            $('.tooltipped').tooltip({ delay: 50 });
-        }
-
-        $scope.getNode = function (id) {
-            console.log('function $scope.getNode ' + id);
-            nodesService.getNode(id).then(function (results) {
-
-                $scope.node = results.data;
-
-            }, function (error) {
-                alert(error.data.message);
-            });
-        }
-
-        $scope.replyToOpinion = function (opinionId, text) {
-            console.log('function replyToOpinion ' + opinionId + '  ' + text);
-            markersService.replyToOpinion(opinionId, text).then(function (results) {
-
-                Materialize.toast('Reply', 1200);
-                $scope.getMarkers();
-
-            }, function (error) {
-                alert(error.data.message);
-            });
-
-        }
-
-
         $scope.getMarkers = function () {
             console.log('--function getMarkers ');
             markersService.getMarkers($scope.nodeId).then(function (results) {
@@ -278,6 +247,39 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams','projectsServi
             });
         }
 
+        $scope.initModals = function () {
+            console.log('function $scope.initModals');
+            $('.tag').leanModal(); // Initialize the modals
+            $('.tooltipped').tooltip({ delay: 50 });
+        }
+
+        $scope.getNode = function (id) {
+            console.log('function $scope.getNode ' + id);
+            nodesService.getNode(id).then(function (results) {
+
+                $scope.node = results.data;
+
+            }, function (error) {
+                alert(error.data.message);
+            });
+        }
+
+        $scope.replyToOpinion = function (opinionId, text) {
+            console.log('function replyToOpinion ' + opinionId + '  ' + text);
+            markersService.replyToOpinion(opinionId, text).then(function (results) {
+
+                Materialize.toast('Reply', 1200);
+                $scope.getMarkers();
+
+            }, function (error) {
+                alert(error.data.message);
+            });
+
+        }
+
+
+
+
         $scope.getNodeImage = function (id) {
             console.log('function $scope.getNodeImage ' + id);
             nodesService.getNodeImage(id).then(function (results) {
@@ -289,12 +291,12 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams','projectsServi
             });
         }
 
-        $scope.acceptProject = function () { 
+        $scope.acceptProject = function () {
             var id = $scope.node.project.id;
-            console.log('function acceptProject ' +id);
+            console.log('function acceptProject ' + id);
             nodesService.acceptProject(id).then(function (results) {
                 $scope.acceptNode();
-            }, function(error) {
+            }, function (error) {
                 alert(error.data.message);
             });
 

@@ -158,7 +158,7 @@ namespace DesignHubSite.Repositories
                         Content = null,
                         Priority = 4,
                         ProjectId = project.Id,
-                        Link = null
+                        Link = "/project/" + project.Id + "/graph/" + node.Id
                     });
 
 
@@ -286,7 +286,7 @@ namespace DesignHubSite.Repositories
                     Content = null,
                     Priority = 2,
                     ProjectId = node.Project.Id,
-                    Link = null
+                    Link = "/project/" + node.Project.Id + "/graph/" + node.Id
                 });
 
                 return node.Likes.ToList();
@@ -322,7 +322,7 @@ namespace DesignHubSite.Repositories
                     Content = null,
                     Priority = 2,
                     ProjectId = node.Project.Id,
-                    Link = null
+                    Link = "/project/" + node.Project.Id + "/graph/" + node.Id
                 });
                 return node.Dislikes.ToList();
 
@@ -348,7 +348,7 @@ namespace DesignHubSite.Repositories
                     Content = "",
                     Priority = 5,
                     ProjectId = node.Project.Id,
-                    Link = null
+                    Link = "/project/" + node.Project.Id + "/graph/" + node.Id
                 });
             }
         }
@@ -372,7 +372,7 @@ namespace DesignHubSite.Repositories
                     Content = "",
                     Priority = 5,
                     ProjectId = node.Project.Id,
-                    Link = null
+                    Link = "/project/" + node.Project.Id + "/graph/" + node.Id
                 });
 
             }

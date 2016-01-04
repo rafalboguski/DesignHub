@@ -30,7 +30,7 @@ namespace DesignHubSite.Services
 
         private ApplicationDbContext _db = ApplicationDbContext.Create();
         private INotificationReposotory _notyfication;
-               
+
         public ProjectService(INotificationReposotory notyfication)
         {
             _notyfication = notyfication;
@@ -70,6 +70,7 @@ namespace DesignHubSite.Services
                 Priority = 10,
                 CreateDate = DateTime.Now,
                 ProjectId = project.Id,
+                Link = "/project/" + project.Id 
             });
 
             _db.SaveChanges();
@@ -110,7 +111,7 @@ namespace DesignHubSite.Services
                 Priority = 10,
                 CreateDate = DateTime.Now,
                 ProjectId = project.Id,
-                Link = null
+                Link = "/project/" + project.Id
             });
             _db.SaveChanges();
         }
@@ -141,7 +142,7 @@ namespace DesignHubSite.Services
                     Priority = 5,
                     CreateDate = DateTime.Now,
                     ProjectId = head.Project.Id,
-                    Link = null
+                    Link = "/project/" + head.Project.Id + "/graph/" + head.Id
                 });
             }
         }

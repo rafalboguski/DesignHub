@@ -26,6 +26,7 @@ app.controller('notificationsCtrl', ['$scope', '$route', '$routeParams', 'notifi
         }
 
         $scope.notificationSeen = function (notification) {
+
             notificationsService.seen(notification.id).then(function (results) {
 
                 if (notification.visited) {
@@ -40,6 +41,11 @@ app.controller('notificationsCtrl', ['$scope', '$route', '$routeParams', 'notifi
                 alert('connection timeout');
                 console.log(error);
             });
+        }
+
+        $scope.goToDestination = function (notification) {
+            
+            $scope.$parent.href(notification.link);
         }
 
     }
