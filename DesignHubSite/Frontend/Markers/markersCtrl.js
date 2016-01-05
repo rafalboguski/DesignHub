@@ -69,6 +69,18 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', 'projectsServ
 
         }
 
+        $scope.fullScreen = function () {
+            console.log($('#content').css('margin-left'));
+            if ($('#content').css('margin-left') == '0px') {
+                $('#sidebar').show();
+                $('#content').css('margin-left', '200px');
+            }
+            else {
+                $('#sidebar').hide();
+                $('#content').css('margin-left', '0');
+            }
+            
+        }
 
         $scope.init = function () {
             console.log('function $scope.init ');

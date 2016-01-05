@@ -8,6 +8,9 @@ using DesignHubSite.ExtensionMethods;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using System.IO;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace DesignHubSite.Repositories
 {
@@ -249,6 +252,7 @@ namespace DesignHubSite.Repositories
 
                     //                project.ImageName = filename;
                     node.Image = buffer;
+                    node.Thumbnail = MakeThumbnail(buffer, 200, 200);
                 }
 
                 db.SaveChanges();
@@ -256,6 +260,26 @@ namespace DesignHubSite.Repositories
 
             }
         }
+
+        private static byte[] MakeThumbnail(byte[] myImage, int thumbWidth, int thumbHeight)
+        {
+            Bitmap source = new Bitmap(Image.FromStream(new MemoryStream(myImage)));
+            int minSize = source.Width;
+            if (source.Height < minSize)
+                minSize = source.Height;
+
+            Rectangle rect = new Rectangle(0, 0, minSize, minSize);
+            Bitmap cropped = source.Clone(rect, source.PixelFormat);
+
+            using (MemoryStream ms = new MemoryStream())
+            using (Image thumbnail = cropped.GetThumbnailImage(thumbWidth, thumbHeight, null, new IntPtr()))
+            {
+
+                thumbnail.Save(ms, ImageFormat.Png);
+                return ms.ToArray();
+            }
+        }
+
 
         public List<ApplicationUser> Like(int nodeID)
         {

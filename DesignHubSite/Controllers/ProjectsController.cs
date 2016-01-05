@@ -44,7 +44,7 @@ namespace DesignHubSite.Controllers
             var dtoList = ProjectListViewModel.Map(projects);
 
             if (dtoList.Count > 0)
-                dtoList.ForEach(x => x.HeadImage = _repoNodes.Single(x.HeadNodeId)?.Image);
+                dtoList.ForEach(x => x.HeadImage = _repoNodes.Single(x.HeadNodeId)?.Thumbnail);
 
             return dtoList;
         }

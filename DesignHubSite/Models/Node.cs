@@ -26,6 +26,9 @@ namespace DesignHubSite.Models
         [JsonIgnore]
         public byte[] Image { get; set; }
 
+        [JsonIgnore]
+        public byte[] Thumbnail { get; set; }
+
 
         public virtual Project Project { get; set; }
 
