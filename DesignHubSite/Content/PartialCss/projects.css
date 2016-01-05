@@ -23,6 +23,9 @@
 }
 /**/
 
+.panel-heading {
+    max-height: 170px !important;
+}
 
 div.fill {
     
@@ -34,4 +37,16 @@ div.fill {
 div.fill img {
     flex-shrink:0;
    
+}
+
+
+.tab a{
+
+    color: white !important;
+
+}
+
+.tabs .tab a.active {
+     border-bottom: 2px solid teal !important; 
+
 }

@@ -1,13 +1,9 @@
 
-<div ng-show="{{user_logged}}" class="window">
+<div ng-show="{{user_logged}}" class="window" style="padding-top:0;">
     <div>
         <div data-ng-init="getProjects()">
 
 
-
-
-
-            <!-- ADD NEW PROJECT -->
             <!-- TODO: extract this to controller -->
             <script>
                 // materialize modal initailizer
@@ -16,20 +12,16 @@
                     $('.modal-trigger').leanModal();
                 });
             </script>
-            <!-- Modal trigger -->
+
+            <!--Add Modal trigger -->
             <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
                 <a class="modal-trigger btn-floating btn-large red waves-effect waves-light" data-target="AddProjectModal">
                     <i class="large material-icons">add</i>
                 </a>
-                <!--<ul>
-                    <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
-                    <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
-                    <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
-                </ul>-->
             </div>
 
 
-            <div class="row dark-panel">
+            <!--<div class="row dark-panel">
                 <h3>Filter</h3>
 
                 <div class="row well">
@@ -42,79 +34,86 @@
                 </div>
 
 
-            </div>
-
-
-            <!-- Add Project Modal Structure -->
-            <div id="AddProjectModal" class="modal bottom-sheet">
-
-                <div class="container">
-                    <form novalidate class="simple-form">
+            </div><br><br>-->
 
 
 
-                        <div class="col-md-9">
-                            <div class="input-field">
-                                <input type="text" ng-model="project.name" style="font-size: 22px;" />
-                                <label for="icon_prefix" font-size 18px;>Project name</label>
 
-                            </div>
-                            <div class="input-field">
-                                <textarea type="text" class="materialize-textarea" ng-model="project.description" />
-                                <label for="icon_prefix">Description</label>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <btn class="btn waves-effect waves-green" ng-click="createProject(project)">Add new project</btn>
-                        </div>
-
-                    </form>
-                </div>
-
-            </div>
-
-            <!-- END ADD NEW PROJECT -->
-
-            <br><br>
 
         </div>
-    </div>
 
 
+        <!-- Tabs -->
+        <div class="row">
+            <div class="col s12">
+                <ul class="tabs" style="background-color:rgb(40,40,40);">
+                    <li class="tab col s3" ng-click="tabFilter={}"><a>All</a></li>
+                    <li class="tab col s3" ng-click="tabFilter={accepted: false,rejected: false}"><a>In progess</a></li>
+                    <li class="tab col s3" ng-click="tabFilter={accepted: true}"><a>Accepted</a></li>
+                    <li class="tab col s3" ng-click="tabFilter={rejected: true}"><a>Rejected</a></li>
+                </ul>
+            </div>
 
-    <!-- Projects Gallery -->
+            <script>
+                $(document).ready(function () {
+                    $('ul.tabs').tabs();
+                });
+            </script>
 
-    <div ng-show="galleryLoadded">
-        <div ng-repeat="Project in projects | limitTo:visibleProjectsNum" repeat-Done="galleryLoaddingFinished();">
-            <div class="panel panel-default fill hoverable"
-                 style="
+        </div>
+
+        <!-- Projects Gallery -->
+        <div ng-show="galleryLoadded">
+            <div ng-repeat="Project in projects | filter: tabFilter" repeat-Done="galleryLoaddingFinished();">
+                <!-- |  limitTo:visibleProjectsNum -->
+
+                <div class="panel panel-default fill hoverable"
+                     style="
                             width: 300px;
                             /*height:500px;*/
                             background-color:transparent;
                             border-radius: 10px;
                             border-color:transparent; /*teal*/
                             float:left;
-
+                            position:relative;
                             margin:10px;
                             overflow: hidden;
+                            {{Project.rejected?'border-color:#c62828 !important;':''}}
+                            {{Project.accepted?'border-color:teal !important;':''}}
                             ">
 
-                <a class="panel-body"
-                   ng-click="href('/project/'+Project.id);"
-                   style="padding:0;">
+                    <!-- Panel status -->
+                    <div ng-show="Project.accepted || Project.rejected" class="teal hoverable center white-text" style="position:absolute;
+                            width:200px;height:40px;
+                            left:50px;
+                            width:200px;
+                            top:60px;
+                            padding:7px;
+                            {{Project.rejected?'background-color:#c62828 !important;':''}}
+                            ">
+                        <h5 style="margin:0;">
+                            {{Project.accepted?'DONE ':''}}
+                            {{Project.rejected?'REJECTED':''}}
+                        </h5>
+                    </div>
+                    <!-- Panel Image -->
+                    <a class="panel-body"
+                       ng-click="href('/project/'+Project.id);"
+                       style="padding:0;">
 
-                    <img src="http://www.farhieyecare.com/wp-content/uploads/2012/01/placeholder.png"
-                         ng-show="Project.headImage == null"
-                         style=" border-top-right-radius: 10px;
+                        <img src="http://www.farhieyecare.com/wp-content/uploads/2012/01/placeholder.png"
+                             ng-show="Project.headImage == null"
+                             style=" border-top-right-radius: 10px;
                                          cursor:pointer;
+                                         width:300px;
+                                         height:300px;
                                          border-top-left-radius: 10px;
                                          border-color:transparent;
 
                                          ">
-                    <img src="data:image/JPEG;base64,{{Project.headImage}}"
-                         ng-show="Project.headImage != null"
-                         style=" border-top-right-radius: 10px;
+                        <img src="data:image/JPEG;base64,{{Project.headImage}}"
+                             ng-show="Project.headImage != null"
+                             style=" border-top-right-radius: 10px;
                                 cursor:pointer;
                                 border-top-left-radius: 10px;
                                 border-color:transparent;
@@ -125,9 +124,10 @@
 
 
 
-                </a>
-                <div class="panel-heading"
-                     style="
+                    </a>
+                    <!-- Panel text -->
+                    <div class="panel-heading"
+                         style="
                             cursor:pointer;
                             background-color:#0B0B0B;
                              border-bottom-right-radius: 10px;
@@ -135,48 +135,84 @@
                              border-color:transparent;
                             ">
 
-                    <h5 class="white-text text-darken-4">
-                        {{Project.name}} <i ng-show="Project.accepted" class="material-icons big-icon right" style="background-color: rgb(35, 141, 69) !important;padding: 3px;">done</i> <i ng-show="Project.rejected" class="material-icons big-icon right" style="background-color: red !important;padding: 3px;">error</i>
-                    </h5>
+                        <h5 class="white-text text-darken-4">
+                            {{Project.name}}
+                        </h5>
 
 
-                    <div class="projects-panel-details" style="padding-top:4px">
-                        <row>{{Project.description}}</row>
-                        <row class="fade-overlay"></row>
+                        <div class="projects-panel-details" style="padding-top:4px">
+                            <row>{{Project.description}}</row>
+                            <row class="fade-overlay"></row>
+                        </div>
+
                     </div>
 
+                </div>
+            </div>
+        </div>
+        <!-- Progress indicator -->
+        <div>
+            <div ng-hide="galleryLoadded" class="center">
+                <h3>Loadding...</h3>
+
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                            <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
         </div>
-    </div>
-    <div>
-        <div ng-hide="galleryLoadded" class="center">
-            <h3>Loadding...</h3>
 
-            <div class="preloader-wrapper big active">
-                <div class="spinner-layer spinner-blue-only">
-                    <div class="circle-clipper left">
-                        <div class="circle"></div>
-                    </div><div class="gap-patch">
-                        <div class="circle"></div>
-                    </div><div class="circle-clipper right">
-                        <div class="circle"></div>
+
+        <!-- TODO: change to load on scroll and add pagination-->
+        <div class="row center" ng-show="visibleProjectsNum<projects.size">
+            <button class="btn btn-default" ng-click="visibleProjectsNum=visibleProjectsNum+8;">Load more</button>
+        </div>
+
+    </div>
+    <br><br><br><br><br><br><br><br>
+
+
+
+
+
+    <!-- Modals -->
+    <!-- Add Project Modal Structure -->
+    <div id="AddProjectModal" class="modal bottom-sheet">
+
+        <div class="container">
+            <form novalidate class="simple-form">
+
+
+
+                <div class="col-md-9">
+                    <div class="input-field">
+                        <input type="text" ng-model="project.name" style="font-size: 22px;" />
+                        <label for="icon_prefix" font-size 18px;>Project name</label>
+
+                    </div>
+                    <div class="input-field">
+                        <textarea type="text" class="materialize-textarea" ng-model="project.description" />
+                        <label for="icon_prefix">Description</label>
                     </div>
                 </div>
-            </div>
 
+                <div class="col-md-3">
+                    <btn class="btn waves-effect waves-green" ng-click="createProject(project)">Add new project</btn>
+                </div>
+
+            </form>
         </div>
-    </div>
 
-
-    <!-- TODO: change to load on scroll and add pagination-->
-    <div class="row center" ng-show="visibleProjectsNum<projects.size">
-        <button class="btn btn-default" ng-click="visibleProjectsNum=visibleProjectsNum+8;">Load more</button>
     </div>
 
 </div>
-<br><br><br><br><br><br><br><br>
 
-
-
+<!-- END ADD NEW PROJECT -->
