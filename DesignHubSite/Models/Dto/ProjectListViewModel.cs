@@ -49,7 +49,7 @@ namespace DesignHubSite.Models
                     NodesNumber = p.Nodes.Count,
                     Accepted = p.Accepted,
                     Rejected = p.Rejected,
-                    Timestamp = p.Timestamp,
+                    Timestamp = p.CreateDate,
                     AssignedUsersCount = p.AssignedUsers.Count
                 });
 

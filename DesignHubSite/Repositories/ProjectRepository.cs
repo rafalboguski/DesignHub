@@ -61,6 +61,7 @@ namespace DesignHubSite.Repositories
                                .Include("Owner")
                                .Include("Nodes")
                                where (p.Owner.Id == currentUserId) || (p.AssignedUsers.Select(c => c.Id).Contains(currentUserId))
+                               orderby p.Timestamp
                                select p;
 
 
@@ -77,6 +78,7 @@ namespace DesignHubSite.Repositories
                 var currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
 
                 project.Owner = currentUser;
+                project.CreateDate = DateTime.Now;
                 project.Timestamp = DateTime.Now;
 
                 db.Projects.Add(project);

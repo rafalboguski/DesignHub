@@ -56,6 +56,13 @@ namespace DesignHubSite.Repositories
                 ProjectId = model.ProjectId
             };
 
+            // todo: to service/
+
+            var project = _db.Projects.Single(x => x.Id == model.ProjectId);
+            project.Timestamp = DateTime.Now;
+
+            ////
+
             _db.Notifications.Add(notification);
             _db.SaveChanges();
             return notification;

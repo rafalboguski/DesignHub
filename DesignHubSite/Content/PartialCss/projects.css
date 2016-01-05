@@ -50,3 +50,8 @@ div.fill img {
      border-bottom: 2px solid teal !important; 
 
 }
+
+a:hover{
+
+    cursor:pointer;
+}

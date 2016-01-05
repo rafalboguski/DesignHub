@@ -48,6 +48,7 @@ namespace DesignHubSite.Models
         public virtual ICollection<ApplicationUser> AssignedUsers { get; set; } = new List<ApplicationUser>();
 
                 
+        public DateTime CreateDate { get; set; }
         public DateTime Timestamp { get; set; }
         public DateTime? EndDate { get; set; } = DateTime.Now;
 
