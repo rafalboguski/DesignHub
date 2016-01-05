@@ -120,6 +120,27 @@ namespace DesignHubSite.Controllers
         }
 
 
+        [Route("{id}/notes")]
+        public List<ProjectNote> GetNotes(int id)
+        {
+            return _serviceProjects.GetNotes(id);
+        }
+
+        [HttpPost]
+        [Route("{id}/notes")]
+        public ProjectNote AddNote(int id, dynamic data)
+        {
+            string note = data.text;
+            return _serviceProjects.AddNote(id, note);
+        }
+
+        [HttpDelete]
+        [Route("{projectId}/notes/{id}")]
+        public IHttpActionResult DeleteNote(int projectId, int id)
+        {
+            _serviceProjects.RemoveNote(id);
+            return Ok();
+        }
 
         //[Route("{id}")]
         //public IHttpActionResult getWatchers(int id)

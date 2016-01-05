@@ -11,7 +11,7 @@
                         <h1>Project {{project.name}}</h1>
                     </div>
 
-                    <div class="col-md-2" >
+                    <div class="col-md-2">
                         <label ng-show="project.rejected || project.accepted" style="margin-top:40px;">Finished</label>
                         <p style="font-size:22px;" ng-show="project.rejected || project.accepted" class="flow-text">{{ project.endDate.slice(0,10)}}</p>
                     </div>
@@ -58,24 +58,31 @@
                     <i class="material-icons big-icon">description</i> Notes <small class="right" style="font-size:18px;">visible only to project developer</small>
                 </h4>
                 <div id="notesContent" class="collapse in">
-                    <div class="row well" style="min-height:200px;">
-                        todo
-                    </div>
                     <div class="row">
                         <form novalidate class="simple-form">
                             <div class="col-md-12">
                                 <div class="input-field">
                                     <i class="material-icons prefix">subject</i>
-                                    <textarea type="text" class="materialize-textarea" ng-model="newMarker.text" style="font-size:20px !important;" />
+                                    <textarea type="text" class="materialize-textarea" ng-model="note" style="font-size:20px !important;" />
                                     <label for="icon_prefix">Content</label>
                                 </div>
 
-                                <button class="btn transparent waves-effect waves-teal right" ng-click="createMarker(selectedMarker.id)">
+                                <button class="btn transparent waves-effect waves-teal right" ng-click="addNote(note)">
                                     <i class="right white-text material-icons">send</i>
                                     Add note
                                 </button>
                             </div>
                         </form>
+                    </div>
+                    <div class="row well" style="min-height:200px;">
+                        <div class="well" ng-repeat="note in notes" style="border-color:rgb(40,40,40)">
+                            <a class="right" ng-click="removeNote(note.id)">
+                                Delete
+                            </a>
+                            <div class="row" ng-repeat="line in note.content">
+                                <span style="font-size:18px;word-wrap: break-word;">{{line}}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div><br><br><br><br><br><br><br><br><br><br><br>
@@ -96,7 +103,7 @@
             <div id="projectPeoplePanel" class="row dark-panel hoverable">
                 <h4>
                     <i class="material-icons big-icon">perm_identity</i>
-                    <span  data-toggle="collapse" data-target="#usersContent" style="cursor:pointer;">Assigned users</span><button class="btn waves-effect waves-light right modal-trigger" data-target="AddPersonModal">Manage</button>
+                    <span data-toggle="collapse" data-target="#usersContent" style="cursor:pointer;">Assigned users</span><button class="btn waves-effect waves-light right modal-trigger" data-target="AddPersonModal">Manage</button>
                 </h4>
 
                 <div id="usersContent" class="collapse in">

@@ -35,6 +35,7 @@ namespace DesignHubSite.Models
 
 
         public DbSet<Project> Projects { get; set; }
+        public DbSet<ProjectNote> ProjectsNotes { get; set; }
         public DbSet<Node> Nodes { get; set; }
         public DbSet<Marker> Markers { get; set; }
         public DbSet<MarkerOpinion> MarkersOpinions { get; set; }

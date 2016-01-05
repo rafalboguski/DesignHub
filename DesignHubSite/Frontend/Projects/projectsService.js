@@ -43,6 +43,27 @@ app.service('projectsService', ['$http', function ($http) {
         });
     };
 
+    this.getNotes = function (id) {
+        return $http.get(apiUrl + '/projects/' + id + '/notes');
+    };
+
+    this.addNote = function (projectId, note) {
+        console.log('projectsService function addNote(' + projectId+ ', '+note+')');
+        return $http({
+            method: 'POST',
+            url: apiUrl + '/projects/' + projectId + '/notes',
+            data: {
+                'text':note,
+                'lol':'lolol'
+            },
+            headers: { 'Content-Type': 'application/json' }
+        });
+    };
+
+    this.removeNote = function (projectId, noteId) {
+        return $http.delete(apiUrl + '/projects/' + projectId + '/notes/' + noteId)
+    };
+
 
     this.getPermitedUsers = function (projectId) {
         return $http.get(apiUrl + '/users/permissions_in_project/' + projectId);

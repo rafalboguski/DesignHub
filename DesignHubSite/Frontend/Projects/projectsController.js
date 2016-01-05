@@ -20,6 +20,7 @@ app.controller('projectsController', ['$scope', '$routeParams', '$location', 'Up
             $scope.getProject();
 
             $scope.getUsers();
+            $scope.getNotes();
 
             Materialize.toast('INIT', 2000);
 
@@ -121,6 +122,43 @@ app.controller('projectsController', ['$scope', '$routeParams', '$location', 'Up
             });
         }
 
+        $scope.getNotes = function () {
+            projectsService.getNotes($scope.projectId).then(function (results) {
+                $scope.notes = results.data;
+                angular.forEach($scope.notes, function (note) {
+
+                    var lines = note.content.split('\n');
+                    note.content = lines;
+
+                });
+
+            }, function (error) {
+                console.log(error);
+                alert(error.data);
+            });
+        }
+
+        $scope.addNote = function (note) {
+            projectsService.addNote($scope.projectId, note).then(function (results) {
+                $scope.getNotes();
+                $scope.note = "";
+                Materialize.toast('Note added', 2000);
+            }, function (error) {
+                console.log(error);
+                alert(error.data);
+            });
+        }
+
+        $scope.removeNote = function (id) {
+            projectsService.removeNote($scope.projectId, id).then(function (results) {
+                $scope.getNotes();
+                Materialize.toast('Note removed', 2000);
+            }, function (error) {
+                console.log(error);
+                alert(error.data);
+            });
+        }
+
         // -- Add new Person 
         $scope.addPerson = {};
 
@@ -153,10 +191,10 @@ app.controller('projectsController', ['$scope', '$routeParams', '$location', 'Up
                 Materialize.toast('Saved', 1500);
                 data = null;
                 $('#AddPersonModal').closeModal();
-                $scope.addPerson.selected =null;
+                $scope.addPerson.selected = null;
                 $scope.getUsers();
             }, function (error) {
-                Materialize.toast(error.data.message,3000);
+                Materialize.toast(error.data.message, 3000);
             });
 
         }

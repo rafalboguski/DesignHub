@@ -2,13 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DesignHubSite.Models;
-using Microsoft.VisualBasic.ApplicationServices;
-using System.Web;
-using Microsoft.AspNet.Identity;
 using DesignHubSite.ExtensionMethods;
-using System.Web.Http;
-using System.Threading.Tasks;
-using System.Net.Http;
 using DesignHubSite.Repositories;
 
 namespace DesignHubSite.Services
@@ -18,9 +12,11 @@ namespace DesignHubSite.Services
     {
 
         void setHead(int id);
-
         void AcceptProject(int projectId, out List<string> errors);
         void RejectProject(int projectId, out List<string> errors);
+        List<ProjectNote> GetNotes(int projectId);
+        ProjectNote AddNote(int projectId, string text);
+        void RemoveNote(int id);
 
     }
 
@@ -146,7 +142,34 @@ namespace DesignHubSite.Services
             }
         }
 
+        public ProjectNote AddNote(int projectId, string text)
+        {
+            if (text == null)
+                return null;
 
+            var note = new ProjectNote
+            {
+                ProjectId = projectId,
+                content = text
+            };
+            _db.ProjectsNotes.Add(note);
+            _db.SaveChanges();
+            return note;
+        }
+  
+        void IProjectService.RemoveNote(int id)
+        {
+            var note = _db.ProjectsNotes.Single(x => x.Id == id);
+            _db.ProjectsNotes.Remove(note);
+            _db.SaveChanges();
+
+        }
+
+        public List<ProjectNote> GetNotes(int projectId)
+        {
+            var notes = _db.ProjectsNotes.Where(x => x.ProjectId == projectId).OrderByDescending(x=>x.Id).ToList();
+            return notes;
+        }
     }
 
 
