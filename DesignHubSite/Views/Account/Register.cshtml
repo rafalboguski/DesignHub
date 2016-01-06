@@ -28,6 +28,13 @@
         </div>
 
         <div class="input-field col-md-10">
+            <i class="material-icons prefix">phone</i>
+            @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+            <label for="icon_prefix">Phone Number</label>
+
+        </div>
+
+        <div class="input-field col-md-10">
             <i class="material-icons prefix">vpn_key</i>
             @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
             <label for="icon_prefix">Password</label>

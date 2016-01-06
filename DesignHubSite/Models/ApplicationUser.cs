@@ -36,6 +36,14 @@ namespace DesignHubSite.Models
         [JsonProperty]
         public string Name { get; set; }
 
+        [NotMapped]
+        [JsonProperty]
+        public string Phone => PhoneNumber;
+
+        [NotMapped]
+        [JsonProperty]
+        public string Mail => Email;
+
         #endregion
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)

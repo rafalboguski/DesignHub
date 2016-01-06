@@ -44,15 +44,37 @@ namespace DesignHubSite.Migrations
                         new ApplicationUser
                         {
                             PasswordHash = hasher.HashPassword("123456"),
+                            Name = "Jan Kulfon",
                             Email = "kulfon@gmail.com",
                             UserName = "kulfon@gmail.com",
+                            PhoneNumber = "108730074",
                             SecurityStamp = Guid.NewGuid().ToString()
                         },
                         new ApplicationUser
                         {
                             PasswordHash = hasher.HashPassword("123456"),
+                            Name = "Tomasz Zaba",
                             Email = "zaba@gmail.com",
                             UserName = "zaba@gmail.com",
+                            PhoneNumber = "308004234",
+                            SecurityStamp = Guid.NewGuid().ToString()
+                        } ,
+                        new ApplicationUser
+                        {
+                            PasswordHash = hasher.HashPassword("123456"),
+                            Name = "Arkadiusz Wieckowski",
+                            Email = "Wiêckowski@gmail.com",
+                            UserName = "Wiêckowski@gmail.com",
+                            PhoneNumber = "608234234",
+                            SecurityStamp = Guid.NewGuid().ToString()
+                        }        ,
+                        new ApplicationUser
+                        {
+                            PasswordHash = hasher.HashPassword("123456"),
+                            Name = "Anna Pajak",
+                            Email = "a.pajak@gmail.com",
+                            UserName = "a.pajak@gmail.com",
+                            PhoneNumber = "602342000",
                             SecurityStamp = Guid.NewGuid().ToString()
                         }
                         };
@@ -61,7 +83,7 @@ namespace DesignHubSite.Migrations
 
                     // images
 
-                
+
 
                     context.SaveChanges();
                 }

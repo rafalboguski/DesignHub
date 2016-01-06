@@ -99,78 +99,78 @@ namespace DesignHubSite.Controllers
 
                 ownersId.ForEach(userId =>
                 {
-                    var e = new Tuple<ApplicationUser, List<Tuple<int, string>>>(
-                           db.Users.Single(x => x.Id == userId),
-                           db.Permisions.Include(X => X.User)
-                                        .Include(X => X.Project)
-                                        .Where(x => x.User.Id == userId)
-                                        .ToList()
-                                        .Select(x => new Tuple<int, string>(x.Project.Id, x.Project.Name))
-                                        .ToList()
+                var e = new Tuple<ApplicationUser, List<Tuple<int, string>>>(
+                       db.Users.Single(x => x.Id == userId),
+                       db.Projects.Include(X => X.Owner)
+                                  .Where(x => x.Owner.Id == userId)
+                                  .ToList()
+                                  .Select(x => new Tuple<int, string>(x.Id, x.Name))
+                                  .ToList()
+
                         );
 
-                    owners.Add(e);
+                owners.Add(e);
 
-                });
+            });
 
-                return Json(new { owners, assigned });
-            }
+            return Json(new { Developers = owners, Customers = assigned });
         }
+    }
 
-        [Route("{id}")]
-        public ApplicationUser GetUser(string id)
+    [Route("{id}")]
+    public ApplicationUser GetUser(string id)
+    {
+        using (var db = ApplicationDbContext.Create())
         {
-            using (var db = ApplicationDbContext.Create())
-            {
-                return db.Users.SingleOrDefault(x => x.Id == id);
-            }
-
-        }
-
-        [Route("find/{text}")]
-        public ICollection<ApplicationUser> GetUsersLike(string text)
-        {
-            using (var db = ApplicationDbContext.Create())
-            {
-                var loggedUserId = db.CurrentUserId();
-
-                var list = db.Users
-                    .Where(x =>
-                    (x.UserName.Contains(text) || x.Email.Contains(text))
-                    && (x.Id != loggedUserId)
-                    )
-                    .Take(9);
-
-                return list.ToList();
-            }
-
-        }
-
-        [Route("permissions_in_project/{projectId}")]
-        public List<Permision> getPermissionsInProject(int projectId)
-        {
-            var list = _permissionsRepository.Permissions(projectId: projectId);
-
-            return list;
-
-        }
-
-
-        [HttpPost]
-        [Route("assignToProject")]
-        public IHttpActionResult AssignToProject(PermisionDto dto)
-        {
-
-            if (_projDetServ.InviteUserToProject(dto))
-            {
-                return Ok();
-            }
-            else
-            {
-                return NotFound();
-            }
-
+            return db.Users.SingleOrDefault(x => x.Id == id);
         }
 
     }
+
+    [Route("find/{text}")]
+    public ICollection<ApplicationUser> GetUsersLike(string text)
+    {
+        using (var db = ApplicationDbContext.Create())
+        {
+            var loggedUserId = db.CurrentUserId();
+
+            var list = db.Users
+                .Where(x =>
+                (x.UserName.Contains(text) || x.Email.Contains(text))
+                && (x.Id != loggedUserId)
+                )
+                .Take(9);
+
+            return list.ToList();
+        }
+
+    }
+
+    [Route("permissions_in_project/{projectId}")]
+    public List<Permision> getPermissionsInProject(int projectId)
+    {
+        var list = _permissionsRepository.Permissions(projectId: projectId);
+
+        return list;
+
+    }
+
+
+    [HttpPost]
+    [Route("assignToProject")]
+    public IHttpActionResult AssignToProject(PermisionDto dto)
+    {
+
+        if (_projDetServ.InviteUserToProject(dto))
+        {
+            return Ok();
+        }
+        else
+        {
+            return NotFound();
+        }
+
+    }
+
+}
 }

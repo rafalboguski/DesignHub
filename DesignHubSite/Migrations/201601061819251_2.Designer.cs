@@ -13,7 +13,7 @@ namespace DesignHubSite.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201601061659589_2"; }
+            get { return "201601061819251_2"; }
         }
         
         string IMigrationMetadata.Source

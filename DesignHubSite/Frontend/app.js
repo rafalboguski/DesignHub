@@ -28,6 +28,10 @@ app.config(function ($routeProvider) {
         templateUrl: "/FrontEnd/Markers/markers.html"
     });
 
+    $routeProvider.when("/contacts", {
+        controller: "contactsCtrl",
+        templateUrl: "/FrontEnd/Contacts/contacts.html"
+    });
     $routeProvider.when("/settings", {
 
         templateUrl: "/FrontEnd/Projects/project.html"

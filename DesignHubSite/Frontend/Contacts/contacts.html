@@ -1,0 +1,66 @@
+<div ng-show="{{user_logged}}" class="window" id="markers-window">
+    <div data-ng-init="init()">
+
+        <!-- Left Panel -->
+        <div class="col-md-12">
+            <div class="row dark-panel hoverable">
+                <br>
+                <div class="row panel" style="padding:20px;background-color:rgb(20, 20, 20)">
+
+                    <div class="row">
+                        <h5 class="col-md-6"><i class="material-icons big-icon">contacts</i> Contacts</h5>
+                        <div class="input-field col-md-6">
+                            <i class="material-icons prefix">account_circle</i>
+                            <input id="icon_prefix" type="text" class="validate" ng-model="searchText">
+                            <label for="icon_prefix">Search</label>
+                        </div>
+                    </div>
+
+                   
+
+                    <div class="collection" ng-repeat="(key, group) in contacts" style="border-color:transparent">
+
+                        <h5 data-toggle="collapse" data-target="#{{key}}Content" style="cursor:pointer;">
+                            {{key}}    <small ng-show="group.length>0" class="right">Click to hide/expand</small>
+                        </h5>
+
+                        <div id="{{key}}Content" class="collapse in">
+                            <div ng-repeat="user in group | filter:search" class="collection-item transparent row" style="min-height:100px;border-style:solid;border-color:rgb(40,40,40);">
+
+                                <div class="row">
+                                    <div class="col-md-7" style="font-size:18px;">
+                                        <div class="col-md-4">
+                                            <span>{{user.Item1.Name}}</span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <span>{{user.Item1.Mail}}</span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <span class="right">{{user.Item1.Phone}}</span>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-5">
+                                        Projects:
+                                        <div class="row well">
+                                            <a class="row" ng-repeat="project in user.Item2" ng-click="goToProject(project.Item1)">
+                                                {{project.Item2}}
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+            <br>
+        </div>
+
+    </div>
+
+</div>

@@ -161,7 +161,8 @@ namespace DesignHubSite.Controllers
                 {
                     Name = model.UserName,
                     UserName = model.Email,
-                    Email = model.Email
+                    Email = model.Email,
+                    PhoneNumber = model.Phone
                 };
 
                 var result = await UserManager.CreateAsync(user, model.Password);
