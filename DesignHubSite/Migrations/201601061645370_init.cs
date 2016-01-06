@@ -3,7 +3,7 @@ namespace DesignHubSite.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class _1 : DbMigration
+    public partial class init : DbMigration
     {
         public override void Up()
         {
@@ -31,6 +31,7 @@ namespace DesignHubSite.Migrations
                         ChangeInfo = c.String(nullable: false),
                         Timestamp = c.DateTime(nullable: false),
                         Image = c.Binary(),
+                        Thumbnail = c.Binary(),
                         Root = c.Boolean(nullable: false),
                         Head = c.Boolean(nullable: false),
                         Accepted = c.Boolean(nullable: false),
@@ -82,13 +83,27 @@ namespace DesignHubSite.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false, maxLength: 40),
                         Description = c.String(maxLength: 4000),
+                        Accepted = c.Boolean(nullable: false),
+                        Rejected = c.Boolean(nullable: false),
+                        DurationDays = c.Int(nullable: false),
                         nodeHeadId = c.Int(),
+                        CreateDate = c.DateTime(nullable: false),
                         Timestamp = c.DateTime(nullable: false),
+                        EndDate = c.DateTime(),
                         Owner_Id = c.String(maxLength: 128),
+                        WhoAccepted_Id = c.String(maxLength: 128),
+                        WhoRejected_Id = c.String(maxLength: 128),
+                        ApplicationUser_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.Owner_Id)
-                .Index(t => t.Owner_Id);
+                .ForeignKey("dbo.AspNetUsers", t => t.WhoAccepted_Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.WhoRejected_Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUser_Id)
+                .Index(t => t.Owner_Id)
+                .Index(t => t.WhoAccepted_Id)
+                .Index(t => t.WhoRejected_Id)
+                .Index(t => t.ApplicationUser_Id);
             
             CreateTable(
                 "dbo.AspNetUserClaims",
@@ -161,6 +176,23 @@ namespace DesignHubSite.Migrations
                 .Index(t => t.Opinion_Id);
             
             CreateTable(
+                "dbo.Notifications",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ProjectId = c.Int(nullable: false),
+                        Priority = c.Int(nullable: false),
+                        visited = c.Boolean(nullable: false),
+                        Header = c.String(),
+                        Link = c.String(),
+                        CreateDate = c.DateTime(nullable: false),
+                        Author_Id = c.String(maxLength: 128),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.Author_Id)
+                .Index(t => t.Author_Id);
+            
+            CreateTable(
                 "dbo.Permisions",
                 c => new
                     {
@@ -181,6 +213,16 @@ namespace DesignHubSite.Migrations
                 .ForeignKey("dbo.AspNetUsers", t => t.User_Id)
                 .Index(t => t.Project_Id)
                 .Index(t => t.User_Id);
+            
+            CreateTable(
+                "dbo.ProjectNotes",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ProjectId = c.Int(nullable: false),
+                        content = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.AspNetRoles",
@@ -225,6 +267,7 @@ namespace DesignHubSite.Migrations
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.Permisions", "User_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.Permisions", "Project_Id", "dbo.Projects");
+            DropForeignKey("dbo.Notifications", "Author_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.MarkerOpinionReplies", "Opinion_Id", "dbo.MarkerOpinions");
             DropForeignKey("dbo.MarkerOpinionReplies", "Author_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.MarkerOpinions", "Marker_Id", "dbo.Markers");
@@ -235,8 +278,11 @@ namespace DesignHubSite.Migrations
             DropForeignKey("dbo.Markers", "Node_Id", "dbo.Nodes");
             DropForeignKey("dbo.AspNetUsers", "Node_Id", "dbo.Nodes");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Projects", "ApplicationUser_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Projects", "WhoRejected_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Projects", "WhoAccepted_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.Projects", "Owner_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.Nodes", "Project_Id", "dbo.Projects");
             DropForeignKey("dbo.ProjectsAndWatchers", "UserId", "dbo.AspNetUsers");
@@ -250,6 +296,7 @@ namespace DesignHubSite.Migrations
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.Permisions", new[] { "User_Id" });
             DropIndex("dbo.Permisions", new[] { "Project_Id" });
+            DropIndex("dbo.Notifications", new[] { "Author_Id" });
             DropIndex("dbo.MarkerOpinionReplies", new[] { "Opinion_Id" });
             DropIndex("dbo.MarkerOpinionReplies", new[] { "Author_Id" });
             DropIndex("dbo.MarkerOpinions", new[] { "Marker_Id" });
@@ -258,6 +305,9 @@ namespace DesignHubSite.Migrations
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
+            DropIndex("dbo.Projects", new[] { "ApplicationUser_Id" });
+            DropIndex("dbo.Projects", new[] { "WhoRejected_Id" });
+            DropIndex("dbo.Projects", new[] { "WhoAccepted_Id" });
             DropIndex("dbo.Projects", new[] { "Owner_Id" });
             DropIndex("dbo.AspNetUsers", new[] { "Node_Id1" });
             DropIndex("dbo.AspNetUsers", new[] { "Node_Id" });
@@ -269,7 +319,9 @@ namespace DesignHubSite.Migrations
             DropTable("dbo.ProjectsAndWatchers");
             DropTable("dbo.NodeNodes");
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.ProjectNotes");
             DropTable("dbo.Permisions");
+            DropTable("dbo.Notifications");
             DropTable("dbo.MarkerOpinionReplies");
             DropTable("dbo.MarkerOpinions");
             DropTable("dbo.AspNetUserRoles");

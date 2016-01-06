@@ -32,9 +32,9 @@ namespace DesignHubSite.Models
         [JsonProperty]
         public string Number => Id;
 
-        [NotMapped]
+   
         [JsonProperty]
-        public string Name => UserName;
+        public string Name { get; set; }
 
         #endregion
 
