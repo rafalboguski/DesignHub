@@ -16,6 +16,8 @@
     "materialize": "*",
     "bootstrap": "*",
     "arrive": "~2.3.0",
-    "hover": "~2.0.2"
+    "hover": "~2.0.2",
+    "ng-file-upload-shim": "~11.0.1",
+    "ng-file-upload": "~11.0.1"
   }
 }
