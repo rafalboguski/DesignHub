@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Web;
 using DesignHubSite.Models;
+using System;
 
 namespace DesignHubSite.Models
 {
@@ -23,6 +24,11 @@ namespace DesignHubSite.Models
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+        }
+
+        internal object Single(Func<object, bool> p)
+        {
+            throw new NotImplementedException();
         }
 
         public static ApplicationDbContext Create()

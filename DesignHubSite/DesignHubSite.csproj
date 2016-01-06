@@ -206,13 +206,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201601061720163_1.cs" />
-    <Compile Include="Migrations\201601061720163_1.Designer.cs">
-      <DependentUpon>201601061720163_1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201601061819251_2.cs" />
-    <Compile Include="Migrations\201601061819251_2.Designer.cs">
-      <DependentUpon>201601061819251_2.cs</DependentUpon>
+    <Compile Include="Migrations\201601062139092_1.cs" />
+    <Compile Include="Migrations\201601062139092_1.Designer.cs">
+      <DependentUpon>201601062139092_1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auth\AccountViewModels.cs" />
@@ -234,6 +230,7 @@
     <Compile Include="Repositories\NodeRepository.cs" />
     <Compile Include="Repositories\NotificationReposotory.cs" />
     <Compile Include="Repositories\PermissionRepository.cs" />
+    <Compile Include="Services\PermissionsService.cs" />
     <Compile Include="Services\ProjectDetailsService.cs" />
     <Compile Include="Services\ProjectService.cs" />
     <Compile Include="Repositories\ProjectRepository.cs" />
@@ -465,6 +462,7 @@
     <Content Include="Frontend\Directives.js" />
     <Content Include="Frontend\app.js" />
     <Content Include="Frontend\controllers\indexController.js" />
+    <Content Include="Frontend\Info\404.html" />
     <Content Include="Frontend\Markers\markers.html" />
     <Content Include="Frontend\Markers\markersCtrl.js" />
     <Content Include="Frontend\Markers\markersService.js" />
@@ -984,11 +982,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201601061720163_1.resx">
-      <DependentUpon>201601061720163_1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601061819251_2.resx">
-      <DependentUpon>201601061819251_2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201601062139092_1.resx">
+      <DependentUpon>201601062139092_1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -36,6 +36,9 @@ app.config(function ($routeProvider) {
 
         templateUrl: "/FrontEnd/Projects/project.html"
     });
+    $routeProvider.when("/404", {
+        templateUrl: "/FrontEnd/Info/404.html"
+    });
 
     $routeProvider.otherwise({ redirectTo: "/projects" });
 });

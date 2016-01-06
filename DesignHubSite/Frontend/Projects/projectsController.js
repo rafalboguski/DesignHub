@@ -38,6 +38,11 @@ app.controller('projectsController', ['$scope', '$routeParams', '$location', 'Up
         $scope.getProject = function () {
             projectsService.getProject($scope.projectId).then(function (results) {
 
+                if (results.data == 'null') {
+                    console.log('project 404');
+                    $scope.$parent.href('/404');
+                }
+
                 $scope.project = results.data;
 
                 $scope.$parent.project_name = results.data.name;

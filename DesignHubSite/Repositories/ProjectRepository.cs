@@ -8,7 +8,9 @@ using Microsoft.AspNet.Identity;
 using DesignHubSite.ExtensionMethods;
 using System.Web.Http;
 using System.Threading.Tasks;
+using System.Data.Entity;
 using System.Net.Http;
+using DesignHubSite.Services;
 
 namespace DesignHubSite.Repositories
 {
@@ -17,67 +19,65 @@ namespace DesignHubSite.Repositories
     public class ProjectRepository : IRepository<Project>
     {
 
-        private readonly INodeRepository _nodeRepo;
-        private readonly INotificationReposotory _notyfication;
+        private ApplicationDbContext db = ApplicationDbContext.Create();
 
-        public ProjectRepository(INodeRepository nodeRepository, INotificationReposotory notyfication)
+        private readonly INodeRepository _nodeRepository;
+        private readonly INotificationReposotory _notificationRepository;
+        private IPermissionRepository _permissionsRepository;
+
+        public ProjectRepository(INodeRepository nodeRepository, INotificationReposotory notyfication, IPermissionRepository permissionsRepository)
         {
-            _nodeRepo = nodeRepository;
-            _notyfication = notyfication;
+            _nodeRepository = nodeRepository;
+            _notificationRepository = notyfication;
+            _permissionsRepository = permissionsRepository;
 
         }
 
+
         public Project Single(int id)
         {
-            using (var db = ApplicationDbContext.Create())
-            {
+            var currentUserId = db.CurrentUserId();
 
-                db.Configuration.LazyLoadingEnabled = false;
+            var project = db.Projects
+                            .Include("AssignedUsers")
+                            .Include("Owner")
+                            .Include("Nodes")
+                            .SingleOrDefault(p => p.Id == id);
 
-                var currentUserId = db.CurrentUserId();
+            if (project?.Owner.Id == currentUserId)
+                return project;
 
+            var permission = _permissionsRepository.GetPermission(currentUserId, id);
 
-                var prop = db.Projects.Where(x => x.Id == id).ToList();
+            if (permission == null)
+                return null;
 
-                var pa = db.Projects
-                                .Include("AssignedUsers")
-                                .Include("Owner")
-                                .Include("Nodes")
-                                .SingleOrDefault(p => 
-                                    (p.Id == id) 
-                                    &&
-                                    (
-                                        (p.Owner.Id == currentUserId) 
-                                        || 
-                                        (p.AssignedUsers.Select(c => c.Id).Contains(currentUserId))
-                                    )
-                                );
+            if (permission.Readonly)
+                return project;
 
-                return pa;
-            }
+            return null;
         }
 
 
         public List<Project> All()
         {
-            using (var db = ApplicationDbContext.Create())
-            {
+            var currentUserId = db.CurrentUserId();
+            var projects = from p in db.Projects
+                           .Include("AssignedUsers")
+                           .Include("Owner")
+                           .Include("Nodes")
+                           //where (p.Owner.Id == currentUserId) || (p.AssignedUsers.Select(c => c.Id).Contains(currentUserId))
 
-                db.Configuration.LazyLoadingEnabled = false;
+                           join perm in db.Permisions.Include(x=>x.Project).Include(x => x.User)
+                                on p.Id equals perm.Project.Id into FullPerm
+                           from perm in FullPerm.DefaultIfEmpty()
 
-                var currentUserId = HttpContext.Current.User.Identity.GetUserId();
-                var projects = from p in db.Projects
-                               .Include("AssignedUsers")
-                               .Include("Owner")
-                               .Include("Nodes")
-                               where (p.Owner.Id == currentUserId) || (p.AssignedUsers.Select(c => c.Id).Contains(currentUserId))
-                               orderby p.Timestamp
-                               select p;
+                           where (p.Owner.Id == currentUserId) || (perm.User.Id == currentUserId && perm.Readonly)
 
+                           orderby p.Timestamp
+                           select p;
 
-
-                return projects.ToList();
-            }
+            return projects.ToList();
         }
 
         public void Create(Project project)
@@ -98,10 +98,10 @@ namespace DesignHubSite.Repositories
                 db.SaveChanges();
 
                 // add initial node
-                var rootNodeId = _nodeRepo.Create(new NodeDTO() { ChangeInfo = "init", ProjectId = project.Id });
+                var rootNodeId = _nodeRepository.Create(new NodeDTO() { ChangeInfo = "init", ProjectId = project.Id });
 
 
-                _notyfication.Create(new Notification
+                _notificationRepository.Create(new Notification
                 {
                     Author = currentUser,
                     Header = "Project created",
@@ -142,7 +142,7 @@ namespace DesignHubSite.Repositories
                 db.Projects.Remove(project);
                 db.SaveChanges();
 
-                _notyfication.Create(new Notification
+                _notificationRepository.Create(new Notification
                 {
                     Author = db.Users.Single(x => x.Id == currentUserId),
                     Header = "Project deleted",

@@ -12,10 +12,10 @@ namespace DesignHubSite
         public static void RegisterComponents()
         {
             var container = new UnityContainer();
-            
+
             // register all your components with the container here
             // it is NOT necessary to register your controllers
-            
+
             // e.g. container.RegisterType<ITestService, TestService>();
             container.RegisterType<IRepository<Project>, ProjectRepository>();
             container.RegisterType<INodeRepository, NodeRepository>();
@@ -25,8 +25,8 @@ namespace DesignHubSite
 
             container.RegisterType<IProjectService, ProjectService>();
             container.RegisterType<IProjectDetailsService, ProjectDetailsService>();
+            container.RegisterType<IPermissionsService, PermissionsService>();
 
-            
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }
     }

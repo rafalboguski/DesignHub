@@ -149,7 +149,7 @@ namespace DesignHubSite.Controllers
     [Route("permissions_in_project/{projectId}")]
     public List<Permision> getPermissionsInProject(int projectId)
     {
-        var list = _permissionsRepository.Permissions(projectId: projectId);
+        var list = _permissionsRepository.GetPermissions(projectId: projectId);
 
         return list;
 
