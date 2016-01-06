@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Net.Http;
+using System.Transactions;
 using DesignHubSite.Services;
 
 namespace DesignHubSite.Repositories
@@ -33,7 +34,7 @@ namespace DesignHubSite.Repositories
 
         }
 
-
+        // Returns only if you are owner or have permission
         public Project Single(int id)
         {
             var currentUserId = db.CurrentUserId();
@@ -58,7 +59,7 @@ namespace DesignHubSite.Repositories
             return null;
         }
 
-
+        // Returns only if you are owner or have permission
         public List<Project> All()
         {
             var currentUserId = db.CurrentUserId();
@@ -66,14 +67,10 @@ namespace DesignHubSite.Repositories
                            .Include("AssignedUsers")
                            .Include("Owner")
                            .Include("Nodes")
-                           //where (p.Owner.Id == currentUserId) || (p.AssignedUsers.Select(c => c.Id).Contains(currentUserId))
-
-                           join perm in db.Permisions.Include(x=>x.Project).Include(x => x.User)
-                                on p.Id equals perm.Project.Id into FullPerm
-                           from perm in FullPerm.DefaultIfEmpty()
-
+                           join perm in db.Permisions.Include(x => x.Project).Include(x => x.User)  // Linq left join
+                                on p.Id equals perm.Project.Id into FullPerm                      //
+                           from perm in FullPerm.DefaultIfEmpty()                                 //
                            where (p.Owner.Id == currentUserId) || (perm.User.Id == currentUserId && perm.Readonly)
-
                            orderby p.Timestamp
                            select p;
 
@@ -112,45 +109,56 @@ namespace DesignHubSite.Repositories
             }
         }
 
+        // returns true when object deleted
         public bool Delete(int id)
         {
-            using (var db = ApplicationDbContext.Create())
+            using (TransactionScope tr = new TransactionScope())
             {
-                var currentUserId = db.CurrentUserId();
-                var project = db.Projects
-                    .Include("Owner")
-                    .Include("Nodes")
-                    .SingleOrDefault(x => x.Id == id);
+                try
+                {
+                    var currentUserId = db.CurrentUserId();
+                    var project = Single(id);
 
+                    // only owner can delete
+                    if (project?.Owner.Id != currentUserId)
+                    {
+                        return false;
+                    }
 
-                if (project == null)
+                    // add notification
+                    _notificationRepository.Create(new Notification
+                    {
+                        Author = db.Users.Single(x => x.Id == currentUserId),
+                        Header = "Project deleted",
+                        Priority = 1,
+                        ProjectId = project.Id,
+                        Link = null
+                    });
+
+                    // remove associations
+                    foreach (var user in project.AssignedUsers)
+                        user.AssignedProjects.Remove(project);
+                    project.AssignedUsers.Clear();
+
+                    foreach (var node in project.Nodes)
+                        node.Project = null;
+                    project.Nodes.Clear();
+
+                    var permissions = _permissionsRepository.GetPermissions(projectId: id);
+                    foreach (var permission in permissions)
+                        _permissionsRepository.Remove(permission);
+
+                    // remove objecy
+                    db.Projects.Remove(project);
+                    db.SaveChanges();
+
+                    tr.Complete();
+                    return true;
+                }
+                catch (Exception e)
                 {
                     return false;
                 }
-                if (project.Owner.Id != currentUserId)
-                {
-                    return false;
-                }
-
-                project.AssignedUsers.Clear();
-
-                foreach (var version in project.Nodes)
-                    version.Project = null;
-
-                project.Nodes.Clear();
-
-                db.Projects.Remove(project);
-                db.SaveChanges();
-
-                _notificationRepository.Create(new Notification
-                {
-                    Author = db.Users.Single(x => x.Id == currentUserId),
-                    Header = "Project deleted",
-                    Priority = 1,
-                    ProjectId = project.Id,
-                    Link = null
-                });
-                return true;
             }
         }
 

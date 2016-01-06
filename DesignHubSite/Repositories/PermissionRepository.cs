@@ -18,6 +18,7 @@ namespace DesignHubSite.Repositories
     {
         Permision GetPermission(string userId, int projectId);
         List<Permision> GetPermissions(string userId = null, int? projectId = null);
+        void Remove(Permision permission);
     }
 
 
@@ -54,6 +55,11 @@ namespace DesignHubSite.Repositories
             return null;
         }
 
+        public void Remove(Permision permission)
+        {
+            _db.Permisions.Remove(permission);
+            _db.SaveChanges();
+        }
     }
 
 }
