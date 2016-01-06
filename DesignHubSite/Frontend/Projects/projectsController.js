@@ -23,7 +23,10 @@ app.controller('projectsController', ['$scope', '$routeParams', '$location', 'Up
             $scope.getNotes();
 
             Materialize.toast('INIT', 2000);
-
+            $('.datepicker').pickadate({
+                selectMonths: true, // Creates a dropdown to control month
+                selectYears: 15 // Creates a dropdown of 15 years to control year
+            });
 
 
 
@@ -159,6 +162,37 @@ app.controller('projectsController', ['$scope', '$routeParams', '$location', 'Up
             });
         }
 
+        $scope.requirements =[];
+        $scope.createRequirement = function () {
+
+            var $input = $('.datepicker').pickadate();
+
+            // Use the picker object directly.
+            var picker = $input.pickadate('picker');
+
+            console.log($input);
+            console.log(picker);
+            console.log(picker.get('select'));
+            var date = picker.get('select');
+            var year = date.year;
+            var month = date.month + 1;
+            var day = date.date;
+
+            requirementsService.findPersons(text).then(function (results) {
+
+                if (text.length < 1) {
+                    $scope.addPerson.selected = null;
+                }
+                else {
+                    $scope.addPerson.searchResult = results.data;
+
+                }
+            });
+
+
+        }
+
+
         // -- Add new Person 
         $scope.addPerson = {};
 
@@ -267,6 +301,18 @@ app.controller('projectsController', ['$scope', '$routeParams', '$location', 'Up
                 alert(error.data.message);
             });
         }
+
+        // delay search
+        var tempFilterText = '', filterTextTimeout;
+        $scope.$watch('tabFilter.name', function (val) {
+            if (filterTextTimeout)
+                $timeout.cancel(filterTextTimeout);
+
+            tempFilterText = val;
+            filterTextTimeout = $timeout(function () {
+                $scope.tabFilter.name = tempFilterText;
+            }, 1000); // delay ms
+        })
 
 
     }]);

@@ -153,6 +153,10 @@ namespace DesignHubSite.Repositories
 
                 }
 
+
+                db.Nodes.Add(node);
+                db.SaveChanges();
+
                 if (!node.Root)
                     _notyfication.Create(new Notification
                     {
@@ -164,8 +168,6 @@ namespace DesignHubSite.Repositories
                     });
 
 
-                db.Nodes.Add(node);
-                db.SaveChanges();
 
                 return node;
             }
@@ -380,7 +382,8 @@ namespace DesignHubSite.Repositories
                 var loggedUserId = db.CurrentUserId();
                 var loggedUser = db.Users.Single(x => x.Id == loggedUserId);
 
-                var node = db.Nodes.Single(x => x.Id == nodeID);
+                var node = db.Nodes.Include(x=>x.Project)
+                                   .Single(x => x.Id == nodeID);
                 node.Rejected = !node.Rejected;
                 node.whoRejected = loggedUser;
                 db.SaveChanges();

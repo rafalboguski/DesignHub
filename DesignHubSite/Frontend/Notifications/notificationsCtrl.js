@@ -27,7 +27,7 @@ app.controller('notificationsCtrl', ['$scope', '$route', '$routeParams', 'notifi
 
         $scope.notificationSeen = function (notification) {
 
-            notificationsService.seen(notification.id).then(function (results) {
+            notificationsService.seen(notification.Id).then(function (results) {
 
                 if (notification.visited) {
                     notification.visited = false;
@@ -45,7 +45,8 @@ app.controller('notificationsCtrl', ['$scope', '$route', '$routeParams', 'notifi
 
         $scope.goToDestination = function (notification) {
             
-            $scope.$parent.href(notification.link);
+            console.log('goToDestination ' + notification.Link);
+            $scope.$parent.href(notification.Link);
         }
 
     }

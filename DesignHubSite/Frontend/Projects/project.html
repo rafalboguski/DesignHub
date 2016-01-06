@@ -52,6 +52,22 @@
 
             </div>
 
+
+            <div class="row dark-panel hoverable">
+                <h4 data-toggle="collapse" data-target="#discriptionContent" style="cursor:pointer;">
+                    <i class="material-icons big-icon">subtitles</i>
+                    Project Description <small class="right">click to expand</small>
+                </h4>
+
+                <div id="discriptionContent" class="row collapse">
+                    <label>text</label>
+                    <p class="flow-text">{{ project.description}}</p>
+                </div>
+
+
+
+            </div>
+
             <div class="row dark-panel hoverable">
 
                 <h4 data-toggle="collapse" data-target="#notesContent" style="cursor:pointer;">
@@ -89,15 +105,6 @@
 
         </div>
         <div class="col-md-5">
-            <div class="row dark-panel hoverable">
-                <h3>Requirements</h3>
-
-                <div class="row">
-                    <label>Description</label>
-                    <p class="flow-text">{{ project.description}}</p>
-                </div>
-
-            </div>
 
             <!-- Users assigned to project -->
             <div id="projectPeoplePanel" class="row dark-panel hoverable">

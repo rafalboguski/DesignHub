@@ -28,10 +28,18 @@ namespace DesignHubSite.Controllers
 
 
         [Route("project/{projectId}")]
-        public ICollection<Notification> GetNotifications(int projectId)
+        public IHttpActionResult GetNotifications(int projectId)
         {
             var notifications = _repo.GetAll(projectId);
-            return notifications;
+
+            var result = notifications
+                                    .GroupBy(n => n.CreateDate.Date)
+                                    .Select(g => g.ToList())
+                                    .ToList();
+                                                   
+          
+
+            return Json(result);
         }
 
         [Route("{id}")]
@@ -49,6 +57,6 @@ namespace DesignHubSite.Controllers
             return Ok();
 
         }
-        
+
     }
 }
