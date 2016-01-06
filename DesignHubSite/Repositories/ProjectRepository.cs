@@ -36,12 +36,22 @@ namespace DesignHubSite.Repositories
 
                 var currentUserId = db.CurrentUserId();
 
+
+                var prop = db.Projects.Where(x => x.Id == id).ToList();
+
                 var pa = db.Projects
                                 .Include("AssignedUsers")
                                 .Include("Owner")
                                 .Include("Nodes")
-                                .SingleOrDefault(p => (p.Id == id) &&
-                                (p.Owner.Id == currentUserId) || (p.AssignedUsers.Select(c => c.Id).Contains(currentUserId)));
+                                .SingleOrDefault(p => 
+                                    (p.Id == id) 
+                                    &&
+                                    (
+                                        (p.Owner.Id == currentUserId) 
+                                        || 
+                                        (p.AssignedUsers.Select(c => c.Id).Contains(currentUserId))
+                                    )
+                                );
 
                 return pa;
             }
