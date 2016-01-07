@@ -26,6 +26,7 @@ namespace DesignHubSite
             container.RegisterType<IProjectService, ProjectService>();
             container.RegisterType<IProjectDetailsService, ProjectDetailsService>();
             container.RegisterType<IPermissionsService, PermissionsService>();
+            container.RegisterType<IUsersService, UsersService>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

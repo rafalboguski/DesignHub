@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using DesignHubSite.ExtensionMethods;
+using System.Transactions;
 
 namespace DesignHubSite.Services
 {
@@ -20,6 +21,9 @@ namespace DesignHubSite.Services
 
     public class ProjectDetailsService : IProjectDetailsService
     {
+
+        private ApplicationDbContext db = ApplicationDbContext.Create();
+
         private INotificationReposotory _notyfication;
 
 
@@ -31,74 +35,78 @@ namespace DesignHubSite.Services
 
         public bool InviteUserToProject(PermisionDto model)
         {
-            using (var db = ApplicationDbContext.Create())
+            using (var transaction = new TransactionScope())
             {
+                try
+                {
+                    var user = db.Users.SingleOrDefault(x => x.Id == model.UserId);
+                    var project = db.Projects.SingleOrDefault(x => x.Id == model.ProjectId);
 
-                // todo: create user repo
+                    if (user == null || project == null)
+                        return false;
 
-                var user = db.Users.SingleOrDefault(x => x.Id == model.UserId);
-                var project = db.Projects.SingleOrDefault(x => x.Id == model.ProjectId);
+                    var tmp = db.Permisions
+                        .Include(x => x.User)
+                        .Include(x => x.Project)
+                        .SingleOrDefault(x => x.User.Id == model.UserId && x.Project.Id == model.ProjectId);
 
-                if (user == null || project == null)
+                    if (tmp == null)
+                    {
+                        var permision = new Permision
+                        {
+                            User = user,
+                            Project = project,
+                            ProjectRole = model.ProjectRole,
+                            AcceptNodes = model.AcceptNodes,
+                            AcceptWholeProject = model.AcceptWholeProject,
+                            AddMarkers = model.AddMarkers,
+                            LikeOrDislikeChanges = model.LikeOrDislikeChanges,
+                            Message = model.Message,
+                            Readonly = model.Readonly,
+                            Timestamp = DateTime.Now
+                        };
+
+                        db.Permisions.Add(permision);
+                        project.AssignedUsers.Add(user);
+                        user.AssignedProjects.Add(project);
+
+                    }
+                    else
+                    {
+                        int id = tmp.Id;
+                        Permision per = db.Permisions.SingleOrDefault(x => x.Id == id);
+
+                        per.ProjectRole = model.ProjectRole;
+                        per.AcceptNodes = model.AcceptNodes;
+                        per.AcceptWholeProject = model.AcceptWholeProject;
+                        per.AddMarkers = model.AddMarkers;
+                        per.LikeOrDislikeChanges = model.LikeOrDislikeChanges;
+                        per.Message = model.Message;
+                        per.Readonly = model.Readonly;
+                        per.Timestamp = DateTime.Now;
+                    }
+
+                    //
+
+                    db.SaveChanges();
+
+                    var userId = db.CurrentUserId();
+                    _notyfication.Create(new Notification
+                    {
+                        Author = db.Users.Single(x => x.Id == userId),
+                        Header = "User " + user.UserName + " has his rights to this project changed",
+                        CreateDate = DateTime.Now,
+                        Priority = 1,
+                        ProjectId = model.ProjectId.Value,
+                    });
+
+                    transaction.Complete();
+                    return true;
+                }
+                catch (Exception e)
+                {
                     return false;
-
-                var permision = new Permision
-                {
-                    User = user,
-                    Project = project,
-                    ProjectRole = model.ProjectRole,
-                    AcceptNodes = model.AcceptNodes,
-                    AcceptWholeProject = model.AcceptWholeProject,
-                    AddMarkers = model.AddMarkers,
-                    LikeOrDislikeChanges = model.LikeOrDislikeChanges,
-                    Message = model.Message,
-                    Readonly = model.Readonly,
-                    Timestamp = DateTime.Now
-                };
-
-                var tmp = db.Permisions
-                    .Include(x => x.User)
-                    .Include(x => x.Project)
-                    .Where(x => x.User.Id == model.UserId && x.Project.Id == model.ProjectId)
-                    .ToList();
-                if (tmp.Count() == 0)
-                {
-                    db.Permisions.Add(permision);
-                    project.AssignedUsers.Add(user);
-                    user.AssignedProjects.Add(project);
-
                 }
-                else
-                {
-                    int id = tmp.First().Id;
-                    Permision per = db.Permisions.SingleOrDefault(x => x.Id ==id);
-
-                    per.ProjectRole = model.ProjectRole;
-                    per.AcceptNodes = model.AcceptNodes;
-                    per.AcceptWholeProject = model.AcceptWholeProject;
-                    per.AddMarkers = model.AddMarkers;
-                    per.LikeOrDislikeChanges = model.LikeOrDislikeChanges;
-                    per.Message = model.Message;
-                    per.Readonly = model.Readonly;
-                    per.Timestamp = DateTime.Now;
-
-                }
-
-                //
-
-                db.SaveChanges();
-
-                var userId = db.CurrentUserId();
-                _notyfication.Create(new Notification
-                {
-                    Author = db.Users.Single(x => x.Id == userId),
-                    Header = "User "+ user.UserName + " has his rights to this project changed",
-                    CreateDate = DateTime.Now,
-                    Priority = 1,
-                    ProjectId = model.ProjectId.Value,
-                });
-
-                return true;
             }
 
 

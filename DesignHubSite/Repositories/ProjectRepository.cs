@@ -37,44 +37,25 @@ namespace DesignHubSite.Repositories
         // Returns only if you are owner or have permission
         public Project Single(int id)
         {
-            var currentUserId = db.CurrentUserId();
-
             var project = db.Projects
                             .Include("AssignedUsers")
                             .Include("Owner")
                             .Include("Nodes")
                             .SingleOrDefault(p => p.Id == id);
 
-            if (project?.Owner.Id == currentUserId)
-                return project;
-
-            var permission = _permissionsRepository.GetPermission(currentUserId, id);
-
-            if (permission == null)
-                return null;
-
-            if (permission.Readonly)
-                return project;
-
-            return null;
+            return project;
         }
 
         // Returns only if you are owner or have permission
         public List<Project> All()
         {
-            var currentUserId = db.CurrentUserId();
             var projects = from p in db.Projects
                            .Include("AssignedUsers")
                            .Include("Owner")
                            .Include("Nodes")
-                           join perm in db.Permisions.Include(x => x.Project).Include(x => x.User)  // Linq left join
-                                on p.Id equals perm.Project.Id into FullPerm                      //
-                           from perm in FullPerm.DefaultIfEmpty()                                 //
-                           where (p.Owner.Id == currentUserId) || (perm.User.Id == currentUserId && perm.Readonly)
-                           orderby p.Timestamp
                            select p;
 
-            return projects.ToList();
+            return projects.ToList(); ;
         }
 
         public void Create(Project project)

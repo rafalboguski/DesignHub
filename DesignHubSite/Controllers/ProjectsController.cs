@@ -21,7 +21,7 @@ namespace DesignHubSite.Controllers
 
 
         private readonly IRepository<Project> _repoProjects;
-        private readonly IProjectService _serviceProjects;
+        private readonly IProjectService _projectsService;
 
         private readonly INodeRepository _repoNodes;
 
@@ -32,14 +32,14 @@ namespace DesignHubSite.Controllers
         {
             _repoProjects = repo;
             _repoNodes = nodesRepo;
-            _serviceProjects = serviceProjects;
+            _projectsService = serviceProjects;
         }
 
 
         [Route("")]
         public ICollection<ProjectListViewModel> GetProjects()
         {
-            var projects = _repoProjects.All();
+            var projects = _projectsService.GetLoggedUserVisibleProjects();
 
             var dtoList = ProjectListViewModel.Map(projects);
 
@@ -52,7 +52,7 @@ namespace DesignHubSite.Controllers
         [Route("{id}")]
         public Project GetProject(int id)
         {
-            var project = _repoProjects.Single(id);
+            var project = _projectsService.GetLoggedUserVisibleProject(id);
 
             return project;
         }
@@ -98,11 +98,11 @@ namespace DesignHubSite.Controllers
             List<string> errors;
             if (status == "accept")
             {
-                _serviceProjects.AcceptProject(id, out errors);
+                _projectsService.AcceptProject(id, out errors);
             }
             else if (status == "reject")
             {
-                _serviceProjects.RejectProject(id, out errors);
+                _projectsService.RejectProject(id, out errors);
             }
             else
             {
@@ -123,7 +123,7 @@ namespace DesignHubSite.Controllers
         [Route("{id}/notes")]
         public List<ProjectNote> GetNotes(int id)
         {
-            return _serviceProjects.GetNotes(id);
+            return _projectsService.GetNotes(id);
         }
 
         [HttpPost]
@@ -131,14 +131,14 @@ namespace DesignHubSite.Controllers
         public ProjectNote AddNote(int id, dynamic data)
         {
             string note = data.text;
-            return _serviceProjects.AddNote(id, note);
+            return _projectsService.AddNote(id, note);
         }
 
         [HttpDelete]
         [Route("{projectId}/notes/{id}")]
         public IHttpActionResult DeleteNote(int projectId, int id)
         {
-            _serviceProjects.RemoveNote(id);
+            _projectsService.RemoveNote(id);
             return Ok();
         }
 

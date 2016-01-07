@@ -211,6 +211,10 @@
     <Compile Include="Migrations\201601062139092_1.Designer.cs">
       <DependentUpon>201601062139092_1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201601071948426_3.cs" />
+    <Compile Include="Migrations\201601071948426_3.Designer.cs">
+      <DependentUpon>201601071948426_3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auth\AccountViewModels.cs" />
     <Compile Include="Models\Auth\IdentityModels.cs" />
@@ -231,6 +235,7 @@
     <Compile Include="Repositories\NodeRepository.cs" />
     <Compile Include="Repositories\NotificationReposotory.cs" />
     <Compile Include="Repositories\PermissionRepository.cs" />
+    <Compile Include="Services\UsersService.cs" />
     <Compile Include="Services\PermissionsService.cs" />
     <Compile Include="Services\ProjectDetailsService.cs" />
     <Compile Include="Services\ProjectService.cs" />
@@ -985,6 +990,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201601062139092_1.resx">
       <DependentUpon>201601062139092_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601071948426_3.resx">
+      <DependentUpon>201601071948426_3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

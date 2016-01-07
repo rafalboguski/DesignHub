@@ -11,6 +11,9 @@ namespace DesignHubSite.Services
     public interface IProjectService
     {
 
+        Project GetLoggedUserVisibleProject(int projectId);
+        List<Project> GetLoggedUserVisibleProjects();
+
         void setHead(int id);
         void AcceptProject(int projectId, out List<string> errors);
         void RejectProject(int projectId, out List<string> errors);
@@ -25,12 +28,66 @@ namespace DesignHubSite.Services
     {
 
         private ApplicationDbContext _db = ApplicationDbContext.Create();
-        private INotificationReposotory _notyfication;
 
-        public ProjectService(INotificationReposotory notyfication)
+        private INotificationReposotory _notyfication;
+        private IRepository<Project> _projectsRepository;
+
+        private IUsersService _usersService;
+        private IPermissionRepository _permissionsRepository;
+
+        public ProjectService(INotificationReposotory notyfication, IRepository<Project> projectsRepository,
+            IUsersService usersService,
+            IPermissionRepository permissionsRepository)
         {
             _notyfication = notyfication;
+            _projectsRepository = projectsRepository;
+            _permissionsRepository = permissionsRepository;
+
+            _usersService = usersService;
         }
+
+
+        // only owner or user with read permussion can see project
+        public Project GetLoggedUserVisibleProject(int projectId)
+        {
+            var loggedUser = _usersService.LoggedUser();
+            var project = _projectsRepository.Single(projectId);
+            var permision = _permissionsRepository.GetPermission(loggedUser.Id, project.Id);
+
+            if (permision == null || permision.Readonly == false)
+            {
+                return null;
+            }
+            return project;
+        }
+
+        public List<Project> GetLoggedUserVisibleProjects()
+        {
+            var loggedUser = _usersService.LoggedUser();
+            var projects = loggedUser.AssignedProjects.ToList();
+            projects.AddRange(loggedUser.OwnedProjects.ToList());
+
+            var list = new List<Project>();
+
+            foreach (var project in projects)
+            {
+                if (project.Owner.Id == loggedUser.Id)
+                {
+                    list.Add(project);
+                    continue;
+                }
+                var permission = _permissionsRepository.GetPermission(loggedUser.Id, project.Id);
+                if (permission != null && permission.Readonly == true)
+                {
+                    list.Add(project);
+                }
+
+            }
+            return list;
+        }
+
+
+        //
 
         public void AcceptProject(int projectId, out List<string> errors)
         {
@@ -66,7 +123,7 @@ namespace DesignHubSite.Services
                 Priority = 10,
                 CreateDate = DateTime.Now,
                 ProjectId = project.Id,
-                Link = "/project/" + project.Id 
+                Link = "/project/" + project.Id
             });
 
             _db.SaveChanges();
@@ -112,6 +169,23 @@ namespace DesignHubSite.Services
             _db.SaveChanges();
         }
 
+        //
+
+        public ProjectNote AddNote(int projectId, string text)
+        {
+            if (text == null)
+                return null;
+
+            var note = new ProjectNote
+            {
+                ProjectId = projectId,
+                content = text
+            };
+            _db.ProjectsNotes.Add(note);
+            _db.SaveChanges();
+            return note;
+        }
+
         public void setHead(int id)
         {
             using (var db = ApplicationDbContext.Create())
@@ -142,21 +216,6 @@ namespace DesignHubSite.Services
             }
         }
 
-        public ProjectNote AddNote(int projectId, string text)
-        {
-            if (text == null)
-                return null;
-
-            var note = new ProjectNote
-            {
-                ProjectId = projectId,
-                content = text
-            };
-            _db.ProjectsNotes.Add(note);
-            _db.SaveChanges();
-            return note;
-        }
-  
         void IProjectService.RemoveNote(int id)
         {
             var note = _db.ProjectsNotes.Single(x => x.Id == id);
@@ -167,7 +226,7 @@ namespace DesignHubSite.Services
 
         public List<ProjectNote> GetNotes(int projectId)
         {
-            var notes = _db.ProjectsNotes.Where(x => x.ProjectId == projectId).OrderByDescending(x=>x.Id).ToList();
+            var notes = _db.ProjectsNotes.Where(x => x.ProjectId == projectId).OrderByDescending(x => x.Id).ToList();
             return notes;
         }
     }
