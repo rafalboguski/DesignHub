@@ -1,6 +1,6 @@
 ﻿'use strict';
-app.controller('markersCtrl', ['$scope', '$route', '$routeParams', 'projectsService', '$location', 'markersService', 'nodesService', '$timeout',
-    function ($scope, $route, $routeParams, $location, projectsService, markersService, nodesService, $timeout) {
+app.controller('markersCtrl', ['$scope', '$route', '$routeParams', 'projectsService', '$location', 'markersService', 'nodesService', '$timeout','usersService',
+    function ($scope, $route, $routeParams, projectsService, $location, markersService, nodesService, $timeout, usersService) {
 
 
 
@@ -82,8 +82,32 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', 'projectsServ
             
         }
 
+
+        $scope.getProject = function () {
+            console.log('getProject ' + $routeParams.projectId);
+            projectsService.getProject($routeParams.projectId).then(function (results) {
+                console.log(results.data);
+                $scope.project = results.data;
+
+            }, function (error) {
+                alert(error.data.message);
+            });
+        }
+
+        $scope.getPermission = function () {
+            console.log('-------------getPermission');
+            usersService.getPermission($routeParams.projectId).then(function (results) {
+                console.log(results.data);
+                $scope.permission = results.data;
+
+            }, function (error) {
+                alert(error.data.message);
+            });
+        }
+
         $scope.init = function () {
             console.log('function $scope.init ');
+
             $("#image").load(function () {
                 $scope.resizeImage();
                 Materialize.fadeInImage('#image');
@@ -135,8 +159,9 @@ app.controller('markersCtrl', ['$scope', '$route', '$routeParams', 'projectsServ
             $scope.nodeId = $routeParams.nodeId;
             $scope.getNode($scope.nodeId);
             $scope.getNodeImage($scope.nodeId);
-
+            $scope.getProject();
             $scope.getMarkers();
+            $scope.getPermission();
 
         }
 

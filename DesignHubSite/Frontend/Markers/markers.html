@@ -76,7 +76,7 @@
         <div class="row hoverable" style="background-color:rgb(20,20,20); padding:25px; border-radius:15px;">
 
             <div class="col-md-4">
-                <div class="btn-group" role="group" aria-label="Basic example">
+                <div class="btn-group" role="group" aria-label="Basic example" ng-hide="$parent.loggedUserId == project.owner.number">
                     <button class="btn transparent" ng-click="likeNode();" style="width:150px;">
                         <i class="material-icons left white">thumb_up</i>
                         Like      {{node.likes.length}}
@@ -85,6 +85,7 @@
                         <i class="material-icons left white">thumb_down</i>
                         Dislike {{node.dislikes.length}}
                     </button>
+                   
                 </div>
 
                 <div class="transparent modal-trigger" style="width:300px;height:30px;border-radius:15px; border-color:teal; border-width:1px;border-style: solid;cursor:pointer;"
@@ -94,7 +95,8 @@
                 </div>
             </div>
             <div class="col-md-4 center">
-                <div class="btn-group" role="group" aria-label="Basic example">
+               
+                <div class="btn-group" role="group" aria-label="Basic example" ng-show="permission.acceptNodes">
                     <button class="btn modal-trigger waves-effect waves-light" data-target="AcceptModal" ng-hide="node.rejected || node.accepted"
                             style="margin-right:4px;">
                         <i class="material-icons white left">spellcheck</i>
@@ -263,7 +265,7 @@
                 </div>
 
                 <div class="row">
-                    <button class="btn waves-effect waves-light" ng-click="acceptProject();" style="width:220px;">
+                    <button class="btn waves-effect waves-light" ng-click="acceptProject();" style="width:220px;" ng-show="permission.acceptWholeProject">
                         <i class="left white-text material-icons">done_all</i>
                         Whole project
                     </button>

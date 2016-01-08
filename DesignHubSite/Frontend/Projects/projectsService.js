@@ -11,6 +11,10 @@ app.service('projectsService', ['$http', function ($http) {
         return $http.get(apiUrl + '/projects/' + id);
     };
 
+    this.getPermission = function (projectId, userId) {
+        return $http.get(apiUrl + '/projects/' + id);
+    };
+
     this.inviteWatcher = function (projectId, userId) {
         return $http({
             method: 'POST',

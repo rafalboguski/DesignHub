@@ -12,6 +12,11 @@ app.service('usersService', ['$http', function ($http) {
     };
 
 
+    this.getPermission = function (projectId) {
+        return $http.get(apiUrl + '/users/permission/' + projectId);
+    };
+
+
 
 
     this.findPersons = function (text) {

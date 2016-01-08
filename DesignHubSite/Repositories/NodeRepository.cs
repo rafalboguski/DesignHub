@@ -211,7 +211,7 @@ namespace DesignHubSite.Repositories
             {
                 var currentUserId = db.CurrentUserId();
                 var currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
-                    
+
                 var node = db.Nodes.Include("Project.Owner").SingleOrDefault(n => n.Id == nodeId);
 
                 if (node.Project.Owner.Id != currentUser.Id)
@@ -296,6 +296,14 @@ namespace DesignHubSite.Repositories
                 var userId = db.CurrentUserId();
                 var user = db.Users.Single(x => x.Id == userId);
 
+                var permision = _permissionsRepository.GetPermission(userId, node.Project.Id);
+
+                if (permision == null || permision.LikeOrDislikeChanges == false)
+                {
+                    return null;
+                }
+
+
                 if (node.Likes.Contains(user))
                 {
                     node.Likes.Remove(user);
@@ -326,10 +334,17 @@ namespace DesignHubSite.Repositories
         {
             using (var db = ApplicationDbContext.Create())
             {
-                var node = db.Nodes.Single(x => x.Id == nodeID);
+                var node = db.Nodes.Include("Project").Single(x => x.Id == nodeID);
 
                 var userId = db.CurrentUserId();
                 var user = db.Users.Single(x => x.Id == userId);
+
+                var permision = _permissionsRepository.GetPermission(userId, node.Project.Id);
+
+                if (permision == null || permision.LikeOrDislikeChanges == false)
+                {
+                    return null;
+                }
 
                 if (node.Dislikes.Contains(user))
                 {
@@ -362,8 +377,12 @@ namespace DesignHubSite.Repositories
             {
                 var loggedUserId = db.CurrentUserId();
                 var loggedUser = db.Users.Single(x => x.Id == loggedUserId);
-
                 var node = db.Nodes.Include(x => x.Project).Single(x => x.Id == nodeID);
+
+                var permission = _permissionsRepository.GetPermission(loggedUserId, node.Project.Id);
+                if (permission == null || permission.AcceptNodes == false)
+                    return;
+
                 node.Accepted = !node.Accepted;
                 node.whoAccepted = loggedUser;
                 db.SaveChanges();
@@ -385,9 +404,12 @@ namespace DesignHubSite.Repositories
             {
                 var loggedUserId = db.CurrentUserId();
                 var loggedUser = db.Users.Single(x => x.Id == loggedUserId);
+                var node = db.Nodes.Include(x => x.Project).Single(x => x.Id == nodeID);
+                var permission = _permissionsRepository.GetPermission(loggedUserId, node.Project.Id);
 
-                var node = db.Nodes.Include(x => x.Project)
-                                   .Single(x => x.Id == nodeID);
+                if (permission == null || permission.AcceptNodes == false)
+                    return;
+
                 node.Rejected = !node.Rejected;
                 node.whoRejected = loggedUser;
                 db.SaveChanges();

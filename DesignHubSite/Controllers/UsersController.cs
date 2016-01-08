@@ -99,78 +99,89 @@ namespace DesignHubSite.Controllers
 
                 ownersId.ForEach(userId =>
                 {
-                var e = new Tuple<ApplicationUser, List<Tuple<int, string>>>(
-                       db.Users.Single(x => x.Id == userId),
-                       db.Projects.Include(X => X.Owner)
-                                  .Where(x => x.Owner.Id == userId)
-                                  .ToList()
-                                  .Select(x => new Tuple<int, string>(x.Id, x.Name))
-                                  .ToList()
+                    var e = new Tuple<ApplicationUser, List<Tuple<int, string>>>(
+                           db.Users.Single(x => x.Id == userId),
+                           db.Projects.Include(X => X.Owner)
+                                      .Where(x => x.Owner.Id == userId)
+                                      .ToList()
+                                      .Select(x => new Tuple<int, string>(x.Id, x.Name))
+                                      .ToList()
 
-                        );
+                            );
 
-                owners.Add(e);
+                    owners.Add(e);
 
-            });
+                });
 
-            return Json(new { Developers = owners, Customers = assigned });
+                return Json(new { Developers = owners, Customers = assigned });
+            }
         }
-    }
 
-    [Route("{id}")]
-    public ApplicationUser GetUser(string id)
-    {
-        using (var db = ApplicationDbContext.Create())
+        [Route("{id}")]
+        public ApplicationUser GetUser(string id)
         {
-            return db.Users.SingleOrDefault(x => x.Id == id);
+            using (var db = ApplicationDbContext.Create())
+            {
+                return db.Users.SingleOrDefault(x => x.Id == id);
+            }
+
         }
 
-    }
-
-    [Route("find/{text}")]
-    public ICollection<ApplicationUser> GetUsersLike(string text)
-    {
-        using (var db = ApplicationDbContext.Create())
+        [Route("find/{text}")]
+        public ICollection<ApplicationUser> GetUsersLike(string text)
         {
-            var loggedUserId = db.CurrentUserId();
+            using (var db = ApplicationDbContext.Create())
+            {
+                var loggedUserId = db.CurrentUserId();
 
-            var list = db.Users
-                .Where(x =>
-                (x.UserName.Contains(text) || x.Email.Contains(text))
-                && (x.Id != loggedUserId)
-                )
-                .Take(9);
+                var list = db.Users
+                    .Where(x =>
+                    (x.UserName.Contains(text) || x.Email.Contains(text))
+                    && (x.Id != loggedUserId)
+                    )
+                    .Take(9);
 
-            return list.ToList();
+                return list.ToList();
+            }
+
         }
 
-    }
-
-    [Route("permissions_in_project/{projectId}")]
-    public List<Permision> getPermissionsInProject(int projectId)
-    {
-        var list = _permissionsRepository.GetPermissions(projectId: projectId);
-
-        return list;
-
-    }
-
-
-    [HttpPost]
-    [Route("assignToProject")]
-    public IHttpActionResult AssignToProject(PermisionDto dto)
-    {
-
-        if (_projDetServ.InviteUserToProject(dto))
+        [Route("permission/{projectId}")]
+        public Permision getPermissionInProject(int projectId)
         {
-            return Ok();
+            string userId = HttpContext.Current.User.Identity.GetUserId();
+            var p = _permissionsRepository.GetPermission(userId , projectId);
+
+            return p;
+
         }
-        else
+
+
+        [Route("permissions_in_project/{projectId}")]
+        public List<Permision> getPermissionsInProject(int projectId)
         {
-            return NotFound();
+            var list = _permissionsRepository.GetPermissions(projectId: projectId);
+
+            return list;
+
+        }
+
+
+        [HttpPost]
+        [Route("assignToProject")]
+        public IHttpActionResult AssignToProject(PermisionDto dto)
+        {
+
+            if (_projDetServ.InviteUserToProject(dto))
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+
         }
 
     }
-
-}
 }
