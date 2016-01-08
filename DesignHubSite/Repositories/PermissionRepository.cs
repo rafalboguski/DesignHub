@@ -25,7 +25,12 @@ namespace DesignHubSite.Repositories
     public class PermissionRepository : IPermissionRepository
     {
 
-        private ApplicationDbContext _db = ApplicationDbContext.Create();
+        private IApplicationDbContext<ApplicationUser> _db;
+
+        public PermissionRepository(IApplicationDbContext<ApplicationUser> db)
+        {
+            _db = db;
+        }
 
 
         public Permision GetPermission(string userId, int projectId)

@@ -10,19 +10,27 @@ namespace DesignHubSite.Models
 {
 
 
-    public interface IApplicationDbContext
+    public interface IApplicationDbContext<TUser> where TUser : class
     {
-        DbSet<Project> Projects { get; set; }
 
+
+        DbSet<Project> Projects { get; }
+        DbSet<ProjectNote> ProjectsNotes { get; set; }
+        DbSet<Node> Nodes { get; set; }
+        DbSet<Marker> Markers { get; set; }
+        DbSet<MarkerOpinion> MarkersOpinions { get; set; }
+        DbSet<MarkerOpinionReply> MarkersOpinionsReplies { get; set; }
+        DbSet<Notification> Notifications { get; set; }
+        DbSet<Permision> Permisions { get; set; }
+        IDbSet<TUser> Users { get; set; }
 
         int SaveChanges();
-        Database Database { get; }
+
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext<ApplicationUser>
     {
-        public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+        public ApplicationDbContext() : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
 

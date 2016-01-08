@@ -17,6 +17,8 @@ namespace DesignHubSite
             // it is NOT necessary to register your controllers
 
             // e.g. container.RegisterType<ITestService, TestService>();
+
+            container.RegisterType<IApplicationDbContext<ApplicationUser>, ApplicationDbContext>( new ContainerControlledLifetimeManager());
             container.RegisterType<IRepository<Project>, ProjectRepository>();
             container.RegisterType<INodeRepository, NodeRepository>();
             container.RegisterType<IMarkerRepository, MarkerRepository>();

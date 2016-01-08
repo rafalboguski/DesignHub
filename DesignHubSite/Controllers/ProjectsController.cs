@@ -45,6 +45,7 @@ namespace DesignHubSite.Controllers
 
             if (dtoList.Count > 0)
                 dtoList.ForEach(x => x.HeadImage = _repoNodes.Single(x.HeadNodeId)?.Thumbnail);
+            _projectsService.Test();
 
             return dtoList;
         }

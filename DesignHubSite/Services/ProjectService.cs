@@ -21,13 +21,15 @@ namespace DesignHubSite.Services
         ProjectNote AddNote(int projectId, string text);
         void RemoveNote(int id);
 
+        void Test();
+
     }
 
 
     public class ProjectService : IProjectService
     {
 
-        private ApplicationDbContext _db = ApplicationDbContext.Create();
+        private IApplicationDbContext<ApplicationUser> _db;
 
         private INotificationReposotory _notyfication;
         private IRepository<Project> _projectsRepository;
@@ -35,10 +37,13 @@ namespace DesignHubSite.Services
         private IUsersService _usersService;
         private IPermissionRepository _permissionsRepository;
 
-        public ProjectService(INotificationReposotory notyfication, IRepository<Project> projectsRepository,
+        public ProjectService(
+            IApplicationDbContext<ApplicationUser> db,
+            INotificationReposotory notyfication, IRepository<Project> projectsRepository,
             IUsersService usersService,
             IPermissionRepository permissionsRepository)
         {
+            _db = db;
             _notyfication = notyfication;
             _projectsRepository = projectsRepository;
             _permissionsRepository = permissionsRepository;
@@ -94,10 +99,8 @@ namespace DesignHubSite.Services
         {
             errors = new List<string>();
 
-            var loggedUserId = _db.CurrentUserId();
-            var loggedUser = _db.Users.Single(x => x.Id == loggedUserId);
-
-            var project = _db.Projects.Include("Owner").Single(x => x.Id == projectId);
+            var loggedUser = _usersService.LoggedUser();
+            var project = _projectsRepository.Single(projectId);
 
             var permision = _permissionsRepository.GetPermission(loggedUser.Id, project.Id);
             if (project.Owner.Id != loggedUser.Id)
@@ -142,11 +145,8 @@ namespace DesignHubSite.Services
         {
             errors = new List<string>();
 
-            var loggedUserId = _db.CurrentUserId();
-            var loggedUser = _db.Users.Single(x => x.Id == loggedUserId);
-
-            var project = _db.Projects.Include("Owner").Single(x => x.Id == projectId);
-
+            var loggedUser = _usersService.LoggedUser();
+            var project = _projectsRepository.Single(projectId);
             var permision = _permissionsRepository.GetPermission(loggedUser.Id, project.Id);
             if (project.Owner.Id != loggedUser.Id)
                 if (permision == null || permision.AcceptWholeProject == false)
@@ -229,7 +229,7 @@ namespace DesignHubSite.Services
 
                 db.SaveChanges();
 
-                var userId = _db.CurrentUserId();
+                var userId = _usersService.LoggedUserId();
                 _notyfication.Create(new Notification
                 {
                     Author = db.Users.Single(x => x.Id == userId),
@@ -267,6 +267,24 @@ namespace DesignHubSite.Services
 
             var notes = _db.ProjectsNotes.Where(x => x.ProjectId == projectId).OrderByDescending(x => x.Id).ToList();
             return notes;
+        }
+
+        public void Test()
+        {
+            var user = _usersService.LoggedUser();
+
+            var perm = _permissionsRepository.GetPermissions(user.Id);
+
+
+
+
+            var end = 3;
+
+
+           
+
+
+
         }
     }
 

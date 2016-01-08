@@ -20,14 +20,15 @@ namespace DesignHubSite.Repositories
     public class ProjectRepository : IRepository<Project>
     {
 
-        private ApplicationDbContext db = ApplicationDbContext.Create();
+        private IApplicationDbContext<ApplicationUser> db;
 
         private readonly INodeRepository _nodeRepository;
         private readonly INotificationReposotory _notificationRepository;
         private IPermissionRepository _permissionsRepository;
 
-        public ProjectRepository(INodeRepository nodeRepository, INotificationReposotory notyfication, IPermissionRepository permissionsRepository)
+        public ProjectRepository(IApplicationDbContext<ApplicationUser> d, INodeRepository nodeRepository, INotificationReposotory notyfication, IPermissionRepository permissionsRepository)
         {
+            db = d;
             _nodeRepository = nodeRepository;
             _notificationRepository = notyfication;
             _permissionsRepository = permissionsRepository;
@@ -93,54 +94,54 @@ namespace DesignHubSite.Repositories
         // returns true when object deleted
         public bool Delete(int id)
         {
-            using (TransactionScope tr = new TransactionScope())
-            {
-                try
-                {
-                    var currentUserId = db.CurrentUserId();
-                    var project = Single(id);
+            //using (TransactionScope tr = new TransactionScope())
+            //{
+            //    try
+            //    {
+            //        var currentUserId = db.CurrentUserId();
+            //        var project = Single(id);
 
-                    // only owner can delete
-                    if (project?.Owner.Id != currentUserId)
-                    {
-                        return false;
-                    }
+            //        // only owner can delete
+            //        if (project?.Owner.Id != currentUserId)
+            //        {
+            //            return false;
+            //        }
 
-                    // add notification
-                    _notificationRepository.Create(new Notification
-                    {
-                        Author = db.Users.Single(x => x.Id == currentUserId),
-                        Header = "Project deleted",
-                        Priority = 1,
-                        ProjectId = project.Id,
-                        Link = null
-                    });
+            //        // add notification
+            //        _notificationRepository.Create(new Notification
+            //        {
+            //            Author = db.Users.Single(x => x.Id == currentUserId),
+            //            Header = "Project deleted",
+            //            Priority = 1,
+            //            ProjectId = project.Id,
+            //            Link = null
+            //        });
 
-                    // remove associations
-                    foreach (var user in project.AssignedUsers)
-                        user.AssignedProjects.Remove(project);
-                    project.AssignedUsers.Clear();
+            //        // remove associations
+            //        foreach (var user in project.AssignedUsers)
+            //            user.AssignedProjects.Remove(project);
+            //        project.AssignedUsers.Clear();
 
-                    foreach (var node in project.Nodes)
-                        node.Project = null;
-                    project.Nodes.Clear();
+            //        foreach (var node in project.Nodes)
+            //            node.Project = null;
+            //        project.Nodes.Clear();
 
-                    var permissions = _permissionsRepository.GetPermissions(projectId: id);
-                    foreach (var permission in permissions)
-                        _permissionsRepository.Remove(permission);
+            //        var permissions = _permissionsRepository.GetPermissions(projectId: id);
+            //        foreach (var permission in permissions)
+            //            _permissionsRepository.Remove(permission);
 
-                    // remove objecy
-                    db.Projects.Remove(project);
-                    db.SaveChanges();
+            //        // remove objecy
+            //        db.Projects.Remove(project);
+            //        db.SaveChanges();
 
-                    tr.Complete();
-                    return true;
-                }
-                catch (Exception e)
-                {
-                    return false;
-                }
-            }
+            //        tr.Complete();
+            //        return true;
+            //    }
+            //    catch (Exception e)
+            //    {
+            return false;
+            //    }
+            //}
         }
 
 

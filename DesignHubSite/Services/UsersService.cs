@@ -22,12 +22,15 @@ namespace DesignHubSite.Services
     public class UsersService : IUsersService
     {
 
-        private ApplicationDbContext _db = ApplicationDbContext.Create();
+        private IApplicationDbContext<ApplicationUser> _db;
 
+        public UsersService(IApplicationDbContext<ApplicationUser> db)
+        {
+            _db = db;
+        }
 
         public ApplicationUser LoggedUser()
         {
-            _db.Configuration.LazyLoadingEnabled = false;
             var loggedUserId = LoggedUserId();
             var user = _db.Users.Include("OwnedProjects.Owner")
                                 .Include("OwnedProjects.AssignedUsers")
