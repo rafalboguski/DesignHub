@@ -40,7 +40,12 @@ namespace DesignHubSite.Services
                 try
                 {
                     var user = db.Users.SingleOrDefault(x => x.Id == model.UserId);
-                    var project = db.Projects.SingleOrDefault(x => x.Id == model.ProjectId);
+                    var project = db.Projects.Include("Owner").SingleOrDefault(x => x.Id == model.ProjectId);
+
+                    if(db.CurrentUserId() != project.Owner.Id)
+                    {
+                        return false;
+                    }
 
                     if (user == null || project == null)
                         return false;

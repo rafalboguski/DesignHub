@@ -110,7 +110,7 @@
             <div id="projectPeoplePanel" class="row dark-panel hoverable">
                 <h4>
                     <i class="material-icons big-icon">perm_identity</i>
-                    <span data-toggle="collapse" data-target="#usersContent" style="cursor:pointer;">Assigned users</span><button class="btn waves-effect waves-light right modal-trigger" data-target="AddPersonModal">Manage</button>
+                    <span data-toggle="collapse" data-target="#usersContent" style="cursor:pointer;">Assigned users</span><button class="btn waves-effect waves-light right modal-trigger" ng-show="$parent.loggedUserId == project.owner.number" data-target="AddPersonModal">Manage</button>
                 </h4>
 
                 <div id="usersContent" class="collapse in">
