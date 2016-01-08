@@ -61,7 +61,7 @@
     <div class="col-md-6">
         <div class="row dark-panel">
             <h3>Versions Graph</h3>
-            <div class="row">
+            <div class="row" ng-show="($parent.loggedUserId == project.owner.number)">
                 <!-- Modal trigger -->
                 <button class="btn waves-effect waves-light" ng-click="saveAll();">
                     <i class="material-icons white left">vpn_key</i>
@@ -73,7 +73,7 @@
                 </button>
                 <a class="btn modal-trigger waves-effect waves-light red" 
                    data-target="AddNodeModal" 
-                   ng-show="selectedNodesId.length > 0 && selectedNode.accepted == true">
+                   ng-show="(selectedNodesId.length > 0 && selectedNode.accepted == true)">
                     <i class="material-icons white left">note_add</i>
                     Add Node
                 </a>
@@ -146,13 +146,13 @@
                                 <i class="material-icons white left">open_with</i>
                                 Opinions ( {{selectedNode.imageMarkers.length}} )
                             </button>
-                            <button class="btn waves-effect waves-light" ng-click="clearSelection();" ng-show="selectedNode.imageMarkers.length == 0">
+                            <button class="btn waves-effect waves-light" ng-click="clearSelection();" ng-show="(selectedNode.imageMarkers.length == 0) && ($parent.loggedUserId == project.owner.number)">
                                 <i class="material-icons white left">send</i>
                                 Request opinions
                             </button>
                         </div>
 
-                        <button class="btn waves-effect waves-light " ng-click="setNodeHead();" ng-hide="selectedNode.rejected || selectedNode.head">
+                        <button class="btn waves-effect waves-light " ng-click="setNodeHead();" ng-hide="(selectedNode.rejected || selectedNode.head) || ($parent.loggedUserId != project.owner.number)">
                             <i class="material-icons white right">navigation</i>
                             Head
                         </button>

@@ -44,10 +44,12 @@ namespace DesignHubSite.Repositories
     public class NodeRepository : INodeRepository
     {
         private INotificationReposotory _notyfication;
+        private IPermissionRepository _permissionsRepository;
 
-        public NodeRepository(INotificationReposotory notyfication)
+        public NodeRepository(INotificationReposotory notyfication, IPermissionRepository permissionsRepository)
         {
             _notyfication = notyfication;
+            _permissionsRepository = permissionsRepository;
         }
 
 
@@ -61,6 +63,7 @@ namespace DesignHubSite.Repositories
 
                 var node = db.Nodes
                                 .Include(x => x.Project)
+                                .Include("Project.Owner")
                                 .Include(x => x.Childrens)
                                 .Include(x => x.ImageMarkers)
                                 .Include(x => x.whoRejected)
@@ -68,6 +71,17 @@ namespace DesignHubSite.Repositories
                                 .Include(x => x.Likes)
                                 .Include(x => x.Dislikes)
                                 .SingleOrDefault(p => (p.Id == id));
+                if (node == null)
+                    return node;
+
+                var permision = _permissionsRepository.GetPermission(currentUserId, node.Project.Id);
+                var loggedUser = db.Users.SingleOrDefault(x => x.Id == currentUserId);
+
+                if (node.Project.Owner.Id != loggedUser.Id)
+                    if (permision == null || permision.Readonly == false)
+                    {
+                        return null;
+                    }
 
                 return node;
             }
@@ -80,26 +94,41 @@ namespace DesignHubSite.Repositories
             {
 
                 var currentUserId = HttpContext.Current.User.Identity.GetUserId();
+                List<Node> nodes;
 
                 if (projectId == null)
                 {
-                    var nodes = from p in db.Nodes
+                    nodes = (from p in db.Nodes
                                .Include(x => x.Project)
                                 .Include(x => x.Childrens)
+                                .Include("Project.Owner")
                                 .Include(x => x.ImageMarkers)
-                                select p;
-                    return nodes.ToList();
+                             select p).ToList();
                 }
                 else
                 {
-                    var nodes = from p in db.Nodes
-                              .Include(x => x.Project)
+                    nodes = (from p in db.Nodes
+                                 .Include(x => x.Project)
                                 .Include(x => x.Childrens)
+                                .Include("Project.Owner")
                                 .Include(x => x.ImageMarkers)
-                                where p.Project.Id == projectId
-                                select p;
-                    return nodes.ToList();
+                             where p.Project.Id == projectId
+                             select p).ToList();
                 }
+
+                if (nodes != null && nodes.Count > 0)
+                {
+                    var permision = _permissionsRepository.GetPermission(currentUserId, nodes.First().Project.Id);
+                    var loggedUser = db.Users.SingleOrDefault(x => x.Id == currentUserId);
+
+                    if (nodes.First().Project.Owner.Id != loggedUser.Id)
+                        if (permision == null || permision.Readonly == false)
+                        {
+                            return null;
+                        }
+                }
+
+                return nodes.ToList();
 
             }
         }
@@ -119,7 +148,10 @@ namespace DesignHubSite.Repositories
 
                 if (nodeDto.ProjectId == null)
                     return null;
-                var project = db.Projects.SingleOrDefault(p => p.Id == nodeDto.ProjectId);
+                var project = db.Projects.Include("Owner").SingleOrDefault(p => p.Id == nodeDto.ProjectId);
+
+                if (project.Owner.Id != currentUser.Id)
+                    return null;
 
                 var node = new Node
                 {
@@ -179,9 +211,11 @@ namespace DesignHubSite.Repositories
             {
                 var currentUserId = db.CurrentUserId();
                 var currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
+                    
+                var node = db.Nodes.Include("Project.Owner").SingleOrDefault(n => n.Id == nodeId);
 
-
-                var node = db.Nodes.SingleOrDefault(n => n.Id == nodeId);
+                if (node.Project.Owner.Id != currentUser.Id)
+                    return node.Id;
 
                 node.positionX = data.positionX;
                 node.positionY = data.positionY;
@@ -195,41 +229,7 @@ namespace DesignHubSite.Repositories
 
         public bool Delete(int id)
         {
-            //using (var db = ApplicationDbContext.Create())
-            //{
-            //    var currentUserId = db.CurrentUserId();
-            //    var node = db.Nodes.Find(id);
-
-
-            //    if (node == null)
-            //    {
-            //        return false;
-            //    }
-            //    if (node.Project.Owner.Id != currentUserId)
-            //    {
-            //        return false;
-            //    }
-
-            //    foreach(var child in node.Childs)
-            //    {
-            //        Delete(child.Id);
-            //    }
-
-            //    node.Childs.Clear();
-            //    node.Father.Childs.Remove(node);
-
-
-            //    node.Project.Nodes.Remove(node);
-
-
-            //    node.Project = null;
-            //    db.Nodes.Remove(node);
-
-            //    db.SaveChanges();
-
-            //   
             return true;
-            //}
         }
 
         public async Task<bool> UploadImage(int id, HttpRequestMessage request)
@@ -240,9 +240,13 @@ namespace DesignHubSite.Repositories
             using (var db = ApplicationDbContext.Create())
             {
                 // TODO: check if right owner
-                var node = db.Nodes.Single(x => x.Id == id);
+                var node = db.Nodes.Include("Project.Owner").Single(x => x.Id == id);
 
                 if (node == null)
+                    return false;
+
+                var currentUserId = db.CurrentUserId();
+                if (node.Project.Owner.Id != currentUserId)
                     return false;
 
                 var provider = new MultipartMemoryStreamProvider();
@@ -382,7 +386,7 @@ namespace DesignHubSite.Repositories
                 var loggedUserId = db.CurrentUserId();
                 var loggedUser = db.Users.Single(x => x.Id == loggedUserId);
 
-                var node = db.Nodes.Include(x=>x.Project)
+                var node = db.Nodes.Include(x => x.Project)
                                    .Single(x => x.Id == nodeID);
                 node.Rejected = !node.Rejected;
                 node.whoRejected = loggedUser;
