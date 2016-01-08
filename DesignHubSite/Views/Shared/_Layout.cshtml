@@ -38,8 +38,8 @@
 <body>
     <script type="text/javascript" src="~/Content/bower_components/materialize/dist/js/materialize.js"></script>
 
-
-    <div ng-controller="indexController" data-ng-init="init('@User.Identity.IsAuthenticated')">
+    @using Microsoft.AspNet.Identity
+    <div ng-controller="indexController" data-ng-init="init('@User.Identity.IsAuthenticated','@User.Identity.GetUserId()')">
 
 
         <!-- SideBar MENU -->

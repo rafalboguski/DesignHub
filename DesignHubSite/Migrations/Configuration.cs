@@ -44,9 +44,9 @@ namespace DesignHubSite.Migrations
                         new ApplicationUser
                         {
                             PasswordHash = hasher.HashPassword("123456"),
-                            Name = "Jan Kulfon",
-                            Email = "kulfon@gmail.com",
-                            UserName = "kulfon@gmail.com",
+                            Name = "Jan Kowalski",
+                            Email = "kowalski@gmail.com",
+                            UserName = "kowalski@gmail.com",
                             PhoneNumber = "108730074",
                             SecurityStamp = Guid.NewGuid().ToString()
                         },

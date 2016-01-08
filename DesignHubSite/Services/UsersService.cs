@@ -27,11 +27,15 @@ namespace DesignHubSite.Services
 
         public ApplicationUser LoggedUser()
         {
+            _db.Configuration.LazyLoadingEnabled = false;
             var loggedUserId = LoggedUserId();
-            var user = _db.Users.Include("Permissions.Project.Owner")
-                                .Include(x => x.OwnedProjects)
-                                .Include(x => x.AssignedProjects)
-                                .Single(x => x.Id == loggedUserId);
+            var user = _db.Users.Include("OwnedProjects.Owner")
+                                .Include("OwnedProjects.AssignedUsers")
+                                .Include("AssignedProjects.Owner")
+                                .Include("AssignedProjects.AssignedUsers")
+                                .Single(x => x.Id == loggedUserId)
+                                ;
+          
             return user;
         }
 

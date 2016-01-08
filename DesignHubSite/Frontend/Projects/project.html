@@ -68,7 +68,7 @@
 
             </div>
 
-            <div class="row dark-panel hoverable">
+            <div class="row dark-panel hoverable" ng-show="$parent.loggedUserId == project.owner.number">
 
                 <h4 data-toggle="collapse" data-target="#notesContent" style="cursor:pointer;">
                     <i class="material-icons big-icon">description</i> Notes <small class="right" style="font-size:18px;">visible only to project developer</small>

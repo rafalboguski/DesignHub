@@ -54,10 +54,11 @@ namespace DesignHubSite.Services
             var project = _projectsRepository.Single(projectId);
             var permision = _permissionsRepository.GetPermission(loggedUser.Id, project.Id);
 
-            if (permision == null || permision.Readonly == false)
-            {
-                return null;
-            }
+            if (project.Owner.Id != loggedUser.Id)
+                if (permision == null || permision.Readonly == false)
+                {
+                    return null;
+                }
             return project;
         }
 
@@ -96,7 +97,15 @@ namespace DesignHubSite.Services
             var loggedUserId = _db.CurrentUserId();
             var loggedUser = _db.Users.Single(x => x.Id == loggedUserId);
 
-            var project = _db.Projects.Single(x => x.Id == projectId);
+            var project = _db.Projects.Include("Owner").Single(x => x.Id == projectId);
+
+            var permision = _permissionsRepository.GetPermission(loggedUser.Id, project.Id);
+            if (project.Owner.Id != loggedUser.Id)
+                if (permision == null || permision.AcceptWholeProject == false)
+                {
+                    errors.Add("No permission");
+                    return;
+                }
 
             if (project.Rejected)
             {
@@ -119,7 +128,7 @@ namespace DesignHubSite.Services
             _notyfication.Create(new Notification
             {
                 Author = project.WhoAccepted,
-                Header = "Project Accepted",
+                Header = "Project status changed",
                 Priority = 10,
                 CreateDate = DateTime.Now,
                 ProjectId = project.Id,
@@ -136,7 +145,15 @@ namespace DesignHubSite.Services
             var loggedUserId = _db.CurrentUserId();
             var loggedUser = _db.Users.Single(x => x.Id == loggedUserId);
 
-            var project = _db.Projects.Single(x => x.Id == projectId);
+            var project = _db.Projects.Include("Owner").Single(x => x.Id == projectId);
+
+            var permision = _permissionsRepository.GetPermission(loggedUser.Id, project.Id);
+            if (project.Owner.Id != loggedUser.Id)
+                if (permision == null || permision.AcceptWholeProject == false)
+                {
+                    errors.Add("No permission");
+                    return;
+                }
 
             if (project.Accepted)
             {
@@ -160,7 +177,7 @@ namespace DesignHubSite.Services
             _notyfication.Create(new Notification
             {
                 Author = project.WhoAccepted,
-                Header = "Project Rejected",
+                Header = "Project status changed",
                 Priority = 10,
                 CreateDate = DateTime.Now,
                 ProjectId = project.Id,
@@ -173,6 +190,12 @@ namespace DesignHubSite.Services
 
         public ProjectNote AddNote(int projectId, string text)
         {
+            var user = _usersService.LoggedUser();
+            var project = _projectsRepository.Single(projectId);
+
+            if (project.Owner.Id != user.Id)
+                return null;
+
             if (text == null)
                 return null;
 
@@ -190,7 +213,10 @@ namespace DesignHubSite.Services
         {
             using (var db = ApplicationDbContext.Create())
             {
-                var head = db.Nodes.Include("Project").SingleOrDefault(n => n.Id == id);
+                var head = db.Nodes.Include("Project.Owner").SingleOrDefault(n => n.Id == id);
+                if (head.Project.Owner.Id != _usersService.LoggedUserId())
+                    return;
+
                 head.Head = true;
 
                 var projectId = head.Project.Id;
@@ -218,7 +244,14 @@ namespace DesignHubSite.Services
 
         void IProjectService.RemoveNote(int id)
         {
+
             var note = _db.ProjectsNotes.Single(x => x.Id == id);
+            var user = _usersService.LoggedUser();
+            var project = _projectsRepository.Single(note.ProjectId);
+
+            if (project.Owner.Id != user.Id)
+                return;
+
             _db.ProjectsNotes.Remove(note);
             _db.SaveChanges();
 
@@ -226,6 +259,12 @@ namespace DesignHubSite.Services
 
         public List<ProjectNote> GetNotes(int projectId)
         {
+            var user = _usersService.LoggedUser();
+            var project = _projectsRepository.Single(projectId);
+
+            if (project.Owner.Id != user.Id)
+                return null;
+
             var notes = _db.ProjectsNotes.Where(x => x.ProjectId == projectId).OrderByDescending(x => x.Id).ToList();
             return notes;
         }

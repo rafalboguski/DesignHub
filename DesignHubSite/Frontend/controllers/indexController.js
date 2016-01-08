@@ -7,12 +7,12 @@ app.controller('indexController', ['$scope', '$location', function ($scope, $loc
     $scope.project_id = '';
     $scope.project = [];
 
-    $scope.init = function (isLogged) {
+    $scope.init = function (isLogged, userId) {
         
         
         if (isLogged === 'True') {
             $scope.user_logged = true;
-            
+            $scope.loggedUserId = userId;
         }
 
 
