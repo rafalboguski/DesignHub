@@ -38,7 +38,7 @@
                             In progress
                         </b>
                     </div>
-                    <button class="btn transparent btn-danger right" ng-click="deleteProject(project.id)" style="border-style:solid;border-width:1px;border-color:rgb(40,40,40);">
+                    <button class="btn transparent btn-danger right" ng-click="deleteProject(project.id)" ng-show="$parent.loggedUserId == project.owner.number" style="border-style:solid;border-width:1px;border-color:rgb(40,40,40);">
                         Remove
                     </button>
                     <button class="btn transparent waves-effect waves-red right" ng-hide="project.accepted" ng-click="rejectProject(project.id)" style="border-style:solid;border-width:1px;border-color:rgb(40,40,40);">
