@@ -22,13 +22,14 @@ namespace DesignHubSite.Services
     public class ProjectDetailsService : IProjectDetailsService
     {
 
-        private ApplicationDbContext db = ApplicationDbContext.Create();
+        private IApplicationDbContext<ApplicationUser> db ;
 
         private INotificationReposotory _notyfication;
 
 
-        public ProjectDetailsService(INotificationReposotory notyfication)
+        public ProjectDetailsService(IApplicationDbContext<ApplicationUser> d, INotificationReposotory notyfication)
         {
+            db = d;
             _notyfication = notyfication;
         }
 

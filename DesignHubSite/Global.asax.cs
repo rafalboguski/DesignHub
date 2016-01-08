@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Practices.Unity;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,9 @@ namespace DesignHubSite
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+
+        public static UnityContainer Container;
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();

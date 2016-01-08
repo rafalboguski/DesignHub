@@ -8,6 +8,7 @@ using DesignHubSite.ExtensionMethods;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Transactions;
 
 namespace DesignHubSite.Repositories
 {
@@ -31,11 +32,12 @@ namespace DesignHubSite.Repositories
     public class MarkerRepository : IMarkerRepository
     {
 
-        private ApplicationDbContext _db = ApplicationDbContext.Create();
+        private IApplicationDbContext<ApplicationUser> _db;
         private INotificationReposotory _notyfication;
 
-        public MarkerRepository(INotificationReposotory notyfication)
+        public MarkerRepository(IApplicationDbContext<ApplicationUser>  db, INotificationReposotory notyfication)
         {
+            _db = db;
             _notyfication = notyfication;
         }
 
@@ -65,7 +67,7 @@ namespace DesignHubSite.Repositories
         public Marker Create(MarkerDto dto, out string error)
         {
             error = null;
-            using (var tr = _db.Database.BeginTransaction())
+            using (var tr = new TransactionScope())
             {
                 try
                 {
@@ -115,12 +117,12 @@ namespace DesignHubSite.Repositories
                         Link = "/project/" + marker.Node.Project.Id + "/markers/" + marker.Node.Id
                     });
 
-                    tr.Commit();
+                    tr.Complete();
                     return marker;
                 }
                 catch (Exception e)
                 {
-                    tr.Rollback();
+              
                     error = "DB_ERROR :" + e.Message;
                     return null;
                 }

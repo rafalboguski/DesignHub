@@ -11,26 +11,26 @@ namespace DesignHubSite
     {
         public static void RegisterComponents()
         {
-            var container = new UnityContainer();
+            MvcApplication.Container = new UnityContainer();
 
             // register all your components with the container here
             // it is NOT necessary to register your controllers
 
             // e.g. container.RegisterType<ITestService, TestService>();
 
-            container.RegisterType<IApplicationDbContext<ApplicationUser>, ApplicationDbContext>( new ContainerControlledLifetimeManager());
-            container.RegisterType<IRepository<Project>, ProjectRepository>();
-            container.RegisterType<INodeRepository, NodeRepository>();
-            container.RegisterType<IMarkerRepository, MarkerRepository>();
-            container.RegisterType<IPermissionRepository, PermissionRepository>();
-            container.RegisterType<INotificationReposotory, NotificationReposotory>();
+            MvcApplication.Container.RegisterType<IApplicationDbContext<ApplicationUser>, ApplicationDbContext>( new ContainerControlledLifetimeManager());
+            MvcApplication.Container.RegisterType<IRepository<Project>, ProjectRepository>();
+            MvcApplication.Container.RegisterType<INodeRepository, NodeRepository>();
+            MvcApplication.Container.RegisterType<IMarkerRepository, MarkerRepository>();
+            MvcApplication.Container.RegisterType<IPermissionRepository, PermissionRepository>();
+            MvcApplication.Container.RegisterType<INotificationReposotory, NotificationReposotory>();
 
-            container.RegisterType<IProjectService, ProjectService>();
-            container.RegisterType<IProjectDetailsService, ProjectDetailsService>();
-            container.RegisterType<IPermissionsService, PermissionsService>();
-            container.RegisterType<IUsersService, UsersService>();
+            MvcApplication.Container.RegisterType<IProjectService, ProjectService>();
+            MvcApplication.Container.RegisterType<IProjectDetailsService, ProjectDetailsService>();
+            MvcApplication.Container.RegisterType<IPermissionsService, PermissionsService>();
+            MvcApplication.Container.RegisterType<IUsersService, UsersService>();
 
-            GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
+            GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(MvcApplication.Container);
         }
     }
 }

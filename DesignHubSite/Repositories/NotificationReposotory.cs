@@ -22,7 +22,12 @@ namespace DesignHubSite.Repositories
     public class NotificationReposotory : INotificationReposotory
     {
 
-        private ApplicationDbContext _db = ApplicationDbContext.Create();
+        private IApplicationDbContext<ApplicationUser> _db;
+
+        public NotificationReposotory(IApplicationDbContext<ApplicationUser> db)
+        {
+            _db = db;
+        }
 
 
         public Notification Get(int id)

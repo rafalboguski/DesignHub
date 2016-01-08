@@ -72,19 +72,6 @@ namespace DesignHubSite.Controllers
         }
 
 
-        [Route("add")]
-        public IHttpActionResult GetAdd()
-        {
-
-            var sb = ApplicationDbContext.Create();
-            var id = sb.CurrentUserId();
-
-            _repoProjects.Create(new Project { Name = "sdf", Description = "sdfsfd", Owner = sb.Users.SingleOrDefault(u => u.Id == id) });
-
-            return Ok();
-        }
-
-
         [HttpDelete]
         [Route("{id}")]
         public IHttpActionResult DeleteProject(int id)

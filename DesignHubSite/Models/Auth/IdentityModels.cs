@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.Web;
 using DesignHubSite.Models;
 using System;
+using Microsoft.Practices.Unity;
 
 namespace DesignHubSite.Models
 {
@@ -41,6 +42,7 @@ namespace DesignHubSite.Models
 
         public static ApplicationDbContext Create()
         {
+            //var context = MvcApplication.Container.Resolve<ApplicationDbContext>();
             var context = new ApplicationDbContext();
             context.Configuration.LazyLoadingEnabled = false;
             return context;
@@ -90,6 +92,12 @@ namespace DesignHubSite.ExtensionMethods
     {
 
         public static string CurrentUserId(this ApplicationDbContext context)
+        {
+            return HttpContext.Current.User.Identity.GetUserId();
+        }
+
+
+        public static string CurrentUserId(this IApplicationDbContext<ApplicationUser> context)
         {
             return HttpContext.Current.User.Identity.GetUserId();
         }

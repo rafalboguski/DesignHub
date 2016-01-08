@@ -211,35 +211,32 @@ namespace DesignHubSite.Services
 
         public void setHead(int id)
         {
-            using (var db = ApplicationDbContext.Create())
-            {
-                var head = db.Nodes.Include("Project.Owner").SingleOrDefault(n => n.Id == id);
-                if (head.Project.Owner.Id != _usersService.LoggedUserId())
-                    return;
+            var head = _db.Nodes.Include("Project.Owner").SingleOrDefault(n => n.Id == id);
+            if (head.Project.Owner.Id != _usersService.LoggedUserId())
+                return;
 
-                head.Head = true;
+            head.Head = true;
 
-                var projectId = head.Project.Id;
-                head.Project.nodeHeadId = id;
+            var projectId = head.Project.Id;
+            head.Project.nodeHeadId = id;
 
-                db.Nodes.Include("Project")
+            _db.Nodes.Include("Project")
                     .Where(x => x.Project.Id == projectId && x.Id != head.Id).ToList()
                     .ForEach(x => x.Head = false);
 
 
-                db.SaveChanges();
+            _db.SaveChanges();
 
-                var userId = _usersService.LoggedUserId();
-                _notyfication.Create(new Notification
-                {
-                    Author = db.Users.Single(x => x.Id == userId),
-                    Header = "New node: head",
-                    Priority = 5,
-                    CreateDate = DateTime.Now,
-                    ProjectId = head.Project.Id,
-                    Link = "/project/" + head.Project.Id + "/graph/" + head.Id
-                });
-            }
+            var userId = _usersService.LoggedUserId();
+            _notyfication.Create(new Notification
+            {
+                Author = _db.Users.Single(x => x.Id == userId),
+                Header = "New node: head",
+                Priority = 5,
+                CreateDate = DateTime.Now,
+                ProjectId = head.Project.Id,
+                Link = "/project/" + head.Project.Id + "/graph/" + head.Id
+            });
         }
 
         void IProjectService.RemoveNote(int id)
@@ -281,7 +278,7 @@ namespace DesignHubSite.Services
             var end = 3;
 
 
-           
+
 
 
 

@@ -20,7 +20,7 @@ namespace DesignHubSite.Repositories
     public class ProjectRepository : IRepository<Project>
     {
 
-        private IApplicationDbContext<ApplicationUser> db;
+        private IApplicationDbContext<ApplicationUser> _db;
 
         private readonly INodeRepository _nodeRepository;
         private readonly INotificationReposotory _notificationRepository;
@@ -28,7 +28,7 @@ namespace DesignHubSite.Repositories
 
         public ProjectRepository(IApplicationDbContext<ApplicationUser> d, INodeRepository nodeRepository, INotificationReposotory notyfication, IPermissionRepository permissionsRepository)
         {
-            db = d;
+            _db = d;
             _nodeRepository = nodeRepository;
             _notificationRepository = notyfication;
             _permissionsRepository = permissionsRepository;
@@ -38,7 +38,7 @@ namespace DesignHubSite.Repositories
         // Returns only if you are owner or have permission
         public Project Single(int id)
         {
-            var project = db.Projects
+            var project = _db.Projects
                             .Include("AssignedUsers")
                             .Include("Owner")
                             .Include("Nodes")
@@ -50,7 +50,7 @@ namespace DesignHubSite.Repositories
         // Returns only if you are owner or have permission
         public List<Project> All()
         {
-            var projects = from p in db.Projects
+            var projects = from p in _db.Projects
                            .Include("AssignedUsers")
                            .Include("Owner")
                            .Include("Nodes")
@@ -61,20 +61,18 @@ namespace DesignHubSite.Repositories
 
         public void Create(Project project)
         {
-            using (var db = ApplicationDbContext.Create())
-            {
-                var currentUserId = db.CurrentUserId();
-                var currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
+                var currentUserId = _db.CurrentUserId();
+                var currentUser = _db.Users.FirstOrDefault(x => x.Id == currentUserId);
 
                 project.Owner = currentUser;
                 project.CreateDate = DateTime.Now;
                 project.Timestamp = DateTime.Now;
 
-                db.Projects.Add(project);
-                db.SaveChanges();
+                _db.Projects.Add(project);
+                _db.SaveChanges();
 
                 currentUser.OwnedProjects.Add(project);
-                db.SaveChanges();
+                _db.SaveChanges();
 
                 // add initial node
                 var rootNodeId = _nodeRepository.Create(new NodeDTO() { ChangeInfo = "init", ProjectId = project.Id });
@@ -88,7 +86,6 @@ namespace DesignHubSite.Repositories
                     ProjectId = project.Id,
                     Link = null
                 });
-            }
         }
 
         // returns true when object deleted

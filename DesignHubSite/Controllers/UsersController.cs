@@ -21,12 +21,14 @@ namespace DesignHubSite.Controllers
     public class UsersController : ApiController
     {
 
+        IApplicationDbContext<ApplicationUser> db;
 
         private IPermissionRepository _permissionsRepository;
         private IProjectDetailsService _projDetServ;
 
-        public UsersController(IPermissionRepository permissionsRepository, IProjectDetailsService projectDetailsService)
+        public UsersController(IApplicationDbContext<ApplicationUser>  d, IPermissionRepository permissionsRepository, IProjectDetailsService projectDetailsService)
         {
+            db = d;
             _permissionsRepository = permissionsRepository;
             _projDetServ = projectDetailsService;
         }
@@ -35,11 +37,7 @@ namespace DesignHubSite.Controllers
         [Route("")]
         public ICollection<ApplicationUser> GetUsers()
         {
-            using (var db = ApplicationDbContext.Create())
-            {
                 return db.Users.ToList();
-            }
-
         }
 
         // Returns list of known users 
@@ -48,8 +46,6 @@ namespace DesignHubSite.Controllers
         [Route("contacts")]
         public IHttpActionResult GetContacts()
         {
-            using (var db = ApplicationDbContext.Create())
-            {
                 var loggedUserId = db.CurrentUserId();
 
                 //////////////////////////////////////////////////////
@@ -114,24 +110,17 @@ namespace DesignHubSite.Controllers
             });
 
             return Json(new { Developers = owners, Customers = assigned });
-        }
     }
 
     [Route("{id}")]
     public ApplicationUser GetUser(string id)
     {
-        using (var db = ApplicationDbContext.Create())
-        {
             return db.Users.SingleOrDefault(x => x.Id == id);
-        }
-
     }
 
     [Route("find/{text}")]
     public ICollection<ApplicationUser> GetUsersLike(string text)
     {
-        using (var db = ApplicationDbContext.Create())
-        {
             var loggedUserId = db.CurrentUserId();
 
             var list = db.Users
@@ -142,8 +131,6 @@ namespace DesignHubSite.Controllers
                 .Take(9);
 
             return list.ToList();
-        }
-
     }
 
     [Route("permissions_in_project/{projectId}")]
