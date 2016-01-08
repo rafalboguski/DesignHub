@@ -8,6 +8,7 @@ using DesignHubSite.ExtensionMethods;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Transactions;
 
 namespace DesignHubSite.Repositories
 {
@@ -32,20 +33,33 @@ namespace DesignHubSite.Repositories
     {
 
         private ApplicationDbContext _db = ApplicationDbContext.Create();
-        private INotificationReposotory _notyfication;
+        private INotificationReposotory _notificationsRepository;
+        private IPermissionRepository _permissionsRepository;
 
-        public MarkerRepository(INotificationReposotory notyfication)
+        public MarkerRepository(INotificationReposotory notyfication, IPermissionRepository permissionsRepository)
         {
-            _notyfication = notyfication;
+            _notificationsRepository = notyfication;
+            _permissionsRepository = permissionsRepository;
         }
 
         public Marker Single(int id)
         {
             var marker = _db.Markers
+                .Include("Node.Project.Owner")
                 .Include(x => x.Opinions)
                 .Include(x => x.Opinions.Select(o => o.Author))
                 .Include(x => x.Opinions.Select(o => o.Replies))
                 .SingleOrDefault(m => (m.Id == id));
+
+            if (marker == null)
+                return marker;
+
+            var permision = _permissionsRepository.GetPermission(_db.CurrentUserId(), marker.Node.Project.Id);
+            if (marker.Node.Project.Owner.Id != _db.CurrentUserId())
+                if (permision == null || permision.Readonly == false)
+                {
+                    return null;
+                }
 
             return marker;
         }
@@ -54,18 +68,36 @@ namespace DesignHubSite.Repositories
         public List<Marker> All(int nodeId)
         {
             var markers = _db.Markers
+                .Include("Node.Project.Owner")
                 .Include(x => x.Opinions)
                 .Include(x => x.Opinions.Select(o => o.Author))
                 .Include(x => x.Opinions.Select(o => o.Replies))
-                .Where(m => m.Node.Id == nodeId);
-            return markers.ToList();
+                .Where(m => m.Node.Id == nodeId)
+                .ToList();
+
+
+
+            if (markers == null || markers.Count == 0)
+                return markers;
+
+            var marker = markers.First();
+
+            var permision = _permissionsRepository.GetPermission(_db.CurrentUserId(), marker.Node.Project.Id);
+            if (marker.Node.Project.Owner.Id != _db.CurrentUserId())
+                if (permision == null || permision.Readonly == false)
+                {
+                    return null;
+                }
+
+
+            return markers;
         }
 
 
         public Marker Create(MarkerDto dto, out string error)
         {
             error = null;
-            using (var tr = _db.Database.BeginTransaction())
+            using (var tr = new TransactionScope())
             {
                 try
                 {
@@ -92,13 +124,13 @@ namespace DesignHubSite.Repositories
                             Number = _db.Markers.Include(x => x.Node)
                                                .Where(x => x.Node.Id == dto.NodeId)
                                                .Count() + 1,
-                            Node = _db.Nodes.Include(n => n.Project).SingleOrDefault(n => n.Id == dto.NodeId)
+                            Node = _db.Nodes.Include("Project.Owner").SingleOrDefault(n => n.Id == dto.NodeId)
                         };
                         _db.Markers.Add(marker);
                     }
                     else  // adding opinion to existing marker
                     {
-                        marker = _db.Markers.Include("Node").Include("Node.Project").Single(x => x.Id == dto.Id);
+                        marker = _db.Markers.Include("Node").Include("Node.Project.Owner").Single(x => x.Id == dto.Id);
                     }
 
                     opinion.Marker = marker;
@@ -106,7 +138,7 @@ namespace DesignHubSite.Repositories
                     _db.MarkersOpinions.Add(opinion);
                     _db.SaveChanges();
 
-                    _notyfication.Create(new Notification
+                    _notificationsRepository.Create(new Notification
                     {
                         Author = user,
                         Header = "Node: new opinion",
@@ -115,12 +147,20 @@ namespace DesignHubSite.Repositories
                         Link = "/project/" + marker.Node.Project.Id + "/markers/" + marker.Node.Id
                     });
 
-                    tr.Commit();
+                    var permision = _permissionsRepository.GetPermission(_db.CurrentUserId(), marker.Node.Project.Id);
+                    if (marker.Node.Project.Owner.Id != _db.CurrentUserId())
+                        if (permision == null || permision.AddMarkers == false)
+                    {
+                        return null;
+                    }
+
+
+                    tr.Complete();
                     return marker;
                 }
                 catch (Exception e)
                 {
-                    tr.Rollback();
+
                     error = "DB_ERROR :" + e.Message;
                     return null;
                 }
@@ -130,7 +170,9 @@ namespace DesignHubSite.Repositories
 
         public bool Delete(int id)
         {
-            var marker = _db.Markers.SingleOrDefault(m => m.Id == id);
+            var marker = Single(id);
+            if (marker == null)
+                return false;
             _db.Markers.Remove(marker);
             return _db.SaveChanges() == 0;
         }
@@ -156,10 +198,10 @@ namespace DesignHubSite.Repositories
             _db.MarkersOpinionsReplies.Add(reply);
             _db.SaveChanges();
 
-            _notyfication.Create(new Notification
+            _notificationsRepository.Create(new Notification
             {
                 Author = loggedUser,
-                Header = "Reply to node opinion",          
+                Header = "Reply to node opinion",
                 Priority = 4,
                 ProjectId = reply.Opinion.Marker.Node.Project.Id,
                 Link = "/project/" + reply.Opinion.Marker.Node.Project.Id + "/markers/" + reply.Opinion.Marker.Node.Id

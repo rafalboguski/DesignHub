@@ -136,10 +136,10 @@
         <!-- Top panel -->
         <!-- Modals -->
         <!-- Add Project Modal Structure -->
-        <div id="AddMarkerModal" class="modal bottom-sheet">
+        <div id="AddMarkerModal" class="modal bottom-sheet" >
 
             <div class="container">
-                <form novalidate class="simple-form">
+                <form novalidate class="simple-form" ng-show="permission.addMarkers">
                     <div class="col-md-9">
                         <div class="input-field">
                             <textarea type="text" class="materialize-textarea" ng-model="newMarker.text" />
@@ -151,6 +151,9 @@
                         <btn class="btn waves-effect waves-green" ng-click="createMarker(null)">Add opinion</btn>
                     </div>
                 </form>
+                <div class="col-md-9" ng-hide="permission.addMarkers">
+                    <h5>You don't have permission to add markers</h5>
+                </div>
             </div>
         </div>
 
@@ -186,7 +189,7 @@
 
 
                             <!-- Reply box -->
-                            <div class="well row" ng-show="opinion.showReply == true">
+                            <div class="well row" ng-show="opinion.showReply == true && permission.addMarkers">
                                 <div class="input-field">
                                     <textarea type="text" class="materialize-textarea" ng-model="opinion.replyText" style="font-size:20px !important;" />
                                     <button class="btn transparent waves-effect waves-red" ng-click="opinion.showReply = false">Close</button>
@@ -194,7 +197,7 @@
                                 </div>
                             </div>
 
-                            <button class="btn transparent waves-effect waves-teal right" ng-click="opinion.showReply = true" style="width:150px" ng-show="opinion.showReply!=true">
+                            <button class="btn transparent waves-effect waves-teal right" ng-show="permission.addMarkers" ng-click="opinion.showReply = true" style="width:150px" ng-show="opinion.showReply!=true">
                                 <i class="material-icons left">replay</i>
                                 Reply
                             </button>
@@ -208,7 +211,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" ng-show="permission.addMarkers">
                     <form novalidate class="simple-form">
                         <div class="col-md-12">
                             <div class="input-field">
