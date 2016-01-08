@@ -4,6 +4,7 @@ using DesignHubSite.Repositories;
 using Unity.WebApi;
 using DesignHubSite.Models;
 using DesignHubSite.Services;
+using System.Web;
 
 namespace DesignHubSite
 {
@@ -18,7 +19,7 @@ namespace DesignHubSite
 
             // e.g. container.RegisterType<ITestService, TestService>();
 
-            MvcApplication.Container.RegisterType<IApplicationDbContext<ApplicationUser>, ApplicationDbContext>( new ContainerControlledLifetimeManager());
+            MvcApplication.Container.RegisterType<IApplicationDbContext<ApplicationUser>, ApplicationDbContext>(new HttpContextLifetimeManager());
             MvcApplication.Container.RegisterType<IRepository<Project>, ProjectRepository>();
             MvcApplication.Container.RegisterType<INodeRepository, NodeRepository>();
             MvcApplication.Container.RegisterType<IMarkerRepository, MarkerRepository>();
@@ -31,6 +32,33 @@ namespace DesignHubSite
             MvcApplication.Container.RegisterType<IUsersService, UsersService>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(MvcApplication.Container);
+        }
+    }
+
+
+    public class HttpContextLifetimeManager : LifetimeManager
+    {
+        private readonly object key = new object();
+
+        public override object GetValue()
+        {
+            if (HttpContext.Current != null &&
+                HttpContext.Current.Items.Contains(key))
+                return HttpContext.Current.Items[key];
+            else
+                return null;
+        }
+
+        public override void RemoveValue()
+        {
+            if (HttpContext.Current != null)
+                HttpContext.Current.Items.Remove(key);
+        }
+
+        public override void SetValue(object newValue)
+        {
+            if (HttpContext.Current != null)
+                HttpContext.Current.Items[key] = newValue;
         }
     }
 }

@@ -139,6 +139,10 @@ namespace DesignHubSite.Services
             });
 
             _db.SaveChanges();
+
+            project = _projectsRepository.Single(projectId);
+
+            var tmp = project;
         }
 
         public void RejectProject(int projectId, out List<string> errors)
