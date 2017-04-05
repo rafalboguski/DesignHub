@@ -38,8 +38,6 @@ namespace DesignHubSite.Models
             return context;
         }
 
-
-
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectNote> ProjectsNotes { get; set; }
         public DbSet<Node> Nodes { get; set; }

@@ -68,7 +68,7 @@ app.controller('projectsController', ['$scope', '$routeParams', '$location', 'Up
 
                 angular.forEach($scope.projects, function (node) {
 
-                    node.headImage = (node.headImage != "null") ? node.headImage.substring(0, node.headImage.length) : null;
+                    node.headImage = (node.headImage && node.headImage != "null") ? node.headImage.substring(0, node.headImage.length) : null;
 
                 });
 
@@ -167,7 +167,7 @@ app.controller('projectsController', ['$scope', '$routeParams', '$location', 'Up
             });
         }
 
-        $scope.requirements =[];
+        $scope.requirements = [];
         $scope.createRequirement = function () {
 
             var $input = $('.datepicker').pickadate();
@@ -315,6 +315,9 @@ app.controller('projectsController', ['$scope', '$routeParams', '$location', 'Up
 
             tempFilterText = val;
             filterTextTimeout = $timeout(function () {
+                if (!$scope.tabFilter) {
+                    $scope.tabFilter = {};
+                }
                 $scope.tabFilter.name = tempFilterText;
             }, 1000); // delay ms
         })

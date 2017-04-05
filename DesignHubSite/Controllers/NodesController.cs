@@ -62,7 +62,6 @@ namespace DesignHubSite.Controllers
             return nodes;
         }
 
-
         [HttpPost]
         [Route("")]
         public Node Create(NodeDTO nodeDto)
